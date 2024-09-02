@@ -15,6 +15,7 @@ use App\Http\Controllers\API\RestockController;
 use App\Http\Controllers\API\ChargesController;
 use App\Http\Controllers\API\FeedbackController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\FaqController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,7 +68,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('accounts', [AccountController::class, 'index']);
     Route::post('create/franchisee', [AccountController::class, 'createFranchisee']);
-    Route::post('update/franchisee', [AccountController::class, 'updateFranchisee']);
+    Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
     Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
     Route::get('accounts/products/{account}', [AccountController::class, 'franchiseeProducts']);
     Route::get('accounts/profile/{account}', [AccountController::class, 'franchiseeProfile']);
@@ -91,6 +92,11 @@ Route::middleware('auth:sanctum')->group(function() {
     // Category
     Route::get('categories/list', [CategoryController::class, 'index']);
 
+    // faq
+    Route::get('faq/list', [FaqController::class, 'index']);
+    Route::post('faq/create', [FaqController::class, 'createFaq']);
+    Route::post('faq/update', [FaqController::class, 'updateFaq']);
+    Route::get('faq/delete', [FaqController::class, 'deleteFaq']);
     // Reports
     Route::get('reports/orders/{account}', [OrdersController::class, 'orderReports']);
 
