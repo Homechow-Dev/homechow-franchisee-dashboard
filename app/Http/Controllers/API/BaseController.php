@@ -23,6 +23,23 @@ class BaseController extends Controller
         return response()->json($response, 200);
     }
 
+    /**
+     * success response method.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function machineResponse($status,$tradeNo,$SessionCode,$productID, $message)
+    {
+    	$response = [
+            'Status' => $status,
+            'TradeNo' => $tradeNo,
+            'SessionCode' => $SessionCode,
+            'ProductID' => $productID,
+            'message' => $message,
+        ];
+
+        return response()->json($response, 200);
+    }
 
     /**
      * return error response.
