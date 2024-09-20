@@ -7,7 +7,7 @@ use App\Http\Controllers\API\UserAuthController;
 use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\CustomerController;
 use App\Http\Controllers\API\KioskController;
-use App\Http\Controllers\Api\MealsController;
+use App\Http\Controllers\API\MealsController;
 use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\OrdersController;
 use App\Http\Controllers\API\DiscountController;
