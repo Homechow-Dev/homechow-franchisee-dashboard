@@ -28,9 +28,10 @@ class BaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function machineResponse($status,$tradeNo,$SessionCode,$productID, $message)
+    public function machineResponse($result, $status,$tradeNo,$SessionCode,$productID, $message)
     {
     	$response = [
+            'data' => $result,
             'Status' => $status,
             'TradeNo' => $tradeNo,
             'SessionCode' => $SessionCode,

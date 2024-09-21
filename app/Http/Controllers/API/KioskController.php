@@ -119,18 +119,29 @@ class KioskController extends BaseController {
     }
 
     // 2.1.2.2 response mode
-    public function kioskMachine(Request $request, ?string $funCode = null) {
+    public function kioskMachine(Request $request, string $funCode) {
+
         // 2.1.2.2 response mode: status, slot, ProductID, TradeNO
-        if($funCode = '50011011') {
+        if($funCode == '50011011') {
             $status = '0';
             $tradeNo = '';
             $SessionCode = '';
             $productID = '';
+
+            $k = $request->all();
+            $output = [
+                'data' => $k,
+            ];
+
+            return $this->machineResponse($output,$status,$tradeNo,$SessionCode,$productID, 'hello team yes making progress data recieved');
+        } else {
+            return $this->sendError('data not the right funcode recieved');
         }
-        $k = $request->all();
+        
 
+        
 
-        return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, 'data recieved');
+        
     }
 
 

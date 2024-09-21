@@ -56,7 +56,11 @@ Route::controller(UserAuthController::class)->group(function(){
 Route::post('/mobile-payment-intent', [PaymentController::class, 'makePaymentIntent']);
 // Customer Service application
 // Funccodes Routes
-Route::post('machine{funCode?}', [KioskController::class, 'kioskMachine']);
+//Route::post('machine{funCode?}', [KioskController::class, 'kioskMachine']);
+// Route::get('/machine/{funCode}', function (Request $request, string $funCode) {
+//     return 'User '.$funCode;
+// });
+Route::post('machine/{funCode}', [KioskController::class, 'kioskMachine']);
 
 Route::post('application', [CustomerController::class, 'franchiseeApplication']);
 

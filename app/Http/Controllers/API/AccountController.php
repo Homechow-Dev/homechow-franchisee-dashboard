@@ -96,6 +96,10 @@ class AccountController extends BaseController {
 
         $acctId = $account;
         $output = [
+            'name' => $acctId->Name,
+            'email' => $acctId->email,
+            'phone' => $acctId->Phone,
+            'image' => $acctId->image,
             'pin' => $acctId->pin,
         ];
 
