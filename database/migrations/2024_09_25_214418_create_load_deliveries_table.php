@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('MachineID', 20);
             $table->string('TradeNO', 250)->nullable();
             $table->string('SlotNO', 2);
-            $table->integer('KeyNum', 10)->nullable();
-            $table->integer('Status', 2)->default(0);
-            $table->integer('Stock', 2)->default(0);
-            $table->integer('Capacity', 2)->default(0);
+            $table->unsignedMediumInteger('KeyNum')->nullable()->unsigned();
+            $table->unsignedTinyInteger('Status')->nullable()->unsigned();
+            $table->unsignedSmallInteger('Stock')->nullable()->unsigned();
+            $table->unsignedSmallInteger('Capacity')->nullable()->unsigned();
             $table->string('ProductID', 10)->default('HC09876');
             $table->string('Type', 25)->default('HotMeal');
             $table->string('Introduction', 250)->nullable();
