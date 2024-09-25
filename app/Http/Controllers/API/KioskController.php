@@ -136,7 +136,7 @@ class KioskController extends BaseController {
         //     // Request data return to save in database
         //     $k = $request->all();
         //     dd($k);
-        $status = 1;
+        $status = 0;
         $tradeNo = '';
         $SessionCode = '';
         $productID = '';
