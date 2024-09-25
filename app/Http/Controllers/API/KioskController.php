@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\OpenApi\Parameters\Kiosk\CreateKioskParameters;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -131,11 +132,38 @@ class KioskController extends BaseController {
     public function kioskMachine(Request $request) {
         // 2.1.2.2 response mode: status, slot, ProductID, TradeNO
         $k = $request->all();
-        $machine = Machine::find($k['MachineID']);
-        // dd($k['Capacity']);
-        // dd($array);
-        if( $k['FunCode'] === '5102' && !empty($machine) ){
-            dd('hello create machine with function Code');
+        $macID = $k['MachineID'];
+        $code = $k['FunCode'];
+
+        $machine = DB::table('machines')->where('MachineID', $macID,)
+        ->where('FunCode', $code)
+        ->get();
+
+        if( $k['FunCode'] !== '1000' && !empty($machine) ){
+            // update machine with function code
+            dd($machine, 'hello create machine with function Code');
+            // if($k['Account_id'] != Null){$kl->KioskType = $k['Account_id'];}
+            // if($k['KioskType'] != Null){$kl->KioskType = $k['KioskType'];}
+            // if($k['KioskNumber'] != Null){$kl->KioskType = $k['KioskNumber'];}
+            // if($k['KioskAddress'] != Null){$kl->KioskType = $k['KioskAddress'];}
+            // if($k['city'] != Null){$kl->KioskType = $k['City'];}
+            // if($k['State'] != Null){$kl->KioskType = $k['State'];}
+            // if($k['Zip'] != Null){$kl->KioskType = $k['Zip'];}
+            // if($k['Latitude'] != Null){$kl->KioskType = $k['Latitude'];}
+            // if($k['Longitude'] != Null){$kl->KioskType = $k['Longitude'];}
+            // if($k['Status'] != Null){$kl->KioskType = $k['Status'];}
+            // if($k['TotalMeals'] != Null){$kl->KioskType = $k['TotalMeals'];}
+            // if($k['TotalSold'] != Null){$kl->KioskType = $k['TotalSold'];}
+            // $kl->save();
+
+            $status = 0;
+            $tradeNo = '';
+            $SessionCode = '';
+            $productID = '';
+            $message = 'hello team yes making progress data recieved';
+
+            return $this->machineResponse($output,$status,$tradeNo,$SessionCode,$productID, $message);
+            
         } else {
             $machine = Machine::create([
                 'FunCode' => $request['FunCode'],
@@ -179,18 +207,43 @@ class KioskController extends BaseController {
                 // "strOtherParam1" => $request['CoilList["strOtherParam1"]'],
                 // "strOtherParam2" => $request['CoilList["strOtherParam2"]'],
             ]);
-            dd('hello machine created with function Code');
+            
+            $status = 0;
+            $tradeNo = '';
+            $SessionCode = '';
+            $productID = '';
+            $message = 'hello team yes making progress data recieved';
+
+            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+        }
+
+        if( $k['FunCode'] == '1000' && !empty($machine)) {
+            // create entry to send to Load Delivery table
+            $machine = Machine::create([
+                'FunCode' => $request['FunCode'],
+                'MachineID' => $request['MachineID'],
+                'TradeNO' => $request['TradeNO'],
+                'SlotNO' => $request['SlotNO'],
+                'KeyNum' => $request['KeyNum'],
+                'Status' => $request['Status'],
+                'Quantity' => $request['Quantity'],
+                'Stock' => $request['Stock'],
+                'Capacity' => $request['Capacity'],
+                'ProductID' => $request['ProductID'],
+                'Price' => $request['Price'],
+                'Type' => $request['Type'],
+                'Introduction' => $request['Introduction'],
+                'Name' => $request['Name'],
+            ]);
+
+            $status = 0;
+            $SlotNO = '';
+            $ProductID = '';
+            $message = 'hello team yes making progress data recieved';
+
+        return $this->loadResponse($status, $SlotNO, $ProductID, $message);
         }
         
-        $status = 0;
-        $tradeNo = '';
-        $SessionCode = '';
-        $productID = '';
-        $output = [
-            'data' => $k,
-        ];
-
-        return $this->machineResponse($output,$status,$tradeNo,$SessionCode,$productID, 'hello team yes making progress data recieved');
     } 
 
 }
