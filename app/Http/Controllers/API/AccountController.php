@@ -84,6 +84,7 @@ class AccountController extends BaseController {
         if($request->phone != ''){$account->Phone = $request->phone;}
         if($request->email != ''){$account->email = $request->email;}
         if($request->image != ''){$account->image = $request->image;}
+        if($request->pin != ''){$account->pin = $request->pin;}
         $account->save();
 
         if($request->email != '') {
@@ -104,6 +105,54 @@ class AccountController extends BaseController {
         ];
 
         return $this->sendResponse($output, 'Pin updated successfully.'); 
+    }
+
+    /**
+     * Update Franchisee Account.
+     *
+     * request needs (Name, email, phone, Address, city, zipCode, country)
+     * returns accountId for kiosk linking
+     */
+    #[OpenApi\Operation(tags: ['accounts'])]
+    #[OpenApi\Parameters(factory: FranchiseeAccountParameters::class)]
+    public function updateEmail(Request $request, Account $account) {
+        
+        $request->validate([
+            'email' => 'string|lowercase|email|max:255',
+            'orginalEmail' => 'string|lowercase|email|max:255',
+            'pin' => 'string|max:6',
+        ]);
+        $id = $account->id;
+        $account = Account::find($id);
+        if($request->orginalEmail === $account->email && $request->pin != ''){
+            $account->email = $request->email;
+            $account->pin = $request->pin;
+            $account->save();
+
+            $user = User::where('id', $account->user_id)->get();
+            $u = $user[0]->id;
+            $changeEmail = User::find($u);
+            $changeEmail->email = $request->email;
+            $changeEmail->save();
+
+            $acctId = $account;
+            $output = [
+                'name' => $acctId->Name,
+                'email' => $acctId->email,
+                'phone' => $acctId->Phone,
+                'image' => $acctId->image,
+                'pin' => $acctId->pin,
+            ];
+
+            return $this->sendResponse($output, 'Pin updated successfully.'); 
+        } else {
+            $output = [
+                'email' => 'Email has not been change',
+            ];
+            return $this->sendResponse($output, 'denied'); 
+        }
+
+        
     }
 
 

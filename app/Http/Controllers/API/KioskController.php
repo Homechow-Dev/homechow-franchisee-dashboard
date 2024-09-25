@@ -118,9 +118,13 @@ class KioskController extends BaseController {
         return $this->sendResponse($output, 'Kiosk has been deleted');
     }
 
-    // 2.1.2.2 response mode
-    public function kioskMachine(Request $request, string $funCode) {
-
+    /**
+     * Retrieves all Kiosk.
+     *
+     * Returns all kiosk by status
+     */
+    #[OpenApi\Operation(tags: ['FieldKiosk'])]
+    public function kioskMachine(Request $request, string $funCode, ?string $machineID) {
         // 2.1.2.2 response mode: status, slot, ProductID, TradeNO
         if($funCode == '50011011') {
             $status = '0';
@@ -128,14 +132,42 @@ class KioskController extends BaseController {
             $SessionCode = '';
             $productID = '';
 
+            // Request data return to save in database
             $k = $request->all();
+            dd($k);
+
             $output = [
                 'data' => $k,
             ];
-
             return $this->machineResponse($output,$status,$tradeNo,$SessionCode,$productID, 'hello team yes making progress data recieved');
         } else {
-            return $this->sendError('data not the right funcode recieved');
+            $status = '1';
+            $tradeNo = '';
+            $SessionCode = '';
+            $productID = '';
+            return $this->sendError($status,$tradeNo,$SessionCode,$productID,'data not the right funcode recieved');
+        }
+
+         // 2.1.1.1 response mode: status, slot, ProductID, TradeNO
+         if($funCode == '50011011') {
+            $status = '0';
+            $tradeNo = '';
+            $SessionCode = '';
+            $productID = '';
+
+            // Request data return to save in database
+            $k = $request->all();
+
+            $output = [
+                'data' => $k,
+            ];
+            return $this->machineResponse($output,$status,$tradeNo,$SessionCode,$productID, 'hello team yes making progress data recieved');
+        } else {
+            $status = '1';
+            $tradeNo = '';
+            $SessionCode = '';
+            $productID = '';
+            return $this->sendError($status,$tradeNo,$SessionCode,$productID,'data not the right funcode recieved');
         }
         
 

@@ -60,7 +60,7 @@ Route::post('/mobile-payment-intent', [PaymentController::class, 'makePaymentInt
 // Route::get('/machine/{funCode}', function (Request $request, string $funCode) {
 //     return 'User '.$funCode;
 // });
-Route::post('machine/{funCode}', [KioskController::class, 'kioskMachine']);
+Route::post('machine/{funCode}{?machineID}', [KioskController::class, 'kioskMachine']);
 
 Route::post('application', [CustomerController::class, 'franchiseeApplication']);
 

@@ -38,6 +38,10 @@ return [
                     'description' => 'All kiosk registerd with Homechow',
                 ],
                 [
+                    'name' => 'FieldKiosk',
+                    'description' => 'Funcode response from Kiosk out in the field',
+                ],
+                [
                     'name' => 'Orders',
                     'description' => 'Orders with Homechow',
                 ],
