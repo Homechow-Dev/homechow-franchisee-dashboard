@@ -124,10 +124,10 @@ class KioskController extends BaseController {
      * Returns all kiosk by status
      */
     #[OpenApi\Operation(tags: ['FieldKiosk'])]
-    public function kioskMachine(Request $request, string $funCode, ?string $machineID) {
+    public function kioskMachine(Request $request, ?string $funCode = null) {
         // 2.1.2.2 response mode: status, slot, ProductID, TradeNO
         if($funCode == '5101') {
-            $status = '0';
+            $status = 1;
             $tradeNo = '';
             $SessionCode = '';
             $productID = '';
@@ -141,11 +141,9 @@ class KioskController extends BaseController {
             ];
             return $this->machineResponse($output,$status,$tradeNo,$SessionCode,$productID, 'hello team yes making progress data recieved');
         } else {
-            $status = '1';
-            $tradeNo = '';
-            $SessionCode = '';
-            $productID = '';
-            return $this->sendError($status,$tradeNo,$SessionCode,$productID,'data not the right funcode recieved');
+            $status = 1;
+    
+            return $this->sendError($status, 'data not the right funcode recieved');
         }
 
          // 2.1.1.1 response mode: status, slot, ProductID, TradeNO
