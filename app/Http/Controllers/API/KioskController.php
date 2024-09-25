@@ -7,6 +7,7 @@ use App\Models\Machine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Models\LoadDelivery;
 use App\OpenApi\Parameters\Kiosk\CreateKioskParameters;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use Illuminate\Support\Facades\DB;
@@ -207,7 +208,7 @@ class KioskController extends BaseController {
                 // "strOtherParam1" => $request['CoilList["strOtherParam1"]'],
                 // "strOtherParam2" => $request['CoilList["strOtherParam2"]'],
             ]);
-            
+
             $status = 0;
             $tradeNo = '';
             $SessionCode = '';
@@ -219,7 +220,7 @@ class KioskController extends BaseController {
 
         if( $k['FunCode'] == '1000' && !empty($machine)) {
             // create entry to send to Load Delivery table
-            $machine = Machine::create([
+            $machine = LoadDelivery::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
                 'TradeNO' => $request['TradeNO'],
