@@ -140,7 +140,7 @@ class KioskController extends BaseController {
             $machine = Machine::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
-                'Coil_id' => $request["Coil_id"],
+                'Coil_id' => $request['CoilList["Coil_id"]'],
                 // "Content" => $request['CoilList["Content"]'],
                 // "EnableDiscount" => $request['CoilList["EnableDiscount"]'],
                 // "EnableExpire" => $request['CoilList["EnableExpire"]'],
