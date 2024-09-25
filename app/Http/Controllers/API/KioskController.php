@@ -126,7 +126,7 @@ class KioskController extends BaseController {
     #[OpenApi\Operation(tags: ['FieldKiosk'])]
     public function kioskMachine(Request $request, string $funCode, ?string $machineID) {
         // 2.1.2.2 response mode: status, slot, ProductID, TradeNO
-        if($funCode == '50011011') {
+        if($funCode == '5101') {
             $status = '0';
             $tradeNo = '';
             $SessionCode = '';
@@ -149,7 +149,7 @@ class KioskController extends BaseController {
         }
 
          // 2.1.1.1 response mode: status, slot, ProductID, TradeNO
-         if($funCode == '50011011') {
+         if($funCode == '5102') {
             $status = '0';
             $tradeNo = '';
             $SessionCode = '';
