@@ -124,56 +124,27 @@ class KioskController extends BaseController {
      * Returns all kiosk by status
      */
     #[OpenApi\Operation(tags: ['FieldKiosk'])]
-    public function kioskMachine(Request $request, ?string $funCode = null) {
+    public function kioskMachine(Request $request) {
         // 2.1.2.2 response mode: status, slot, ProductID, TradeNO
-        if($funCode == '5101') {
-            $status = 1;
-            $tradeNo = '';
-            $SessionCode = '';
-            $productID = '';
+        $k = $request->all();
+        // if($funCode == '5101') {
+        //     $status = 1;
+        //     $tradeNo = '';
+        //     $SessionCode = '';
+        //     $productID = '';
 
-            // Request data return to save in database
-            $k = $request->all();
-            dd($k);
+        //     // Request data return to save in database
+        //     $k = $request->all();
+        //     dd($k);
+        $status = 1;
+        $tradeNo = '';
+        $SessionCode = '';
+        $productID = '';
+        $output = [
+            'data' => $k,
+        ];
+        return $this->machineResponse($output,$status,$tradeNo,$SessionCode,$productID, 'hello team yes making progress data recieved');
 
-            $output = [
-                'data' => $k,
-            ];
-            return $this->machineResponse($output,$status,$tradeNo,$SessionCode,$productID, 'hello team yes making progress data recieved');
-        } else {
-            $status = 1;
-    
-            return $this->sendError($status, 'data not the right funcode recieved');
-        }
-
-         // 2.1.1.1 response mode: status, slot, ProductID, TradeNO
-         if($funCode == '5102') {
-            $status = '0';
-            $tradeNo = '';
-            $SessionCode = '';
-            $productID = '';
-
-            // Request data return to save in database
-            $k = $request->all();
-
-            $output = [
-                'data' => $k,
-            ];
-            return $this->machineResponse($output,$status,$tradeNo,$SessionCode,$productID, 'hello team yes making progress data recieved');
-        } else {
-            $status = '1';
-            $tradeNo = '';
-            $SessionCode = '';
-            $productID = '';
-            return $this->sendError($status,$tradeNo,$SessionCode,$productID,'data not the right funcode recieved');
-        }
-        
-
-        
-
-        
-    }
-
-
+    } 
 
 }
