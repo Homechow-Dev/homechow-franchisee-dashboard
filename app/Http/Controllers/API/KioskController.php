@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Kiosk;
+use App\Models\Machine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\OpenApi\Parameters\Kiosk\CreateKioskParameters;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+
+use function PHPUnit\Framework\isEmpty;
 
 #[OpenApi\PathItem]
 class KioskController extends BaseController {
@@ -127,8 +131,57 @@ class KioskController extends BaseController {
     public function kioskMachine(Request $request) {
         // 2.1.2.2 response mode: status, slot, ProductID, TradeNO
         $k = $request->all();
+        $machine = Machine::find($k['MachineID']);
+        // dd($k['Capacity']);
+        // dd($array);
+        if( $k['FunCode'] === '5102' && !empty($machine) ){
+            dd('hello create machine with function Code');
+        } else {
+            $machine = Machine::create([
+                'FunCode' => $request['FunCode'],
+                'MachineID' => $request['MachineID'],
+                'Coil_id' => $request["Coil_id"],
+                // "Content" => $request['CoilList["Content"]'],
+                // "EnableDiscount" => $request['CoilList["EnableDiscount"]'],
+                // "EnableExpire" => $request['CoilList["EnableExpire"]'],
+                // "EnableHot" => $request['CoilList["EnableHot"]'],
+                // "Extant_quantity" => $request['CoilList["Extant_quantity"]'],           
+                // "Img_url" => $request['CoilList["Img_url"]'],
+                // "LockGoodsCount" => $request['CoilList["LockGoodsCount"]'],
+                // "Par_name" => $request['CoilList["Par_name"]'],
+                // "Par_price" => $request['CoilList["Par_price"]'],
+                // "Sale_price" => $request['CoilList["Sale_price"]'],
+                // "Work_status" => $request['CoilList["Work_status'],
+                // "dSaleAmount" => $request['CoilList["dSaleAmount"]'],
+                // "discountRate" => $request['CoilList["discountRate"]'],
+                // "iExpireTimeStamp" => $request['CoilList["iExpireTimeStamp"]'],
+                // "iKeyNum" => $request['CoilList["iKeyNum"]'],
+                // "iSaleNum" => $request['CoilList["iSaleNum"]'],
+                // "iSlotOrder" => $request['CoilList["iSlotOrder"]'],
+                // "iSlot_status" => $request['CoilList["iSlot_status"]'],
+                // "iVerifyAge" => $request['CoilList["iVerifyAge"]'],
+                // "isInventory" => $request['CoilList["isInventory"]'],
+                // "m_AdUrl" => $request['CoilList["m_AdUrl"]'],
+                // "m_Goods_details_url" => $request['CoilList["m_Goods_details_url"]'],
+                // "m_QrPayUrl" => $request['CoilList["m_QrPayUrl"]'],
+                // "m_iBack" => $request['CoilList["m_iBack"]'],
+                // "m_iCloseStatus" => $request['CoilList["m_iCloseStatus"]'],
+                // "m_iCol" => $request['CoilList["m_iCol"]'],
+                // "m_iHeatTime" => $request['CoilList["m_iHeatTime"]'],
+                // "m_iRow" => $request['CoilList["m_iRow"]'],
+                // "m_iSlt_hvgs" => $request['CoilList["m_iSlt_hvgs"]'],
+                // "m_strType" => $request['CoilList["m_strType"]'],
+                // "ray" => $request['CoilList["ray"]'],
+                // "sGoodsCapacity" => $request['CoilList["sGoodsCapacity"]'],
+                // "sGoodsSpec" => $request['CoilList["sGoodsSpec"]'],
+                // "strGoodsCode" => $request['CoilList["strGoodsCode"]'],
+                // "strKeys" => $request['CoilList["strKeys"]'],
+                // "strOtherParam1" => $request['CoilList["strOtherParam1"]'],
+                // "strOtherParam2" => $request['CoilList["strOtherParam2"]'],
+            ]);
+            dd('hello machine created with function Code');
+        }
         
-        var_dump($k);
         $status = 0;
         $tradeNo = '';
         $SessionCode = '';
@@ -136,8 +189,8 @@ class KioskController extends BaseController {
         $output = [
             'data' => $k,
         ];
-        return $this->machineResponse($output,$status,$tradeNo,$SessionCode,$productID, 'hello team yes making progress data recieved');
 
+        return $this->machineResponse($output,$status,$tradeNo,$SessionCode,$productID, 'hello team yes making progress data recieved');
     } 
 
 }
