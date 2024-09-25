@@ -127,15 +127,7 @@ class KioskController extends BaseController {
     public function kioskMachine(Request $request) {
         // 2.1.2.2 response mode: status, slot, ProductID, TradeNO
         $k = $request->all();
-        // if($funCode == '5101') {
-        //     $status = 1;
-        //     $tradeNo = '';
-        //     $SessionCode = '';
-        //     $productID = '';
-
-        //     // Request data return to save in database
-        //     $k = $request->all();
-        //     dd($k);
+        $this->info($k);
         $status = 0;
         $tradeNo = '';
         $SessionCode = '';
