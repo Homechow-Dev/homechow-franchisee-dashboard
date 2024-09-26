@@ -167,7 +167,7 @@ class KioskController extends BaseController {
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
             
         }
-        if($k['FunCode'] !== '1000') {
+        if($k['FunCode'] === '4000') {
             $machine = Machine::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
@@ -221,9 +221,41 @@ class KioskController extends BaseController {
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
         }
 
+        if($k['FunCode'] === '5101') {
+            $machine = Machine::create([
+                'FunCode' => $request['FunCode'],
+                'MachineID' => $request['MachineID'],
+            ]);
+            
+
+            $status = 0;
+            $tradeNo = '';
+            $SessionCode = '';
+            $productID = '';
+            $message = 'hello team yes making progress data recieved';
+
+            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+        }
+
+        if($k['FunCode'] === '5102') {
+            $machine = Machine::create([
+                'FunCode' => $request['FunCode'],
+                'MachineID' => $request['MachineID'],
+            ]);
+            
+
+            $status = 0;
+            $tradeNo = '';
+            $SessionCode = '';
+            $productID = '';
+            $message = 'hello team yes making progress data recieved';
+
+            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+        }
+
         if( $k['FunCode'] === '1000') {
             // create entry to send to Load Delivery table
-            $machine = LoadDelivery::create([
+            LoadDelivery::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
                 'TradeNO' => $request['TradeNO'],
