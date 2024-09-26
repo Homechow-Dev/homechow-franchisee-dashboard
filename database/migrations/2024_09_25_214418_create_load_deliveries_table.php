@@ -20,11 +20,13 @@ return new class extends Migration
             $table->unsignedMediumInteger('KeyNum')->nullable()->unsigned();
             $table->unsignedTinyInteger('Status')->nullable()->unsigned();
             $table->unsignedSmallInteger('Stock')->nullable()->unsigned();
+            $table->unsignedSmallInteger('Quantity')->nullable()->unsigned();
             $table->unsignedSmallInteger('Capacity')->nullable()->unsigned();
-            $table->string('ProductID', 10)->default('HC09876');
-            $table->string('Type', 25)->default('HotMeal');
+            $table->decimal('Price', total: 6, places: 1)->default('0.0');
+            $table->string('ProductID', 10)->default('HC09876')->nullable();
+            $table->string('Type', 25)->default('HotMeal')->nullable();
             $table->string('Introduction', 250)->nullable();
-            $table->string('Name', 25)->default('Homechow meal');
+            $table->string('Name', 25)->default('Homechow meal')->nullable();
             $table->timestamps();
         });
     }
