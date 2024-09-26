@@ -142,7 +142,6 @@ class KioskController extends BaseController {
 
         if( $k['FunCode'] !== '1000' && !empty($machine) ){
             // update machine with function code
-            dd($machine, 'hello create machine with function Code');
             // if($k['Account_id'] != Null){$kl->KioskType = $k['Account_id'];}
             // if($k['KioskType'] != Null){$kl->KioskType = $k['KioskType'];}
             // if($k['KioskNumber'] != Null){$kl->KioskType = $k['KioskNumber'];}
@@ -163,7 +162,7 @@ class KioskController extends BaseController {
             $productID = '';
             $message = 'hello team yes making progress data recieved';
 
-            return $this->machineResponse($output,$status,$tradeNo,$SessionCode,$productID, $message);
+            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
             
         } else {
             $machine = Machine::create([
