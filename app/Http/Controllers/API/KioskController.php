@@ -217,7 +217,7 @@ class KioskController extends BaseController {
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
         }
 
-        if( $k['FunCode'] == '1000' && !empty($machine)) {
+        if( $k['FunCode'] === '1000' && !empty($machine)) {
             // create entry to send to Load Delivery table
             $machine = LoadDelivery::create([
                 'FunCode' => $request['FunCode'],
