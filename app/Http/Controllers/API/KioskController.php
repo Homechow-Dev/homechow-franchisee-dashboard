@@ -167,7 +167,7 @@ class KioskController extends BaseController {
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
             
         }
-        if($k['FunCode'] === '5101') {
+        if($k['FunCode'] !== '1000') {
             $machine = Machine::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
@@ -248,32 +248,32 @@ class KioskController extends BaseController {
         return $this->loadResponse($status, $SlotNO, $ProductID, $message);
         }
 
-        if( $k['FunCode'] === '4000' && !empty($machine)) {
-            // create entry to send to Load Delivery table
-            $machine = LoadDelivery::create([
-                'FunCode' => $request['FunCode'],
-                'MachineID' => $request['MachineID'],
-                'TradeNO' => $request['TradeNO'],
-                'SlotNO' => $request['SlotNO'],
-                'KeyNum' => $request['KeyNum'],
-                'Status' => $request['Status'],
-                'Quantity' => $request['Quantity'],
-                'Stock' => $request['Stock'],
-                'Capacity' => $request['Capacity'],
-                'Price' => $request['Price'],
-                'ProductID' => $request['ProductID'],
-                'Type' => $request['Type'],
-                'Introduction' => $request['Introduction'],
-                'Name' => $request['Name'],
-            ]);
+        // if( $k['FunCode'] === '4000' && !empty($machine)) {
+        //     // create entry to send to Load Delivery table
+        //     $machine = LoadDelivery::create([
+        //         'FunCode' => $request['FunCode'],
+        //         'MachineID' => $request['MachineID'],
+        //         'TradeNO' => $request['TradeNO'],
+        //         'SlotNO' => $request['SlotNO'],
+        //         'KeyNum' => $request['KeyNum'],
+        //         'Status' => $request['Status'],
+        //         'Quantity' => $request['Quantity'],
+        //         'Stock' => $request['Stock'],
+        //         'Capacity' => $request['Capacity'],
+        //         'Price' => $request['Price'],
+        //         'ProductID' => $request['ProductID'],
+        //         'Type' => $request['Type'],
+        //         'Introduction' => $request['Introduction'],
+        //         'Name' => $request['Name'],
+        //     ]);
 
-            $status = 0;
-            $SlotNO = '';
-            $ProductID = '';
-            $message = 'hello team Function code 4000 yes making progress data recieved';
+        //     $status = 0;
+        //     $SlotNO = '';
+        //     $ProductID = '';
+        //     $message = 'hello team Function code 4000 yes making progress data recieved';
 
-        return $this->loadResponse($status, $SlotNO, $ProductID, $message);
-        }
+        // return $this->loadResponse($status, $SlotNO, $ProductID, $message);
+        // }
     }
 
 }
