@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('FunCode', 10);
             $table->string('MachineID', 20);
-            $table->string('Temp', 10)->nullable();
+            $table->string('temp', 10)->nullable();
+            $table->timestamps();
         });
     }
 

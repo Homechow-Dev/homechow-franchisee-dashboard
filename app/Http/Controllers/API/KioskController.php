@@ -143,7 +143,7 @@ class KioskController extends BaseController {
 
         //dd($machine);
 
-        if( $code !== '2000' && $code !== '1000' && $code !== '5101'){
+        if( $code !== '2000' && $code !== '1000' && $code !== '5101') {
             $a = Machine::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
