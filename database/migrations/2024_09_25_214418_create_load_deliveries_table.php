@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('FunCode', 10);
             $table->string('MachineID', 20);
-            $table->string('TradeNO', 250)->nullable();
-            $table->string('SlotNO', 2);
+            $table->string('TradeNo', 250)->nullable();
+            $table->string('SlotNo', 2)->nullable();
             $table->unsignedMediumInteger('KeyNum')->nullable()->unsigned();
             $table->unsignedTinyInteger('Status')->nullable()->unsigned();
             $table->unsignedSmallInteger('Stock')->nullable()->unsigned();
             $table->unsignedSmallInteger('Quantity')->nullable()->unsigned();
             $table->unsignedSmallInteger('Capacity')->nullable()->unsigned();
-            $table->decimal('Price', total: 6, places: 1)->default('0.0');
+            $table->decimal('Price', total: 6, places: 1)->default('0.0')->nullable();
             $table->string('ProductID', 10)->default('HC09876')->nullable();
             $table->string('Type', 25)->default('HotMeal')->nullable();
             $table->string('Introduction', 250)->nullable();

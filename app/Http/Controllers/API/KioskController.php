@@ -142,7 +142,7 @@ class KioskController extends BaseController {
 
         //dd($machine);
 
-        if( $code !== '2000' || $code !== '1000' ){
+        if( $code !== '2000' && $code !== '1000' ){
             $a = Machine::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
@@ -295,7 +295,7 @@ class KioskController extends BaseController {
             $status = 0;
             $SlotNO = '';
             $ProductID = '';
-            $message = 'hello team yes making progress data recieved';
+            $message = 'function code 1000 data recieved';
 
         return $this->loadResponse($status, $SlotNO, $ProductID, $message);
         }
