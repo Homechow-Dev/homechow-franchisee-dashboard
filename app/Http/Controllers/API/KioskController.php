@@ -226,13 +226,12 @@ class KioskController extends BaseController {
         //     return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
         // }
 
-        if($code === '5101') {
+        if( $code === '5101' ) {
             $a = Temp::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
                 "temp" => $request['temp'],
             ]);
-            
 
             $status = 0;
             $tradeNo = '';
@@ -259,7 +258,7 @@ class KioskController extends BaseController {
         //     return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
         // }
 
-        if( $code === '1000') {
+        if( $code === '1000' ) {
             // create entry to send to Load Delivery table
             LoadDelivery::create([
                 'FunCode' => $request['FunCode'],
