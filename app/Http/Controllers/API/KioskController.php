@@ -225,7 +225,7 @@ class KioskController extends BaseController {
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
         }
 
-        if($k['FunCode'] === '5101') {
+        if($code === '5101') {
             $a = Machine::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
@@ -241,7 +241,7 @@ class KioskController extends BaseController {
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
         }
 
-        if($k['FunCode'] === '5102') {
+        if($code === '5102') {
             $a = Machine::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
@@ -257,23 +257,39 @@ class KioskController extends BaseController {
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
         }
 
-        if( $k['FunCode'] === '1000') {
+        if($code === '2000') {
+            $a = Machine::create([
+                'FunCode' => $request['FunCode'],
+                'MachineID' => $request['MachineID'],
+            ]);
+            
+
+            $status = 0;
+            $tradeNo = '';
+            $SessionCode = '';
+            $productID = '';
+            $message = 'function code 5102 data recieved';
+
+            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+        }
+
+        if( $code === '1000') {
             // create entry to send to Load Delivery table
             LoadDelivery::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
-                'TradeNO' => $request['TradeNO'],
-                'SlotNO' => $request['SlotNO'],
-                'KeyNum' => $request['KeyNum'],
-                'Status' => $request['Status'],
-                'Quantity' => $request['Quantity'],
-                'Stock' => $request['Stock'],
-                'Capacity' => $request['Capacity'],
-                'Price' => $request['Price'],
-                'ProductID' => $request['ProductID'],
-                'Type' => $request['Type'],
-                'Introduction' => $request['Introduction'],
-                'Name' => $request['Name'],
+                // 'TradeNO' => $request['TradeNO'],
+                // 'SlotNO' => $request['SlotNO'],
+                // 'KeyNum' => $request['KeyNum'],
+                // 'Status' => $request['Status'],
+                // 'Quantity' => $request['Quantity'],
+                // 'Stock' => $request['Stock'],
+                // 'Capacity' => $request['Capacity'],
+                // 'Price' => $request['Price'],
+                // 'ProductID' => $request['ProductID'],
+                // 'Type' => $request['Type'],
+                // 'Introduction' => $request['Introduction'],
+                // 'Name' => $request['Name'],
             ]);
 
             $status = 0;
