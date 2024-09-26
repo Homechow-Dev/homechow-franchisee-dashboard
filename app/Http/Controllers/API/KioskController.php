@@ -142,32 +142,36 @@ class KioskController extends BaseController {
 
         //dd($machine);
 
-        if( $k['FunCode'] !== '1000' && !empty($machine) ){
-            // update machine with function code
-            // if($k['Account_id'] != Null){$kl->KioskType = $k['Account_id'];}
-            // if($k['KioskType'] != Null){$kl->KioskType = $k['KioskType'];}
-            // if($k['KioskNumber'] != Null){$kl->KioskType = $k['KioskNumber'];}
-            // if($k['KioskAddress'] != Null){$kl->KioskType = $k['KioskAddress'];}
-            // if($k['city'] != Null){$kl->KioskType = $k['City'];}
-            // if($k['State'] != Null){$kl->KioskType = $k['State'];}
-            // if($k['Zip'] != Null){$kl->KioskType = $k['Zip'];}
-            // if($k['Latitude'] != Null){$kl->KioskType = $k['Latitude'];}
-            // if($k['Longitude'] != Null){$kl->KioskType = $k['Longitude'];}
-            // if($k['Status'] != Null){$kl->KioskType = $k['Status'];}
-            // if($k['TotalMeals'] != Null){$kl->KioskType = $k['TotalMeals'];}
-            // if($k['TotalSold'] != Null){$kl->KioskType = $k['TotalSold'];}
-            // $kl->save();
+        // if( $k['FunCode'] !== '1000' && !empty($machine) ){
+        //     $a = Machine::create([
+        //         'FunCode' => $request['FunCode'],
+        //         'MachineID' => $request['MachineID'],
+        //     ]);
+        //     // update machine with function code
+        //     // if($k['Account_id'] != Null){$kl->KioskType = $k['Account_id'];}
+        //     // if($k['KioskType'] != Null){$kl->KioskType = $k['KioskType'];}
+        //     // if($k['KioskNumber'] != Null){$kl->KioskType = $k['KioskNumber'];}
+        //     // if($k['KioskAddress'] != Null){$kl->KioskType = $k['KioskAddress'];}
+        //     // if($k['city'] != Null){$kl->KioskType = $k['City'];}
+        //     // if($k['State'] != Null){$kl->KioskType = $k['State'];}
+        //     // if($k['Zip'] != Null){$kl->KioskType = $k['Zip'];}
+        //     // if($k['Latitude'] != Null){$kl->KioskType = $k['Latitude'];}
+        //     // if($k['Longitude'] != Null){$kl->KioskType = $k['Longitude'];}
+        //     // if($k['Status'] != Null){$kl->KioskType = $k['Status'];}
+        //     // if($k['TotalMeals'] != Null){$kl->KioskType = $k['TotalMeals'];}
+        //     // if($k['TotalSold'] != Null){$kl->KioskType = $k['TotalSold'];}
+        //     // $kl->save();
 
-            $status = 0;
-            $tradeNo = '';
-            $SessionCode = '';
-            $productID = '';
-            $message = 'hello team yes making progress data recieved';
+        //     $status = 0;
+        //     $tradeNo = '';
+        //     $SessionCode = '';
+        //     $productID = '';
+        //     $message = 'hello team yes making progress data recieved';
 
-            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+        //     return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
             
-        }
-        if($k['FunCode'] === '4000') {
+        // }
+        if($code === '4000') {
             $machine = Machine::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
@@ -216,13 +220,13 @@ class KioskController extends BaseController {
             $tradeNo = '';
             $SessionCode = '';
             $productID = '';
-            $message = 'hello team yes making progress data recieved';
+            $message = 'function code 4000 data recieved';
 
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
         }
 
         if($k['FunCode'] === '5101') {
-            $machine = Machine::create([
+            $a = Machine::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
             ]);
@@ -232,13 +236,13 @@ class KioskController extends BaseController {
             $tradeNo = '';
             $SessionCode = '';
             $productID = '';
-            $message = 'hello team yes making progress data recieved';
+            $message = 'function code 5101 data recieved';
 
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
         }
 
         if($k['FunCode'] === '5102') {
-            $machine = Machine::create([
+            $a = Machine::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
             ]);
@@ -248,7 +252,7 @@ class KioskController extends BaseController {
             $tradeNo = '';
             $SessionCode = '';
             $productID = '';
-            $message = 'hello team yes making progress data recieved';
+            $message = 'function code 5102 data recieved';
 
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
         }
