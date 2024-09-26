@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\LoadDelivery;
+use App\Models\Temp;
 use App\OpenApi\Parameters\Kiosk\CreateKioskParameters;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use Illuminate\Support\Facades\DB;
@@ -142,7 +143,7 @@ class KioskController extends BaseController {
 
         //dd($machine);
 
-        if( $code !== '2000' && $code !== '1000' ){
+        if( $code !== '2000' && $code !== '1000' && $code !== '5101'){
             $a = Machine::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
@@ -225,37 +226,22 @@ class KioskController extends BaseController {
         //     return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
         // }
 
-        // if($code === '5101') {
-        //     $a = Machine::create([
-        //         'FunCode' => $request['FunCode'],
-        //         'MachineID' => $request['MachineID'],
-        //     ]);
+        if($code === '5101') {
+            $a = Temp::create([
+                'FunCode' => $request['FunCode'],
+                'MachineID' => $request['MachineID'],
+                "temp" => $request['temp'],
+            ]);
             
 
-        //     $status = 0;
-        //     $tradeNo = '';
-        //     $SessionCode = '';
-        //     $productID = '';
-        //     $message = 'function code 5101 data recieved';
+            $status = 0;
+            $tradeNo = '';
+            $SessionCode = '';
+            $productID = '';
+            $message = 'function code 5101 Temp data recieved';
 
-        //     return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
-        // }
-
-        // if($code === '5102') {
-        //     $a = Machine::create([
-        //         'FunCode' => $request['FunCode'],
-        //         'MachineID' => $request['MachineID'],
-        //     ]);
-            
-
-        //     $status = 0;
-        //     $tradeNo = '';
-        //     $SessionCode = '';
-        //     $productID = '';
-        //     $message = 'function code 5102 data recieved';
-
-        //     return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
-        // }
+            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+        }
 
         // if($code === '2000') {
         //     $a = Machine::create([
@@ -278,18 +264,18 @@ class KioskController extends BaseController {
             LoadDelivery::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
-                // 'TradeNO' => $request['TradeNO'],
-                // 'SlotNO' => $request['SlotNO'],
-                // 'KeyNum' => $request['KeyNum'],
-                // 'Status' => $request['Status'],
-                // 'Quantity' => $request['Quantity'],
-                // 'Stock' => $request['Stock'],
-                // 'Capacity' => $request['Capacity'],
-                // 'Price' => $request['Price'],
-                // 'ProductID' => $request['ProductID'],
-                // 'Type' => $request['Type'],
-                // 'Introduction' => $request['Introduction'],
-                // 'Name' => $request['Name'],
+                'TradeNO' => $request['TradeNO'],
+                'SlotNO' => $request['SlotNO'],
+                'KeyNum' => $request['KeyNum'],
+                'Status' => $request['Status'],
+                'Quantity' => $request['Quantity'],
+                'Stock' => $request['Stock'],
+                'Capacity' => $request['Capacity'],
+                'Price' => $request['Price'],
+                'ProductID' => $request['ProductID'],
+                'Type' => $request['Type'],
+                'Introduction' => $request['Introduction'],
+                'Name' => $request['Name'],
             ]);
 
             $status = 0;
