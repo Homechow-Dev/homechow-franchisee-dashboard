@@ -142,163 +142,163 @@ class KioskController extends BaseController {
 
         //dd($machine);
 
-        // if( $k['FunCode'] !== '1000' && !empty($machine) ){
-        //     $a = Machine::create([
+        if( $code !== '2000'){
+            $a = Machine::create([
+                'FunCode' => $request['FunCode'],
+                'MachineID' => $request['MachineID'],
+            ]);
+            // update machine with function code
+            // if($k['Account_id'] != Null){$kl->KioskType = $k['Account_id'];}
+            // if($k['KioskType'] != Null){$kl->KioskType = $k['KioskType'];}
+            // if($k['KioskNumber'] != Null){$kl->KioskType = $k['KioskNumber'];}
+            // if($k['KioskAddress'] != Null){$kl->KioskType = $k['KioskAddress'];}
+            // if($k['city'] != Null){$kl->KioskType = $k['City'];}
+            // if($k['State'] != Null){$kl->KioskType = $k['State'];}
+            // if($k['Zip'] != Null){$kl->KioskType = $k['Zip'];}
+            // if($k['Latitude'] != Null){$kl->KioskType = $k['Latitude'];}
+            // if($k['Longitude'] != Null){$kl->KioskType = $k['Longitude'];}
+            // if($k['Status'] != Null){$kl->KioskType = $k['Status'];}
+            // if($k['TotalMeals'] != Null){$kl->KioskType = $k['TotalMeals'];}
+            // if($k['TotalSold'] != Null){$kl->KioskType = $k['TotalSold'];}
+            // $kl->save();
+
+            $status = 0;
+            $tradeNo = '';
+            $SessionCode = '';
+            $productID = '';
+            $message = 'hello team yes making progress data recieved';
+
+            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+            
+        }
+        // if($code === '4000') {
+        //     $machine = Machine::create([
         //         'FunCode' => $request['FunCode'],
         //         'MachineID' => $request['MachineID'],
+        //         //'Coil_id' => $request['CoilList["Coil_id"]'],
+        //         // "Content" => $request['CoilList["Content"]'],
+        //         // "EnableDiscount" => $request['CoilList["EnableDiscount"]'],
+        //         // "EnableExpire" => $request['CoilList["EnableExpire"]'],
+        //         // "EnableHot" => $request['CoilList["EnableHot"]'],
+        //         // "Extant_quantity" => $request['CoilList["Extant_quantity"]'],           
+        //         // "Img_url" => $request['CoilList["Img_url"]'],
+        //         // "LockGoodsCount" => $request['CoilList["LockGoodsCount"]'],
+        //         // "Par_name" => $request['CoilList["Par_name"]'],
+        //         // "Par_price" => $request['CoilList["Par_price"]'],
+        //         // "Sale_price" => $request['CoilList["Sale_price"]'],
+        //         // "Work_status" => $request['CoilList["Work_status'],
+        //         // "dSaleAmount" => $request['CoilList["dSaleAmount"]'],
+        //         // "discountRate" => $request['CoilList["discountRate"]'],
+        //         // "iExpireTimeStamp" => $request['CoilList["iExpireTimeStamp"]'],
+        //         // "iKeyNum" => $request['CoilList["iKeyNum"]'],
+        //         // "iSaleNum" => $request['CoilList["iSaleNum"]'],
+        //         // "iSlotOrder" => $request['CoilList["iSlotOrder"]'],
+        //         // "iSlot_status" => $request['CoilList["iSlot_status"]'],
+        //         // "iVerifyAge" => $request['CoilList["iVerifyAge"]'],
+        //         // "isInventory" => $request['CoilList["isInventory"]'],
+        //         // "m_AdUrl" => $request['CoilList["m_AdUrl"]'],
+        //         // "m_Goods_details_url" => $request['CoilList["m_Goods_details_url"]'],
+        //         // "m_QrPayUrl" => $request['CoilList["m_QrPayUrl"]'],
+        //         // "m_iBack" => $request['CoilList["m_iBack"]'],
+        //         // "m_iCloseStatus" => $request['CoilList["m_iCloseStatus"]'],
+        //         // "m_iCol" => $request['CoilList["m_iCol"]'],
+        //         // "m_iHeatTime" => $request['CoilList["m_iHeatTime"]'],
+        //         // "m_iRow" => $request['CoilList["m_iRow"]'],
+        //         // "m_iSlt_hvgs" => $request['CoilList["m_iSlt_hvgs"]'],
+        //         // "m_strType" => $request['CoilList["m_strType"]'],
+        //         // "ray" => $request['CoilList["ray"]'],
+        //         // "sGoodsCapacity" => $request['CoilList["sGoodsCapacity"]'],
+        //         // "sGoodsSpec" => $request['CoilList["sGoodsSpec"]'],
+        //         // "strGoodsCode" => $request['CoilList["strGoodsCode"]'],
+        //         // "strKeys" => $request['CoilList["strKeys"]'],
+        //         // "strOtherParam1" => $request['CoilList["strOtherParam1"]'],
+        //         // "strOtherParam2" => $request['CoilList["strOtherParam2"]'],
         //     ]);
-        //     // update machine with function code
-        //     // if($k['Account_id'] != Null){$kl->KioskType = $k['Account_id'];}
-        //     // if($k['KioskType'] != Null){$kl->KioskType = $k['KioskType'];}
-        //     // if($k['KioskNumber'] != Null){$kl->KioskType = $k['KioskNumber'];}
-        //     // if($k['KioskAddress'] != Null){$kl->KioskType = $k['KioskAddress'];}
-        //     // if($k['city'] != Null){$kl->KioskType = $k['City'];}
-        //     // if($k['State'] != Null){$kl->KioskType = $k['State'];}
-        //     // if($k['Zip'] != Null){$kl->KioskType = $k['Zip'];}
-        //     // if($k['Latitude'] != Null){$kl->KioskType = $k['Latitude'];}
-        //     // if($k['Longitude'] != Null){$kl->KioskType = $k['Longitude'];}
-        //     // if($k['Status'] != Null){$kl->KioskType = $k['Status'];}
-        //     // if($k['TotalMeals'] != Null){$kl->KioskType = $k['TotalMeals'];}
-        //     // if($k['TotalSold'] != Null){$kl->KioskType = $k['TotalSold'];}
-        //     // $kl->save();
+            
 
         //     $status = 0;
         //     $tradeNo = '';
         //     $SessionCode = '';
         //     $productID = '';
-        //     $message = 'hello team yes making progress data recieved';
+        //     $message = 'function code 4000 data recieved';
 
         //     return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
-            
         // }
-        if($code === '4000') {
-            $machine = Machine::create([
-                'FunCode' => $request['FunCode'],
-                'MachineID' => $request['MachineID'],
-                //'Coil_id' => $request['CoilList["Coil_id"]'],
-                // "Content" => $request['CoilList["Content"]'],
-                // "EnableDiscount" => $request['CoilList["EnableDiscount"]'],
-                // "EnableExpire" => $request['CoilList["EnableExpire"]'],
-                // "EnableHot" => $request['CoilList["EnableHot"]'],
-                // "Extant_quantity" => $request['CoilList["Extant_quantity"]'],           
-                // "Img_url" => $request['CoilList["Img_url"]'],
-                // "LockGoodsCount" => $request['CoilList["LockGoodsCount"]'],
-                // "Par_name" => $request['CoilList["Par_name"]'],
-                // "Par_price" => $request['CoilList["Par_price"]'],
-                // "Sale_price" => $request['CoilList["Sale_price"]'],
-                // "Work_status" => $request['CoilList["Work_status'],
-                // "dSaleAmount" => $request['CoilList["dSaleAmount"]'],
-                // "discountRate" => $request['CoilList["discountRate"]'],
-                // "iExpireTimeStamp" => $request['CoilList["iExpireTimeStamp"]'],
-                // "iKeyNum" => $request['CoilList["iKeyNum"]'],
-                // "iSaleNum" => $request['CoilList["iSaleNum"]'],
-                // "iSlotOrder" => $request['CoilList["iSlotOrder"]'],
-                // "iSlot_status" => $request['CoilList["iSlot_status"]'],
-                // "iVerifyAge" => $request['CoilList["iVerifyAge"]'],
-                // "isInventory" => $request['CoilList["isInventory"]'],
-                // "m_AdUrl" => $request['CoilList["m_AdUrl"]'],
-                // "m_Goods_details_url" => $request['CoilList["m_Goods_details_url"]'],
-                // "m_QrPayUrl" => $request['CoilList["m_QrPayUrl"]'],
-                // "m_iBack" => $request['CoilList["m_iBack"]'],
-                // "m_iCloseStatus" => $request['CoilList["m_iCloseStatus"]'],
-                // "m_iCol" => $request['CoilList["m_iCol"]'],
-                // "m_iHeatTime" => $request['CoilList["m_iHeatTime"]'],
-                // "m_iRow" => $request['CoilList["m_iRow"]'],
-                // "m_iSlt_hvgs" => $request['CoilList["m_iSlt_hvgs"]'],
-                // "m_strType" => $request['CoilList["m_strType"]'],
-                // "ray" => $request['CoilList["ray"]'],
-                // "sGoodsCapacity" => $request['CoilList["sGoodsCapacity"]'],
-                // "sGoodsSpec" => $request['CoilList["sGoodsSpec"]'],
-                // "strGoodsCode" => $request['CoilList["strGoodsCode"]'],
-                // "strKeys" => $request['CoilList["strKeys"]'],
-                // "strOtherParam1" => $request['CoilList["strOtherParam1"]'],
-                // "strOtherParam2" => $request['CoilList["strOtherParam2"]'],
-            ]);
+
+        // if($code === '5101') {
+        //     $a = Machine::create([
+        //         'FunCode' => $request['FunCode'],
+        //         'MachineID' => $request['MachineID'],
+        //     ]);
             
 
-            $status = 0;
-            $tradeNo = '';
-            $SessionCode = '';
-            $productID = '';
-            $message = 'function code 4000 data recieved';
+        //     $status = 0;
+        //     $tradeNo = '';
+        //     $SessionCode = '';
+        //     $productID = '';
+        //     $message = 'function code 5101 data recieved';
 
-            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
-        }
+        //     return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+        // }
 
-        if($code === '5101') {
-            $a = Machine::create([
-                'FunCode' => $request['FunCode'],
-                'MachineID' => $request['MachineID'],
-            ]);
+        // if($code === '5102') {
+        //     $a = Machine::create([
+        //         'FunCode' => $request['FunCode'],
+        //         'MachineID' => $request['MachineID'],
+        //     ]);
             
 
-            $status = 0;
-            $tradeNo = '';
-            $SessionCode = '';
-            $productID = '';
-            $message = 'function code 5101 data recieved';
+        //     $status = 0;
+        //     $tradeNo = '';
+        //     $SessionCode = '';
+        //     $productID = '';
+        //     $message = 'function code 5102 data recieved';
 
-            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
-        }
+        //     return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+        // }
 
-        if($code === '5102') {
-            $a = Machine::create([
-                'FunCode' => $request['FunCode'],
-                'MachineID' => $request['MachineID'],
-            ]);
+        // if($code === '2000') {
+        //     $a = Machine::create([
+        //         'FunCode' => $request['FunCode'],
+        //         'MachineID' => $request['MachineID'],
+        //     ]);
             
 
-            $status = 0;
-            $tradeNo = '';
-            $SessionCode = '';
-            $productID = '';
-            $message = 'function code 5102 data recieved';
+        //     $status = 0;
+        //     $tradeNo = '';
+        //     $SessionCode = '';
+        //     $productID = '';
+        //     $message = 'function code 5102 data recieved';
 
-            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
-        }
+        //     return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+        // }
 
-        if($code === '2000') {
-            $a = Machine::create([
-                'FunCode' => $request['FunCode'],
-                'MachineID' => $request['MachineID'],
-            ]);
-            
+        // if( $code === '1000') {
+        //     // create entry to send to Load Delivery table
+        //     LoadDelivery::create([
+        //         'FunCode' => $request['FunCode'],
+        //         'MachineID' => $request['MachineID'],
+        //         // 'TradeNO' => $request['TradeNO'],
+        //         // 'SlotNO' => $request['SlotNO'],
+        //         // 'KeyNum' => $request['KeyNum'],
+        //         // 'Status' => $request['Status'],
+        //         // 'Quantity' => $request['Quantity'],
+        //         // 'Stock' => $request['Stock'],
+        //         // 'Capacity' => $request['Capacity'],
+        //         // 'Price' => $request['Price'],
+        //         // 'ProductID' => $request['ProductID'],
+        //         // 'Type' => $request['Type'],
+        //         // 'Introduction' => $request['Introduction'],
+        //         // 'Name' => $request['Name'],
+        //     ]);
 
-            $status = 0;
-            $tradeNo = '';
-            $SessionCode = '';
-            $productID = '';
-            $message = 'function code 5102 data recieved';
+        //     $status = 0;
+        //     $SlotNO = '';
+        //     $ProductID = '';
+        //     $message = 'hello team yes making progress data recieved';
 
-            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
-        }
-
-        if( $code === '1000') {
-            // create entry to send to Load Delivery table
-            LoadDelivery::create([
-                'FunCode' => $request['FunCode'],
-                'MachineID' => $request['MachineID'],
-                // 'TradeNO' => $request['TradeNO'],
-                // 'SlotNO' => $request['SlotNO'],
-                // 'KeyNum' => $request['KeyNum'],
-                // 'Status' => $request['Status'],
-                // 'Quantity' => $request['Quantity'],
-                // 'Stock' => $request['Stock'],
-                // 'Capacity' => $request['Capacity'],
-                // 'Price' => $request['Price'],
-                // 'ProductID' => $request['ProductID'],
-                // 'Type' => $request['Type'],
-                // 'Introduction' => $request['Introduction'],
-                // 'Name' => $request['Name'],
-            ]);
-
-            $status = 0;
-            $SlotNO = '';
-            $ProductID = '';
-            $message = 'hello team yes making progress data recieved';
-
-        return $this->loadResponse($status, $SlotNO, $ProductID, $message);
-        }
+        // return $this->loadResponse($status, $SlotNO, $ProductID, $message);
+        // }
 
         // if( $k['FunCode'] === '4000' && !empty($machine)) {
         //     // create entry to send to Load Delivery table
