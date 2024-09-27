@@ -133,17 +133,21 @@ class KioskController extends BaseController {
     #[OpenApi\Operation(tags: ['FieldKiosk'])]
     public function kioskMachine(Request $request) {
         // 2.1.2.2 response mode: status, slot, ProductID, TradeNO
-        $k = $request->all(); 
+        $k = $request->all();
         $macID = $k['MachineID'];
         $code = $k['FunCode'];
-        $slot = $k['SlotNo'];
-        // dd($code);
 
-        if( $code !== '4000' && $code !== '1000' && $code !== '5101' ) {
+        $machine = DB::table('machines')->where('MachineID', $macID,)
+        ->where('FunCode', $code)
+        ->get();
+
+        //dd($machine);
+
+        if( $code !== '2000' && $code !== '1000' && $code !== '5101') {
             $a = Machine::create([
                 'FunCode' => $request['FunCode'],
                 'MachineID' => $request['MachineID'],
-            ]); 
+            ]);
             // update machine with function code
             // if($k['Account_id'] != Null){$kl->KioskType = $k['Account_id'];}
             // if($k['KioskType'] != Null){$kl->KioskType = $k['KioskType'];}
@@ -158,7 +162,7 @@ class KioskController extends BaseController {
             // if($k['TotalMeals'] != Null){$kl->KioskType = $k['TotalMeals'];}
             // if($k['TotalSold'] != Null){$kl->KioskType = $k['TotalSold'];}
             // $kl->save();
-        
+
             $status = 0;
             $tradeNo = '';
             $SessionCode = '';
@@ -168,55 +172,7 @@ class KioskController extends BaseController {
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
             
         }
-
-        if( $code === '5101' ) {
-            DB::table('temps')
-                ->updateOrInsert(['MachineID' => $macID, 'FunCode' => $code ], [
-                "temp" => $request['temp'],
-                ]); 
-
-            $status = 0;
-            $tradeNo = '';
-            $SessionCode = '';
-            $productID = '';
-            $message = 'function code 5101 Temp data recieved';
-
-            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
-        }
-
-        if( $code === "1000" ) {  
-            DB::table('load_deliveries')
-                    ->updateOrInsert(['MachineID' => $macID, 'FunCode' => $code ],[
-                    'TradeNo' => $request['TradeNo'],
-                    'SlotNo' => $request['SlotNo'],
-                    'KeyNum' => $request['KeyNum'],
-                    'Status' => $request['Status'],
-                    'Quantity' => $request['Quantity'],
-                    'Stock' => $request['Stock'],
-                    'Capacity' => $request['Capacity'],
-                    'Price' => $request['Price'],
-                    'ProductID' => $request['ProductID'],
-                    'Type' => $request['Type'],
-                    'Introduction' => $request['Introduction'],
-                    'Name' => $request['Name'],
-                
-                ]);
-
-            
-                    $status = 0;
-                $SlotNO = '';
-                $ProductID = '';
-                $message = 'function code 1000 data created';
-    
-                return $this->loadResponse($status, $SlotNO, $ProductID, $message);
-        }
-
-        if( $k['FunCode'] === '4000') {
-            // create entry to send to Load Delivery table 
-            DB::table('machines')
-                ->updateOrInsert(['MachineID' => $macID, 'FunCode' => $code ], ['Capacity' => '299']); 
-               
-                // if($code === '4000') {
+        // if($code === '4000') {
         //     $machine = Machine::create([
         //         'FunCode' => $request['FunCode'],
         //         'MachineID' => $request['MachineID'],
@@ -260,15 +216,101 @@ class KioskController extends BaseController {
         //         // "strOtherParam2" => $request['CoilList["strOtherParam2"]'],
         //     ]);
             
+
+        //     $status = 0;
+        //     $tradeNo = '';
+        //     $SessionCode = '';
+        //     $productID = '';
+        //     $message = 'function code 4000 data recieved';
+
+        //     return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
         // }
-       
+
+        if( $code === '5101' ) {
+            $a = Temp::create([
+                'FunCode' => $request['FunCode'],
+                'MachineID' => $request['MachineID'],
+                "temp" => $request['temp'],
+            ]);
+
+            $status = 0;
+            $tradeNo = '';
+            $SessionCode = '';
+            $productID = '';
+            $message = 'function code 5101 Temp data recieved';
+
+            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+        }
+
+        // if($code === '2000') {
+        //     $a = Machine::create([
+        //         'FunCode' => $request['FunCode'],
+        //         'MachineID' => $request['MachineID'],
+        //     ]);
+            
+
+        //     $status = 0;
+        //     $tradeNo = '';
+        //     $SessionCode = '';
+        //     $productID = '';
+        //     $message = 'function code 5102 data recieved';
+
+        //     return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+        // }
+
+        if( $code === '1000' ) {
+            // create entry to send to Load Delivery table
+            LoadDelivery::create([
+                'FunCode' => $request['FunCode'],
+                'MachineID' => $request['MachineID'],
+                'TradeNO' => $request['TradeNO'],
+                'SlotNO' => $request['SlotNO'],
+                'KeyNum' => $request['KeyNum'],
+                'Status' => $request['Status'],
+                'Quantity' => $request['Quantity'],
+                'Stock' => $request['Stock'],
+                'Capacity' => $request['Capacity'],
+                'Price' => $request['Price'],
+                'ProductID' => $request['ProductID'],
+                'Type' => $request['Type'],
+                'Introduction' => $request['Introduction'],
+                'Name' => $request['Name'],
+            ]);
+
             $status = 0;
             $SlotNO = '';
             $ProductID = '';
-            $message = 'hello team Function code 4000 yes making progress data recieved';
+            $message = 'function code 1000 data recieved';
 
         return $this->loadResponse($status, $SlotNO, $ProductID, $message);
         }
+
+        // if( $k['FunCode'] === '4000' && !empty($machine)) {
+        //     // create entry to send to Load Delivery table
+        //     $machine = LoadDelivery::create([
+        //         'FunCode' => $request['FunCode'],
+        //         'MachineID' => $request['MachineID'],
+        //         'TradeNO' => $request['TradeNO'],
+        //         'SlotNO' => $request['SlotNO'],
+        //         'KeyNum' => $request['KeyNum'],
+        //         'Status' => $request['Status'],
+        //         'Quantity' => $request['Quantity'],
+        //         'Stock' => $request['Stock'],
+        //         'Capacity' => $request['Capacity'],
+        //         'Price' => $request['Price'],
+        //         'ProductID' => $request['ProductID'],
+        //         'Type' => $request['Type'],
+        //         'Introduction' => $request['Introduction'],
+        //         'Name' => $request['Name'],
+        //     ]);
+
+        //     $status = 0;
+        //     $SlotNO = '';
+        //     $ProductID = '';
+        //     $message = 'hello team Function code 4000 yes making progress data recieved';
+
+        // return $this->loadResponse($status, $SlotNO, $ProductID, $message);
+        // }
     }
 
 }
