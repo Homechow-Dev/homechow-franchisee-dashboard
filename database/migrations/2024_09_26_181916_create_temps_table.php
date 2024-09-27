@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('temps', function (Blueprint $table) {
             $table->id();
-            $table->string('FunCode', 10);
+            $table->string('FunCode', 5);
             $table->string('MachineID', 20);
-            $table->string('temp', 10)->nullable();
+            $table->string('temp', 15)->nullable();
             $table->timestamps();
         });
     }

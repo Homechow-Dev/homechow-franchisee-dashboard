@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('FunCode', 10);
             $table->string('MachineID', 20);
             $table->string('TradeNo', 250)->nullable();
-            $table->string('SlotNo', 2)->nullable();
+            $table->string('SlotNo', 4)->nullable();
             $table->unsignedMediumInteger('KeyNum')->nullable()->unsigned();
             $table->unsignedTinyInteger('Status')->nullable()->unsigned();
             $table->unsignedSmallInteger('Stock')->nullable()->unsigned();
