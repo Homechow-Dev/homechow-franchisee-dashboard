@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('SlotNo', 4)->nullable();
             $table->string('PayType')->nullable();
             $table->string('Time')->nullable();
-            $table->decimal('Amount', total: 6, places: 1)->default('0.0')->nullable();
+            $table->string('Amount')->nullable();
             $table->string('ProductID', 10)->default('HC09876')->nullable();
             $table->string('Name', 100)->nullable();
             $table->string('Type', 25)->default('HotMeal')->nullable();
