@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('TradeNo', 250)->nullable();
             $table->string('SlotNo', 4)->nullable();
             $table->string('PayType')->nullable();
-            $table->time('Time')->nullable();
+            $table->string('Time')->nullable();
             $table->decimal('Amount', total: 6, places: 1)->default('0.0')->nullable();
             $table->string('ProductID', 10)->default('HC09876')->nullable();
             $table->string('Name', 100)->nullable();
@@ -28,7 +28,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */
