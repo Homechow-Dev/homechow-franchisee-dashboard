@@ -188,7 +188,7 @@ class KioskController extends BaseController {
             // Creates entry for machine Tempature deletes every 3 hours
             Temp::create([
                 'temp' => $request['temp'],
-                'TradeNO' => $request["FunCode"],
+                'FunCode' => $request["FunCode"],
                 'MachineID' => $request['MachineID'],
             ]);
 
