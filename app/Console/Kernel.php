@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () { DB::table('telescope_entries_tags')->delete(); })->hourly();
         $schedule->call(function () { DB::table('machines')->delete(); })->hourly();
         $schedule->call(function () { DB::table('load_deliveries')->delete(); })->everyThreeHours($minutes = 0);
+        $schedule->call(function () { DB::table('temps')->delete(); })->everyThreeHours($minutes = 0);
     }
 
     /**

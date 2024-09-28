@@ -11,23 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('load_deliveries', function (Blueprint $table) {
+        Schema::create('dispense_feedback', function (Blueprint $table) {
             $table->id();
             $table->string('FunCode', 10);
             $table->string('MachineID', 20);
             $table->string('TradeNo', 250)->nullable();
             $table->string('SlotNo', 4)->nullable();
-            $table->string('KeyNum')->nullable();
-            $table->string('Status')->nullable();
-            $table->string('Stock')->nullable();
-            $table->string('Quantity')->nullable();
-            $table->string('Capacity')->nullable();
-            $table->decimal('Price', total: 6, places: 1)->default('0.0')->nullable();
+            $table->string('PayType')->nullable();
+            $table->time('Time')->nullable();
+            $table->decimal('Amount', total: 6, places: 1)->default('0.0')->nullable();
             $table->string('ProductID', 10)->default('HC09876')->nullable();
+            $table->string('Name', 100)->nullable();
             $table->string('Type', 25)->default('HotMeal')->nullable();
-            $table->string('Introduction', 250)->nullable();
-            $table->string('Name', 25)->default('Homechow meal')->nullable();
-            $table->string('LockGoodsCount')->nullable();
+            $table->string('Quantity', 10)->nullable();
+            $table->string('Status', 10)->nullable();
             $table->timestamps();
         });
     }
@@ -37,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('load_deliveries');
+        Schema::dropIfExists('dispense_feedback');
     }
 };
