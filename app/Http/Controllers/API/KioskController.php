@@ -167,9 +167,8 @@ class KioskController extends BaseController {
                     "Time" => $request['Time'],
                     "Amount" => $request['Amount'],
                     'ProductID' => $request['ProductID'],
-                    'Type' => $request['Type'],
-                    'Introduction' => $request['Introduction'],
                     'Name' => $request['Name'],
+                    'Type' => $request['Type'],
                     "Quantity" =>$request['Quantity'],
                     "Status" => $request['Status'],
             ]);
