@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use function PHPUnit\Framework\isEmpty;
 
 class UserAuthController extends BaseController {
+
     /**
      * Register api
      *
@@ -119,6 +120,14 @@ class UserAuthController extends BaseController {
     public function getCreateToken() {
         $token = Auth()->user->createToken('api_token', ['api-access'], Carbon::now()->addMinutes(config('sanctum.ac_expiration')))->plainTextToken;
         return $token;
+    }
+
+    public function userIndex(){
+        $user = User::get();
+
+        $success['message'] = 'success';
+   
+        return $this->sendResponse($success, 'Users successfully retrieved.');
     }
 
 }

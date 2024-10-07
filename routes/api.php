@@ -79,6 +79,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
     Route::get('accounts/products/{account}', [AccountController::class, 'franchiseeProducts']);
     Route::get('accounts/profile/{account}', [AccountController::class, 'franchiseeProfile']);
+    Route::post('update/email/{account}', [AccountController::class, 'updateEmail']);
     Route::post('create/pin/{account}', [AccountController::class, 'createAccountPin']);
     Route::post('confirmation/pin/{account}', [AccountController::class, 'verifyPin']);
 
@@ -95,6 +96,7 @@ Route::middleware('auth:sanctum')->group(function() {
     // Order calls
     Route::get('orders', [OrdersController::class, 'orders']);
     Route::get('order/{order}', [OrdersController::class, 'orderNumber']);
+    Route::get('order/topmeals', [OrdersController::class, 'topMeals']);
 
     // Category
     Route::get('categories/list', [CategoryController::class, 'index']);
@@ -104,8 +106,11 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('faq/create', [FaqController::class, 'createFaq']);
     Route::post('faq/update', [FaqController::class, 'updateFaq']);
     Route::get('faq/delete', [FaqController::class, 'deleteFaq']);
+
+
     // Reports
     Route::get('reports/orders/{account}', [OrdersController::class, 'orderReports']);
+
 
     // Franchisee Feedback
     Route::get('feedback', [FeedbackController::class, 'allFeedback']);
@@ -127,11 +132,16 @@ Route::middleware('auth:sanctum')->group(function() {
     // Discount Franchisee request
     Route::post('create/discount', [DiscountController::class, 'createDiscount']);
 
+    //kitchen Calls
+
     // member payment 
     Route::post('/member-payment', [PaymentController::class, 'memberPayment']);
     
     // wallet process
     Route::post('/wallet/addfunds', [PaymentController::class, 'userAddFunds']);
+
+    // Users
+    Route::get('user', [UserAuthController::class, 'userIndex']);
 
 });
 

@@ -8,8 +8,8 @@ use App\Models\Kiosk;
 use App\Http\Controllers\API\BaseController as BaseController;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenAPI;
 
-class RestockController extends BaseController
-{
+class RestockController extends BaseController {
+
     /**
      * Retrieves all restock transactions.
      *
@@ -26,10 +26,6 @@ class RestockController extends BaseController
         return $this->sendResponse($output, 'Restock transactions retrieved successfully.');         
 
     }
-
-    // Create restock transaction
-
-    // Store restock tranction
     
     /*
      * Create Restock entry.
@@ -39,10 +35,11 @@ class RestockController extends BaseController
     #[OpenApi\Operation(tags: ['Restock'])]
     //#[OpenApi\Parameters(factory: CreateMealsParameters::class)]
     public function createRestock(Request $request, Kiosk $kiosk) {
+    
         $kl = Kiosk::find($kiosk);
 
         $request->validate([
-            'restockId' => 'required|string|max:15',
+            // 'restockId' => 'required|string|max:15',
             'kioskName' => 'required|string|max:150',
             'mealName' => 'required|string|max:50',
             'Category' => 'required|string|max:50',
@@ -51,9 +48,10 @@ class RestockController extends BaseController
             'status' => 'required|string|max:50', 
         ]);
 
+        
         $rk = Restock::create([
             'kiosk_id' => $kl['id'],
-            'machineID' => $kl['machineID'],
+            // 'machineID' => $kl['machineID'],
             'restockId' => $request->restockId,
             'kioskName' => $request->kioskName,
             'mealName' => $request->mealName,
@@ -63,13 +61,15 @@ class RestockController extends BaseController
             'status' => $request->status,
         ]);
 
+        
+
+
+
         $output = [
             'Restock' => $rk,
         ];
         return $this->sendResponse($output, 'Restock successfully saved.');
     }
-
-    //update restock transaction
 
     //delete restock transaction
 

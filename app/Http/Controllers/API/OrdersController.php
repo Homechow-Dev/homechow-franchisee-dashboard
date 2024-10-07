@@ -134,4 +134,54 @@ class OrdersController extends BaseController
 
         return $this->sendResponse($output, 'Reports Generated for account');
     }
+
+    public function topMeals() {
+        $today = Carbon::now();
+        $yesterday = Carbon::now()->subDays(1); 
+        $week = Carbon::now()->subDays(7); 
+        $from = Carbon::now()->startOfMonth();
+        $to = Carbon::now()->endOfMonth();
+        
+        $all = Order::select('MealName', 'Category', 'ProductID', 'Time', 'Quantity' )
+            ->where('PaymentStatus', 'Paid')
+            ->get();
+
+        $kioskGroup = $all->groupBy('MealName');
+
+        $yesterdaySales = [];
+        foreach( $kioskGroup as $y ) {
+            $b = $y->whereBetween('Time', [$yesterday, $today])->sum('Quantity');
+           
+            $report = DB::table('orders')->whereBetween('Time', [$yesterday, $today])
+            ->selectRaw('count(Category) as number_of_orders, MealName , Category')
+            ->groupBy('MealName', 'Category')
+            ->havingBetween('number_of_orders', [1, 100])
+            ->get();
+                 
+            $TotalSales = $y->whereBetween('Time', [$yesterday, $today])->sum('Amount');
+            $yesterdaySales[] = Arr::add(['TotalSales' => $b, 'Dollars' => $TotalSales], 'Topcategories', $report );
+        }
+
+        $weekSales = [];
+        foreach( $kioskGroup as $w ) {
+            $b = $y->whereBetween('Time', [$yesterday, $today])->sum('Quantity');
+
+            $report = DB::table('orders')->whereBetween('Time', [$week, $today])
+            ->selectRaw('count(Category) as number_of_orders, MealName , Category')
+            ->groupBy('MealName', 'Category')
+            ->havingBetween('number_of_orders', [1, 100])
+            ->get();
+            
+            $TotalSales = $w->whereBetween('Time', [$week, $today])->sum('Amount');
+            $weekSales[] = Arr::add(['TotalSales' => $b, 'Dollars' => $TotalSales],  'Topcategories', $report );
+        }
+
+        $output = [
+            'yesterdaySales' => $yesterdaySales,
+            'weekSales' => $weekSales,
+
+        ];
+
+        return $this->sendResponse($output, 'Reports Generated for top Meals');
+    }
 }

@@ -119,14 +119,12 @@ class AccountController extends BaseController {
         
         $request->validate([
             'email' => 'string|lowercase|email|max:255',
-            'orginalEmail' => 'string|lowercase|email|max:255',
             'pin' => 'string|max:6',
         ]);
         $id = $account->id;
         $account = Account::find($id);
-        if($request->orginalEmail === $account->email && $request->pin != ''){
+        if($request->pin === $account->pin){
             $account->email = $request->email;
-            $account->pin = $request->pin;
             $account->save();
 
             $user = User::where('id', $account->user_id)->get();

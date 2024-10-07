@@ -156,6 +156,7 @@ class KioskController extends BaseController {
             
         }
 
+        // meal deliver/pickup from machine
         if( $code === '5000') {
             $slot = $k['SlotNo'];
 
@@ -172,6 +173,9 @@ class KioskController extends BaseController {
                     "Quantity" =>$request['Quantity'],
                     "Status" => $request['Status'],
             ]);
+
+            // update meal quantity of kiosk
+            
 
             $status = 0;
             $tradeNo = '';
