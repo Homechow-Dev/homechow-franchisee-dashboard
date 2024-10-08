@@ -65,6 +65,9 @@ Route::post('application', [CustomerController::class, 'franchiseeApplication'])
 
 //Stripe additional data
 Route::get('charges/stripe', [ChargesController::class, 'updateCustomer']);
+
+// Users
+Route::get('user', [UserAuthController::class, 'userIndex']);
  
 
 
@@ -139,9 +142,6 @@ Route::middleware('auth:sanctum')->group(function() {
     
     // wallet process
     Route::post('/wallet/addfunds', [PaymentController::class, 'userAddFunds']);
-
-    // Users
-    Route::get('user', [UserAuthController::class, 'userIndex']);
 
 });
 
