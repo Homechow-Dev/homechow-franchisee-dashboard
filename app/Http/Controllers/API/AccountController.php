@@ -137,12 +137,10 @@ class AccountController extends BaseController {
             $output = [
                 'name' => $acctId->Name,
                 'email' => $acctId->email,
-                'phone' => $acctId->Phone,
-                'image' => $acctId->image,
                 'pin' => $acctId->pin,
             ];
 
-            return $this->sendResponse($output, 'Pin updated successfully.'); 
+            return $this->sendResponse($output, 'Email updated successfully.'); 
         } else {
             $output = [
                 'email' => 'Email has not been change',
