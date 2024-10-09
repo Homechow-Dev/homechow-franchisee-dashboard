@@ -51,8 +51,8 @@ class KioskController extends BaseController {
         return $this->sendResponse($output, 'Kiosk retrieved successfully.');  
     }
 
-    public function kioskDetail(Kiosk $kiosk){
-        $k = Kiosk::with('meals')->where('id', $kiosk)->get();
+    public function kioskDetail(){
+        $k = Kiosk::with('meals')->get();
 
         $output = $k;
         //$output = $Kiosk;
