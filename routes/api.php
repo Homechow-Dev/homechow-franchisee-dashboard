@@ -28,11 +28,11 @@ use App\Http\Controllers\API\FaqController;
 |
 */
 
-Route::controller(UserAuthController::class)->group(function(){
-    Route::post('register', 'register');
-    Route::post('login', 'login');
-    Route::post('logout', 'logout');
-});
+// Route::controller(UserAuthController::class)->group(function(){
+//     Route::post('register', 'register');
+//     Route::post('login', 'login');
+//     Route::post('logout', 'logout');
+// });
 
 Route::post('/mobile-payment-intent', [PaymentController::class, 'makePaymentIntent']);
 // Customer Service application
