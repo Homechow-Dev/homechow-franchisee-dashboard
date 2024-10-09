@@ -92,6 +92,7 @@ Route::middleware('auth:sanctum')->group(function() {
     // Kiosk Calls
     Route::post('create/kiosk', [KioskController::class, 'createKiosk']);
     Route::get('kiosks', [KioskController::class, 'index']);
+    Route::get('kiosk/detail/{kiosk}', [KioskController::class, 'kioskDetail']);
     Route::get('edit/kiosks/{kiosk}', [KioskController::class, 'editKiosk']);
     Route::post('update/kiosks/{id}', [KioskController::class, 'updateKiosk']);
     Route::get('delete/kiosks/{id}', [KioskController::class, 'delete']);
