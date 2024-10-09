@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Kiosk;
+use App\Models\Meal;
 use App\Models\Machine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Models\DispenseFeedback;
 use App\Models\LoadDelivery;
 use App\Models\Temp;
 use App\OpenApi\Parameters\Kiosk\CreateKioskParameters;
@@ -25,11 +27,27 @@ class KioskController extends BaseController {
      */
     #[OpenApi\Operation(tags: ['Kiosk'])]
     public function index() {
-        $kiosks = Kiosk::all();
-        $kiosk = $kiosks->groupBy('Status');
-        $output = [
-            'kioks' => $kiosk,
-        ];
+
+        $all = DB::table('kiosks')
+            ->join('kiosk_meal', 'kiosks.id', '=', 'kiosk_meal.kiosk_id')
+            ->select('kiosks.id', 'kiosks.KioskNumber', 'kiosks.KioskAddress', 'kiosks.Status', 'kiosks.TotalSold', 'kiosks.TotalMeals',
+            'kiosk_meal.StockTotal')
+            ->get();
+
+        $Kiosk = $all->groupBy('KioskNumber');
+
+        $currentStock = [];
+        foreach( $Kiosk as $i ) {
+
+            $Ki = $i->groupBy('KioskNumber');
+            $s = $i->countBy('KioskNumber');
+            
+            $currentStock[] = Arr::add($Ki,'Meals_Count', $s);
+        }
+
+        $output = $currentStock;
+        //$output = $Kiosk;
+
         return $this->sendResponse($output, 'Kiosk retrieved successfully.');  
     }
 
@@ -160,27 +178,26 @@ class KioskController extends BaseController {
         if( $code === '5000') {
             $slot = $k['SlotNo'];
 
-            DB::table('dispense_feedback')
-            ->updateOrInsert(['MachineID' => $macID, 'SlotNo' => $slot ], [
-                    'FunCode' => $code,
-                    'TradeNo' => $request['TradeNo'],
-                    "PayType" => $request['PayType'],
-                    "Time" => $request['Time'],
-                    "Amount" => $request['Amount'],
-                    'ProductID' => $request['ProductID'],
-                    'Name' => $request['Name'],
-                    'Type' => $request['Type'],
-                    "Quantity" =>$request['Quantity'],
-                    "Status" => $request['Status'],
-            ]);
-
-            // update meal quantity of kiosk
+            $dispense = new DispenseFeedback();
+ 
+            $dispense->name = $request->name;
+            $dispense->FunCode = $code;
+            $dispense->TradeNo = $request['TradeNo'];
+            $dispense->PayType = $request['PayType'];
+            $dispense->Time = $request['Time'];
+            $dispense->Amount = $request['Amount'];
+            $dispense->ProductID = $request['ProductID'];
+            $dispense->Name = $request['Name'];
+            $dispense->Type = $request['Type'];
+            $dispense->Quantity = $request['Quantity'];
+            $dispense->Status = $request['Status'];
+    
+            $dispense->save();
             
-
             $status = 0;
             $tradeNo = '';
             $SessionCode = '';
-            $productID = '';
+            $productID = $dispense->ProductID;
             $message = 'hello team yes making progress data recieved';
 
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
@@ -241,6 +258,10 @@ class KioskController extends BaseController {
                 
                 ]);
 
+            // get kiosk_meals by manufactureID(machineID) 
+            // if manufactureID & SlotNo 
+            // updated kiosk_meal StockTotal
+            
             $status = 0;
             $SlotNO = '';
             $ProductID = '';

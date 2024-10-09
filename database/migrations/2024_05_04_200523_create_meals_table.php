@@ -18,9 +18,10 @@ return new class extends Migration
             $table->String('Category', 25);
             $table->String('Description', 500);
             $table->String('Price', 6);
-            $table->String('NutritionalValue', 5);
+            $table->String('NutritionalValue')->nullable();
             $table->String('MealType', 10);
-            $table->String('productID', 10);
+            $table->String('productID', 10)->nullable();
+            $table->String('imageURL')->nullable();
             $table->timestamps();
         });
 
@@ -28,8 +29,10 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->foreignUlid('kiosk_id');
             $table->foreignId('meal_id');
-            $table->String('Total', 3)->default(10);
-            $table->String('StockTotal', 3)->default(5);
+            $table->String('Total', 3)->nullable();
+            $table->String('StockTotal', 3)->nullable();
+            $table->String('ProductID', 6)->nullable();
+            $table->String('SlotID', 4)->nullable();
         });
     }
 

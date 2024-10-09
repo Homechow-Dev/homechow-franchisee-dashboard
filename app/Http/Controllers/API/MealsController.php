@@ -40,8 +40,7 @@ class MealsController extends BaseController {
             'Category' => 'required|string|max:255',
             'Calories' => 'required|string|max:10',
             'Description' => 'required|string|max:255',
-            'NutritionalValue' => 'required|string|max:10',
-            'MealType' => 'required|string|max:255', 
+            'ProductID' => 'required|string|max:6|min:4',
         ]);
 
         $meal = Meal::create([
@@ -51,12 +50,13 @@ class MealsController extends BaseController {
             'Description' => $request->Description,
             'NutritionalValue' => $request->NutritionalValue,
             'MealType' => $request->MealType,
+            'ProductID' => $request->productID,
         ]);
 
         // Add new meal to Mongodb meals table.
 
         $success['token'] =  $meal->Cuisine;
-        return $this->sendResponse($success, 'User registered successfully.');
+        return $this->sendResponse($success, 'Meal successfully created');
     }
 
     /**
