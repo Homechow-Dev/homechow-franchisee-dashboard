@@ -56,7 +56,7 @@ class UserAuthController extends BaseController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request) {
+    public function login(Request $request) : Response {
         
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
@@ -86,6 +86,9 @@ class UserAuthController extends BaseController {
             
         $token= $user->createToken('api_token', ['api-access'], Carbon::now()->addMinutes(config('sanctum.ac_expiration')))->plainTextToken;
         
+        $request->authenticate();
+
+        $request->session()->regenerate();
        
         
         //$refreshToken = $user->createToken('refresh_token', ['token-refresh'], Carbon::now()->addMinutes(config('sanctum.rt_expiration')))->plainTextToken;
