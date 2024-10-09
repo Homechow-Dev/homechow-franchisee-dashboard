@@ -28,25 +28,6 @@ use App\Http\Controllers\API\FaqController;
 |
 */
 
-// Route::post('/sanctum/token', function (Request $request) {
-//     $request->validate([
-//         'email' => 'required|email',
-//         'password' => 'required',
-//         'device_name' => 'required',
-//     ]);
- 
-//     $user = User::where('email', $request->email)->first();
- 
-//     if (! $user || ! Hash::check($request->password, $user->password)) {
-//         throw ValidationException::withMessages([
-//             'email' => ['The provided credentials are incorrect.'],
-//         ]);
-//     }
- 
-//     return $user->createToken($request->device_name)->plainTextToken;
-// });
-
-
 Route::controller(UserAuthController::class)->group(function(){
     Route::post('register', 'register');
     Route::post('login', 'login');
@@ -67,10 +48,12 @@ Route::post('application', [CustomerController::class, 'franchiseeApplication'])
 Route::get('charges/stripe', [ChargesController::class, 'updateCustomer']);
 
 // Users
-Route::get('user', [UserAuthController::class, 'userIndex']);
- 
+// Route::get('user', [UserAuthController::class, 'userIndex']);
 
 
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/refresh-token', [UserAuthController::class, 'refreshToken']);
@@ -145,7 +128,3 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/wallet/addfunds', [PaymentController::class, 'userAddFunds']);
 
 });
-
-
-
-
