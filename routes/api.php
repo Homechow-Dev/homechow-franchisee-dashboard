@@ -126,5 +126,4 @@ Route::middleware('auth:sanctum')->group(function() {
     // Users
     // Route::get('user', [UserAuthController::class, 'userIndex']);
 
-
 });
