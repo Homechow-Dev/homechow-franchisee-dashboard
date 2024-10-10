@@ -93,8 +93,7 @@ class UserAuthController extends BaseController {
             'Name' => $account['Name'],
             'WalletAmount' => $account['WalletAmout'],
             'token' => $token,
-            'user' => $user,
-            //'refreshToken' => $refreshToken,            
+            'user' => $user,          
         ];
 
         return $this->sendResponse($output, 'User logined successfully.');
