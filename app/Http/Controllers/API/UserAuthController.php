@@ -93,7 +93,7 @@ class UserAuthController extends BaseController {
             'Name' => $account['Name'],
             'WalletAmount' => $account['WalletAmout'],
             'token' => $token,
-            // 'user' => $user,
+            'user' => $user,
             //'refreshToken' => $refreshToken,            
         ];
 
