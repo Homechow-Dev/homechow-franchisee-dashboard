@@ -56,7 +56,7 @@ class UserAuthController extends BaseController {
      *
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request) : Response {
+    public function login(Request $request) {
         
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
