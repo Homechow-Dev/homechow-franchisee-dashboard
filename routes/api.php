@@ -47,9 +47,9 @@ Route::post('application', [CustomerController::class, 'franchiseeApplication'])
 //Stripe additional data
 Route::get('charges/stripe', [ChargesController::class, 'updateCustomer']);
 
-// Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/refresh-token', [UserAuthController::class, 'refreshToken']);
@@ -124,7 +124,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('/wallet/addfunds', [PaymentController::class, 'userAddFunds']);
 
     // Users
-    Route::get('user', [UserAuthController::class, 'userIndex']);
+    // Route::get('user', [UserAuthController::class, 'userIndex']);
 
 
 });
