@@ -48,12 +48,12 @@ Route::post('application', [CustomerController::class, 'franchiseeApplication'])
 Route::get('charges/stripe', [ChargesController::class, 'updateCustomer']);
 
 // Users
-// Route::get('user', [UserAuthController::class, 'userIndex']);
+Route::get('user', [UserAuthController::class, 'userIndex']);
 
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/refresh-token', [UserAuthController::class, 'refreshToken']);
