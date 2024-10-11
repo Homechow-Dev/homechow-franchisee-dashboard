@@ -29,9 +29,9 @@ use App\Http\Controllers\API\FaqController;
 */
 
 Route::controller(UserAuthController::class)->group(function(){
-    Route::post('register', 'register');
-    Route::post('login', 'login');
-    Route::post('logout', 'logout');
+    Route::post('mobile/register', 'register');
+    Route::post('mobile/login', 'login');
+    Route::post('mobile/logout', 'logout');
 });
 
 Route::post('/mobile-payment-intent', [PaymentController::class, 'makePaymentIntent']);
