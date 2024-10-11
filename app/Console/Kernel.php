@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () { DB::table('telescope_entries_tags')->delete(); })->hourly();
         $schedule->call(function () { DB::table('machines')->delete(); })->everyThreeHours($minutes = 0);
         $schedule->call(function () { DB::table('temps')->delete(); })->everyThreeHours($minutes = 0);
+        $schedule->command('sanctum:prune-expired --hours=24')->daily();
     }
 
     /**
@@ -26,5 +27,6 @@ class Kernel extends ConsoleKernel
     protected function commands(): void {
         $this->load(__DIR__.'/Commands');
         require base_path('routes/console.php');
+        
     }
 }

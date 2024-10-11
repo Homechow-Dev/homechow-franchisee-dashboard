@@ -13,8 +13,8 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        "https://orca-app-hoihb.ondigitalocean.app/*",
-        "http://localhost:3000/*",
+        "https://orca-app-hoihb.ondigitalocean.app/",
+        "http://localhost:3000",
         
     ];
 }

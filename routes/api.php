@@ -39,9 +39,6 @@ Route::post('/mobile-payment-intent', [PaymentController::class, 'makePaymentInt
 
 // Funccodes Routes
 Route::post('machine', [KioskController::class, 'kioskMachine']);
-
-// Route::post('machine/{funCode?}', [KioskController::class, 'kioskMachine']);
-
 Route::post('application', [CustomerController::class, 'franchiseeApplication']);
 
 //Stripe additional data
