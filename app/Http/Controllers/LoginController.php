@@ -31,7 +31,7 @@ class LoginController extends Controller
 
     private function authenticateFrontend()
     {
-        if (! Auth::guard('web')
+        if (!Auth::guard('web')
             ->attempt(
                 request()->only('email', 'password'),
                 request()->boolean('remember')
@@ -39,7 +39,7 @@ class LoginController extends Controller
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]);
-            print('hello i am the login controller');
+           
         }
     }
 }

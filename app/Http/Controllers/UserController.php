@@ -9,7 +9,6 @@ class UserController extends Controller {
     
     public function __invoke()
     {
-        print('hello i am the user controller');
         return UserResource::make(
             auth()->user()
         );

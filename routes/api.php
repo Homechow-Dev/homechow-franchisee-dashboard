@@ -53,21 +53,18 @@ Route::controller(UserAuthController::class)->group(function(){
     Route::post('mobile/logout', 'logout');
 });
 
+//  User....
 Route::get('/user', UserController::class)->middleware(['auth:sanctum']);
 
-Route::post('/mobile-payment-intent', [PaymentController::class, 'makePaymentIntent']);
-// Customer Service application
+// Customer Service application ....
 
-// Funccodes Routes
+// Funccodes Routes....
 Route::post('machine', [KioskController::class, 'kioskMachine']);
 Route::post('application', [CustomerController::class, 'franchiseeApplication']);
 
-//Stripe additional data
+//Stripe additional data....
 Route::get('charges/stripe', [ChargesController::class, 'updateCustomer']);
-
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/mobile-payment-intent', [PaymentController::class, 'makePaymentIntent']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/refresh-token', [UserAuthController::class, 'refreshToken']);
