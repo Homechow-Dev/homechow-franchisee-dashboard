@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminLoginController;
+use App\Http\Controllers\AdminLoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +18,6 @@ Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
-Route::post('admin/login', [AdminLoginController::class, 'authenticate']);
+// Route::post('/login', [AdminLoginController::class, 'authenticate']);
 
 require __DIR__.'/auth.php';

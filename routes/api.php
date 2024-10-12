@@ -3,19 +3,31 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\API\UserAuthController;
-use App\Http\Controllers\API\AccountController;
-use App\Http\Controllers\API\CustomerController;
-use App\Http\Controllers\API\KioskController;
-use App\Http\Controllers\API\MealsController;
-use App\Http\Controllers\API\PaymentController;
-use App\Http\Controllers\API\OrdersController;
-use App\Http\Controllers\API\DiscountController;
-use App\Http\Controllers\API\RestockController;
-use App\Http\Controllers\API\ChargesController;
-use App\Http\Controllers\API\FeedbackController;
-use App\Http\Controllers\API\CategoryController;
-use App\Http\Controllers\API\FaqController;
+use App\Http\Controllers\API\{
+    UserAuthController,
+    AccountController,
+    CustomerController,
+    KioskController,
+    MealsController,
+    PaymentController,
+    OrdersController,
+    DiscountController,
+    RestockController,
+    ChargesController,
+    DispenseFeedbackController,
+    FeedbackController,
+    CategoryController,
+    FaqController,
+
+};
+
+use App\Http\Controllers\{
+    LoginController,
+    LogoutController,
+    RegisterController,
+    UserController
+};
+
 
 /*
 |--------------------------------------------------------------------------
@@ -28,11 +40,20 @@ use App\Http\Controllers\API\FaqController;
 |
 */
 
+// Auth ...
+Route::post('/login', LoginController::class);
+Route::post('/register', RegisterController::class);
+Route::post('/logout', LogoutController::class);
+
+
+// mobile login
 Route::controller(UserAuthController::class)->group(function(){
     Route::post('mobile/register', 'register');
     Route::post('mobile/login', 'login');
     Route::post('mobile/logout', 'logout');
 });
+
+Route::get('/user', UserController::class)->middleware(['auth:sanctum']);
 
 Route::post('/mobile-payment-intent', [PaymentController::class, 'makePaymentIntent']);
 // Customer Service application
@@ -51,7 +72,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/refresh-token', [UserAuthController::class, 'refreshToken']);
 });
-Route::middleware('auth:sanctum')->group(function() {
+Route::middleware('auth:sanctum', 'verified')->group(function() {
     Route::get('accounts', [AccountController::class, 'index']);
     Route::post('create/franchisee', [AccountController::class, 'createFranchisee']);
     Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
@@ -119,8 +140,5 @@ Route::middleware('auth:sanctum')->group(function() {
     
     // wallet process
     Route::post('/wallet/addfunds', [PaymentController::class, 'userAddFunds']);
-
-    // Users
-    // Route::get('user', [UserAuthController::class, 'userIndex']);
 
 });

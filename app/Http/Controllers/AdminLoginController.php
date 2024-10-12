@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller as Controller;
 
 class AdminLoginController extends Controller {
     //
@@ -14,11 +13,11 @@ class AdminLoginController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function authenticate(Request $request)
-    {
+
+    public function authenticate(Request $request) {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
-            'password' => ['required'],
+            'password' => ['required']
         ]);
  
         if (Auth::attempt($credentials)) {
@@ -26,6 +25,8 @@ class AdminLoginController extends Controller {
  
             return redirect()->intended('dashboard');
         }
+
+
  
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
