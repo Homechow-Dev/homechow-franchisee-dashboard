@@ -39,6 +39,7 @@ class LoginController extends Controller
             throw ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ]);
+            print('hello i am the login controller');
         }
     }
 }
