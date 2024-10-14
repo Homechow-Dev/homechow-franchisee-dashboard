@@ -273,7 +273,7 @@ class AccountController extends BaseController {
         return $this->sendResponse($output, 'Franchisee Account retrieved successfully.');
     }
 
-    public function createAccountPin(Request $request, Account $account) {
+    public function updateAccountPin(Request $request, Account $account) {
         $acct  = $account;
         $request->validate([
             'pin' => 'required|string|max:6',

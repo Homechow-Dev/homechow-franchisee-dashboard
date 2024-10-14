@@ -70,6 +70,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/refresh-token', [UserAuthController::class, 'refreshToken']);
 });
 Route::middleware('auth:sanctum', 'verified')->group(function() {
+
+    // kiosk account updats.....
     Route::get('accounts', [AccountController::class, 'index']);
     Route::post('create/franchisee', [AccountController::class, 'createFranchisee']);
     Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
@@ -77,7 +79,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
     Route::get('accounts/products/{account}', [AccountController::class, 'franchiseeProducts']);
     Route::get('accounts/profile/{account}', [AccountController::class, 'franchiseeProfile']);
     Route::post('update/email/{account}', [AccountController::class, 'updateEmail']);
-    Route::post('create/pin/{account}', [AccountController::class, 'createAccountPin']);
+    Route::post('update/pin/{account}', [AccountController::class, 'updateAccountPin']);
     Route::post('confirmation/pin/{account}', [AccountController::class, 'verifyPin']);
 
     //Kisok and meals driect Reports
