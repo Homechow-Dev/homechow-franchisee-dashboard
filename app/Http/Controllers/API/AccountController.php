@@ -276,7 +276,7 @@ class AccountController extends BaseController {
     public function updateAccountPin(Request $request, Account $account) {
         $acct  = $account;
         $request->validate([
-            'pin' => 'required|string|max:6',
+            'Pin' => 'required|string|max:6',
             'pinConfirmation' => 'required|string|max:6'
         ]);
         $newpin =  $request->pin;

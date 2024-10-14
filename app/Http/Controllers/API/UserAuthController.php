@@ -71,6 +71,7 @@ class UserAuthController extends BaseController {
         $output = [
             'id' => $account->id,
             'Name' => $account['Name'],
+            'pin' => $account['pin'],
             'WalletAmount' => $account['WalletAmout'],
             'token' => $token,         
         ];
