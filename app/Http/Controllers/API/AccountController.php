@@ -26,8 +26,9 @@ class AccountController extends BaseController {
     #[OpenApi\Operation(tags: ['accounts'])]
     public function index() {
         $account = Account::get();
-        $accounts = $account->groupBy('Type');
-        return $this->sendResponse(AccountResource::collection($accounts), 'Accounts retrieved successfully.');
+        $output = $account;
+
+        return $this->sendResponse($output, 'Orders retrieved successfully.'); 
     }
 
 
