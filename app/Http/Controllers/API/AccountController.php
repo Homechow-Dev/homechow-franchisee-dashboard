@@ -147,8 +147,6 @@ class AccountController extends BaseController {
             ];
             return $this->sendResponse($output, 'denied'); 
         }
-
-        
     }
 
 
@@ -290,6 +288,35 @@ class AccountController extends BaseController {
 
             $output = [
                 'pin' => $pinInsert->pin,
+            ];
+    
+            return $this->sendResponse($output, 'Pin created successfully.');
+       
+        } else {
+
+            $output = [
+                'pin' => 'Error',
+            ];
+    
+            return $this->sendResponse($output, 'Confirmation does not match');
+        }
+    }
+
+    public function updatePhone(Request $request, Account $account) {
+        $acct  = $account;
+        $request->validate([
+            'pin' => 'required|string|max:6',
+            'phone' => 'required|string|max:20'
+        ]);
+        $pin =  $request->pin;
+
+        if( $pin === $acct->Phone) {
+            $phoneUpdate = Account::find($acct->id); 
+            $phoneUpdate->Phone = $request->phone;
+            $phoneUpdate->save();
+
+            $output = [
+                'phone' => $phoneUpdate->phone,
             ];
     
             return $this->sendResponse($output, 'Pin created successfully.');
