@@ -19,6 +19,19 @@ use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 class AccountController extends BaseController {
 
     /**
+     * Retrieves all Account Users.
+     *
+     * Returns Franchisee and Customer members and guest grouped by Member Type
+     */
+    #[OpenApi\Operation(tags: ['accounts'])]
+    public function index() {
+        $account = Account::get();
+        $accounts = $account->groupBy('Type');
+        return $this->sendResponse(AccountResource::collection($accounts), 'Accounts retrieved successfully.');
+    }
+
+
+    /**
      * Create Franchisee Account.
      *
      * request needs (Name, email, phone, Address, city, zipCode, country)
@@ -147,20 +160,6 @@ class AccountController extends BaseController {
             ];
             return $this->sendResponse($output, 'denied'); 
         }
-    }
-
-
-
-    /**
-     * Retrieves all Account Users.
-     *
-     * Returns Franchisee and Customer members and guest grouped by Member Type
-     */
-    #[OpenApi\Operation(tags: ['accounts'])]
-    public function index() {
-        $account = Account::get();
-        $accounts = $account->groupBy('Type');
-        return $this->sendResponse(AccountResource::collection($accounts), 'Accounts retrieved successfully.');
     }
 
      /**
