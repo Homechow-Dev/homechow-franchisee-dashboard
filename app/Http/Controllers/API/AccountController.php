@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 
+
 #[OpenApi\PathItem]
 class AccountController extends BaseController {
 
@@ -25,12 +26,11 @@ class AccountController extends BaseController {
      */
     #[OpenApi\Operation(tags: ['accounts'])]
     public function index() {
-        $account = Account::get();
+        $account = Account::select("id", 'Name', "CompanyName","CompanyAddress", "Status", 'Type', 'KioskCount', 'created_at')->get();
         $output = $account;
 
         return $this->sendResponse($output, 'Orders retrieved successfully.'); 
     }
-
 
     /**
      * Create Franchisee Account.
@@ -43,18 +43,38 @@ class AccountController extends BaseController {
     public function createFranchisee(Request $request) {
 
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'Name' => 'required|string|max:255',
+            'Email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
         ]);
 
+        $FirstPass = "HC_" . mt_rand(000000, 9999999);
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->email),
+            'name' => $request->Name,
+            'email' => $request->Email,
+            'password' => Hash::make($FirstPass),
         ]);
+
+         //Generate random customer Id
+        function generateCustomerId() {
+            $cust = "HC_" . mt_rand(000000, 9999999);
+
+            if (customerIdExists($cust)) {
+                return generateCustomerId();
+            }
+            return $cust;
+        }
+
+        function customerIdExists($cust) {
+            // query the database and return a boolean
+            // for instance, it might look like this in Laravel
+            return Account::where('CustomerId', $cust)->exists();
+        }
+        //Generate random customer Id
+
+        $GCCustomerId = generateCustomerId();
 
         $account = Account::create([
-            'Name' => $request->name,
+            'Name' => $request->Name,
             'user_id' => $user->id,
             'Phone' => $request->Phone,
             'CompanyName' => $request->CompanyName,
@@ -64,13 +84,21 @@ class AccountController extends BaseController {
             'State' => $request->State,
             'Zip' => $request->Zip,
             'Status' => 'inactive',
-            'type' => 'franchisee'
+            'type' => 'franchisee',
+            'Email' => $request->Email,
+            'KioskCount' => '0',
+            'Country' => $request->Country,
+            'PresentAddress' => $request->PresentAddress, 
+            'Gender' => $request->Gender,
+            'CustomerId' => $FirstPass,
+            'FirstPass' => $FirstPass,
         ]);
 
         $acctId = $account;
 
         $output = [
             'account' => $acctId,
+            'user' => $FirstPass,
         ];
 
         return $this->sendResponse($output, 'Orders retrieved successfully.'); 

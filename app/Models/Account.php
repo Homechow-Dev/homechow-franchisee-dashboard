@@ -28,6 +28,8 @@ class Account extends Model
         'Status',
         'type',
         'pin',
+        'kioskCount',
+        'customerId',
     ];
 
     public function users(): BelongsTo {

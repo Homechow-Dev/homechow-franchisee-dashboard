@@ -71,9 +71,14 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 Route::middleware('auth:sanctum', 'verified')->group(function() {
 
-    // kiosk account updats.....
-    Route::get('accounts', [AccountController::class, 'index']);
-    Route::post('create/franchisee', [AccountController::class, 'createFranchisee']);
+    Route::prefix('V1')->group(function () {
+        Route::controller(AccountController::class)->group(function () {
+            Route::get('accounts', 'index');
+            Route::post('create/franchisee', 'createFranchisee');
+        });
+    });
+
+    // Franchise account data for admin panel and Mobile
     Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
     Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
     Route::get('accounts/products/{account}', [AccountController::class, 'franchiseeProducts']);
