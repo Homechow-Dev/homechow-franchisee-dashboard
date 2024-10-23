@@ -18,6 +18,7 @@ class Account extends Model
     protected $fillable = [
         'user_id',
         'Name',
+        'Email',
         'Phone',
         'CompanyName',
         'CompanyAddress',
@@ -26,10 +27,13 @@ class Account extends Model
         'State',
         'Zip',
         'Status',
-        'type',
-        'pin',
-        'kioskCount',
-        'customerId',
+        'Type',
+        'Pin',
+        'KioskCount',
+        'PresentAddress',
+        'Gender',
+        'CustomerId',
+        'FirstPass',
     ];
 
     public function users(): BelongsTo {
