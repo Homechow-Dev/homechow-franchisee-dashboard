@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Meal;
+use Illuminate\Support\Facades\DB;
 use App\OpenApi\Parameters\Meals\CreateMealsParameters;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 
@@ -48,9 +49,13 @@ class MealsController extends BaseController {
             'Category' => $request->Category,
             'Calories' => $request->Calorie,
             'Description' => $request->Description,
-            'NutritionalValue' => $request->NutritionalValue,
+            'TotalFat' => $request->TotalFat,
+            'TotalCarbs' => $request->TotalCarbs,
+            'Sodium' => $request->Sodium,
+            'Protein' => $request->Protien,
             'MealType' => $request->MealType,
             'ProductID' => $request->productID,
+            'Status' => "Not confirmend",
         ]);
 
         // Add new meal to Mongodb meals table.
@@ -86,18 +91,42 @@ class MealsController extends BaseController {
         $a = $request->all();
         $ml = Meal::find($id);
         if($a['Cuisine'] != Null){$ml->Cuisine = $a['Cuisine'];}
-        if($a['Category'] != Null){$ml->Cuisine = $a['Category'];}
-        if($a['Calories'] != Null){$ml->Cuisine = $a['Calories'];}
-        if($a['Description'] != Null){$ml->Cuisine = $a['Description'];}
-        if($a['Price'] != Null){$ml->Cuisine = $a['Price'];}
-        if($a['NutritionalValue'] != Null){$ml->Cuisine = $a['NutritionalValue'];}
-        if($a['MealType'] != Null){$ml->Cuisine = $a['MealType'];}
+        if($a['Category'] != Null){$ml->Category = $a['Category'];}
+        if($a['Calories'] != Null){$ml->Calories = $a['Calories'];}
+        if($a['Description'] != Null){$ml->Description = $a['Description'];}
+        if($a['Price'] != Null){$ml->Price = $a['Price'];}
+        if($a['TotalFat'] != Null){$ml->TotalFat = $a['TotalFat'];}
+        if($a['TotalCarbs'] != Null){$ml->TotalCarbs = $a['TotalCarbs'];}
+        if($a['Sodium'] != Null){$ml->Sodium = $a['Sodium'];}
+        if($a['Protein'] != Null){$ml->Protein = $a['Protein'];}
+        if($a['ProductID'] != Null){$ml->ProductID = $a['ProductID'];}
+        if($a['MealType'] != Null){$ml->MealType = $a['MealType'];}
         $ml->save();
 
         $output = [
             'meals' => $ml,
         ];
         return $this->sendResponse($output, 'Meal retrieved succesfully');
+    }
+
+    /**
+     * Update Meals status.
+     *
+     * Status update for kiosk online or not
+     */
+    #[OpenApi\Operation(tags: ['Meals'])]
+    public function statusUpdateMeal(Request $request, Meal $meal) {
+        $k = $request->all();
+        DB::table('Meals')
+        ->updateOrInsert(
+            ['MachineID' => $meal->MachineID, 'KioskNumber' => $meal->KioskNumber],
+            ['Status' => $k["Status"]]
+        );
+
+        $output = [
+            'kiosk' => 'Success',
+        ];
+        return $this->sendResponse($output, 'Kiosk status has been Updated');
     }
 
     /**

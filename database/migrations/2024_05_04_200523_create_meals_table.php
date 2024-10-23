@@ -18,7 +18,10 @@ return new class extends Migration
             $table->String('Category', 25);
             $table->String('Description', 500);
             $table->String('Price', 6);
-            $table->String('NutritionalValue')->nullable();
+            $table->String('TotalFat', 50)->nullable();
+            $table->String('TotalCarbs', 50)->nullable();
+            $table->String('Protien', 50)->nullable();
+            $table->String('sodium', 50)->nullable();
             $table->String('MealType', 10);
             $table->String('productID', 10)->nullable();
             $table->String('imageURL')->nullable();

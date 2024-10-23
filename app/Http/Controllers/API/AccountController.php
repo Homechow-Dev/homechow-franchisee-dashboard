@@ -26,7 +26,7 @@ class AccountController extends BaseController {
      */
     #[OpenApi\Operation(tags: ['accounts'])]
     public function index() {
-        $account = Account::select("id", 'Name', "CompanyName","CompanyAddress", "Status", 'Type', 'KioskCount', 'created_at')->get();
+        $account = Account::select("id", 'Name', "CompanyName","CompanyAddress", "Status", 'Type', 'CustomerId', 'KioskCount', 'created_at')->get();
         $output = $account;
 
         return $this->sendResponse($output, 'Orders retrieved successfully.'); 

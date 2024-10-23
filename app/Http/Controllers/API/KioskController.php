@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Kiosk;
+use App\Models\Account;
 use App\Models\Meal;
 use App\Models\Machine;
 use Illuminate\Http\Request;
@@ -67,42 +68,30 @@ class KioskController extends BaseController {
      */
     #[OpenApi\Operation(tags: ['Kiosk'])]
     #[OpenApi\Parameters(factory: CreateKioskParameters::class)]
-    public function createKiosk(Request $request){
+    public function createKiosk(Request $request, Account $account){
 
-        $request->validate([
-            'account_id' => 'required|string|max:255',
-        ]);
-        
-        $KioskNumber = "HCM_" . mt_rand(000000, 9999999);
-        $kiosk = Kiosk::create([
-            'account_id' => $request->account,
-            'KioskType' => $request->KioskType,
-            'KioskNumber' => $KioskNumber,
-            'TradeNO' => $request->TradeNO,
-            'MachineID' => $request->MachineID,
-        ]);
+        $a = $request->all();
+        $acct = $account;
+        foreach($a["data"] as $k ){
+            $KioskNumber = "HCM_" . mt_rand(000000, 9999999);
+            $kiosk = Kiosk::create([
+                'Account_id' => $acct["id"],
+                'KioskType' => $k["KioskType"],
+                'KioskNumber' => $KioskNumber,
+                'MachineID' => $k["MachineID"],
+                'Status' => "Inactive",
+                'KioskAddress' => $k["KioskAddress"],
+                'City' => $k["City"],
+                'State' => $k["State"],
+                'Zip' => $k['Zip'],
+            ]);
+        }
 
         $output = [
             'kioks' => $kiosk,
         ];
 
         return $this->sendResponse($output, 'Kiosk retrieved successfully.');  
-    }
-
-    /**
-     * Update Kiosk.
-     *
-     * Returns Kiosks
-     */
-    #[OpenApi\Operation(tags: ['Kiosk'])]
-    public function editKiosk(Kiosk $kiosk){
-
-        $kl = Kiosk::find($kiosk);
-
-        $output = [
-            'kiosk' => $kl,
-        ];
-        return $this->sendResponse($output, 'Kiosk retrieved succesfully');
     }
 
 
@@ -116,18 +105,19 @@ class KioskController extends BaseController {
     public function updateKiosk(Request $request, $id) {
         $k = $request->all();
         $kl = Kiosk::find($id);
-        if($k['Account_id'] != Null){$kl->KioskType = $k['Account_id'];}
+        if($k['Account_id'] != Null){$kl->Account_id = $k['Account_id'];}
         if($k['KioskType'] != Null){$kl->KioskType = $k['KioskType'];}
-        if($k['KioskNumber'] != Null){$kl->KioskType = $k['KioskNumber'];}
-        if($k['KioskAddress'] != Null){$kl->KioskType = $k['KioskAddress'];}
-        if($k['city'] != Null){$kl->KioskType = $k['City'];}
-        if($k['State'] != Null){$kl->KioskType = $k['State'];}
-        if($k['Zip'] != Null){$kl->KioskType = $k['Zip'];}
-        if($k['Latitude'] != Null){$kl->KioskType = $k['Latitude'];}
-        if($k['Longitude'] != Null){$kl->KioskType = $k['Longitude'];}
-        if($k['Status'] != Null){$kl->KioskType = $k['Status'];}
-        if($k['TotalMeals'] != Null){$kl->KioskType = $k['TotalMeals'];}
-        if($k['TotalSold'] != Null){$kl->KioskType = $k['TotalSold'];}
+        if($k['KioskNumber'] != Null){$kl->KioskNumber = $k['KioskNumber'];}
+        if($k['KioskAddress'] != Null){$kl->KioskAddress = $k['KioskAddress'];}
+        if($k['City'] != Null){$kl->City = $k['City'];}
+        if($k['State'] != Null){$kl->State = $k['State'];}
+        if($k['Zip'] != Null){$kl->Zip = $k['Zip'];}
+        if($k['Latitude'] != Null){$kl->Latitude = $k['Latitude'];}
+        if($k['Longitude'] != Null){$kl->Longitude = $k['Longitude'];}
+        if($k['Status'] != Null){$kl->Status = $k['Status'];}
+        if($k['MachineID'] != Null){$kl->MachineID = $k['MachineID'];}
+        // if($k['TotalMeals'] != Null){$kl->KioskType = $k['TotalMeals'];}
+        // if($k['TotalSold'] != Null){$kl->KioskType = $k['TotalSold'];}
         $kl->save();
 
         $output = [
@@ -138,11 +128,31 @@ class KioskController extends BaseController {
     }
 
     /**
+     * Update Kiosk status.
+     *
+     * Status update for kiosk online or not
+     */
+    #[OpenApi\Operation(tags: ['Kiosk'])]
+    public function statusUpdateKiosk(Request $request, Kiosk $kiosk) {
+        $k = $request->all();
+        DB::table('Kiosk')
+        ->updateOrInsert(
+            ['MachineID' => $kiosk->MachineID, 'KioskNumber' => $kiosk->KioskNumber],
+            ['Status' => $k["Status"]]
+        );
+
+        $output = [
+            'kiosk' => 'Success',
+        ];
+        return $this->sendResponse($output, 'Kiosk status has been Updated');
+    }
+
+    /**
      * Destroy Meal.
      *
      * Deleted meal response
      */
-    #[OpenApi\Operation(tags: ['Meals'])]
+    #[OpenApi\Operation(tags: ['Kiosk'])]
     public function delete($id) {
         $kiosk = Kiosk::destroy($id);
 

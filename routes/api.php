@@ -81,10 +81,17 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
         Route::controller(MealsController::class)->group(function () {
             Route::get('meals', 'meals');
             Route::post('create/meals', 'createMeals');
-            Route::get('edit/meals/{meal}', 'editMeals');
             Route::post('update/meals/{id}', 'updateMeals');
+            Route::post('update/meal/status/{meal}', 'statusUpdateMeal');
             Route::get('delete/meals/{id}', 'delete');
         });
+
+        Route::controller(KioskController::class)->group(function () {
+            Route::post('create/kiosk/{account}', 'createKiosk'); 
+            Route::post('update/kiosks/{id}', 'updateKiosk');
+            Route::post('update/kiosk/status/{kiosk}', 'statusUpdateKiosk');
+        });
+
     });
 
     // Franchise account data for admin panel and Mobile

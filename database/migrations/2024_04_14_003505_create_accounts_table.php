@@ -32,10 +32,10 @@ return new class extends Migration
             $table->ulid('id')->primary();
             $table->foreignUlid('Account_id');
             $table->String('MachineID');
-            $table->String('TradeNO');
+            $table->String('TradeNO')->nullable();
             $table->String('KioskType');
             $table->String('KioskNumber');
-            $table->String('KioskAddress');
+            $table->String('KioskAddress')->nullable();
             $table->String('City', 150)->nullable();
             $table->String('State', 20)->nullable();
             $table->String('Zip', 10)->nullable();
