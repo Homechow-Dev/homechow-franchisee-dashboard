@@ -19,11 +19,19 @@ class Kiosk extends Model
         'Account_id',
         'MachineID',
         'TradeNO',
-        'KioskName',
+        'KioskType',
+        'KioskNumber',
         'KioskAddress',
+        'City',
+        'State',
+        'Zip',
+        'TotalSold',
+        'Status',
         'DecimalLocation',
         'Latitude',
-        'Longitude'
+        'Longitude',
+        'MealsSold',
+        'Earnings',
     ];
 
     public function accounts(): BelongsTo {

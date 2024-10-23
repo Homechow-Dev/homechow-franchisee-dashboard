@@ -43,7 +43,8 @@ return new class extends Migration
             $table->String('Latitude')->nullable();
             $table->String('Status', 10)->default('offline');
             $table->String('TotalMeals', 5)->nullable();
-            $table->String('TotalSold', 5)->nullable();
+            $table->String('MealsSold', 150)->nullable();
+            $table->String('Earnings', 150)->nullable();
             $table->timestamps();
         });
 

@@ -74,7 +74,16 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
     Route::prefix('V1')->group(function () {
         Route::controller(AccountController::class)->group(function () {
             Route::get('accounts', 'index');
+            Route::get('franchisee/profile/{account}', 'franchiseAccountProfile');
             Route::post('create/franchisee', 'createFranchisee');
+        });
+
+        Route::controller(MealsController::class)->group(function () {
+            Route::get('meals', 'meals');
+            Route::post('create/meals', 'createMeals');
+            Route::get('edit/meals/{meal}', 'editMeals');
+            Route::post('update/meals/{id}', 'updateMeals');
+            Route::get('delete/meals/{id}', 'delete');
         });
     });
 
@@ -82,7 +91,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
     Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
     Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
     Route::get('accounts/products/{account}', [AccountController::class, 'franchiseeProducts']);
-    Route::get('accounts/profile/{account}', [AccountController::class, 'franchiseeProfile']);
+
     Route::post('update/email/{account}', [AccountController::class, 'updateEmail']);
     Route::post('update/pin/{account}', [AccountController::class, 'updateAccountPin']);
     Route::post('confirmation/pin/{account}', [AccountController::class, 'verifyPin']);
@@ -123,12 +132,6 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
     Route::get('feedback/{account}', [FeedbackController::class, 'accountUserFeedback']);
     Route::get('feedback/delete/{account}', [FeedbackController::class, 'deleteFeedback']);
 
-    //meal calls
-    Route::get('meals', [MealsController::class, 'meals']);
-    Route::post('create/meals', [MealsController::class, 'createMeals']);
-    Route::get('edit/meals/{meal}', [MealsController::class, 'editMeals']);
-    Route::post('update/meals/{id}', [MealsController::class, 'updateMeals']);
-    Route::get('delete/meals/{id}', [KioskController::class, 'delete']);
 
     // Restock tranactions
     Route::get('restock/tranactions/{kiosk}', [RestockController::class, 'restock']);

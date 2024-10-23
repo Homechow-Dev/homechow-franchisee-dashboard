@@ -72,11 +72,12 @@ class KioskController extends BaseController {
         $request->validate([
             'account_id' => 'required|string|max:255',
         ]);
-
+        
+        $KioskNumber = "HCM_" . mt_rand(000000, 9999999);
         $kiosk = Kiosk::create([
             'account_id' => $request->account,
             'KioskType' => $request->KioskType,
-            'KioskNumber' => $request->KioskNumber,
+            'KioskNumber' => $KioskNumber,
             'TradeNO' => $request->TradeNO,
             'MachineID' => $request->MachineID,
         ]);

@@ -222,6 +222,49 @@ class AccountController extends BaseController {
         return $this->sendResponse($output, 'Franchisee Account retrieved successfully.');
     }
 
+     /**
+     * Retrieves franchisee Account Profile.
+     *
+     * Account will equal account id & 
+     * Returns Franchisee account with Kiosk Total, and Earnings
+     */
+    // Kiosk::factory()->hasOrders(5)->hasMeals(6)->create();
+   #[OpenApi\Operation(tags: ['accounts'])]
+   public function franchiseAccountProfile(Account $account) {
+       $acct = $account;
+       $useraccount = Account::where('id', $acct->id)->get();
+       $ordersK = Kiosk::select( 
+        'KioskType', 
+        'KioskNumber', 
+        'MealsSold', 
+        'Earnings', 
+        'Latitude',
+        'Longitude',
+        'created_at')->get();
+       
+       $countMeals = Order::where('account_id', $acct->id)->get();
+           if($countMeals->isEmpty()){
+               $TransactionTotal = '0';
+               $TopSelling = '0';
+           } else {
+               $TransactionTotal = $countMeals->count();
+               $TopSelling = $countMeals->countBy('MealName');
+           }
+           
+        $TotalEarnings = $TransactionTotal * 2.50;
+        $KioskCount = $ordersK->count();
+        $output = [
+            'account' => AccountResource::collection($useraccount),
+            'kiosk' => $ordersK,
+            'KioskCount' => $KioskCount,
+            'TotalMealsSold' => $TransactionTotal,
+            'TotalEarnings' => $TotalEarnings,
+        ];
+       // to count and group ordres
+       
+       return $this->sendResponse($output, 'Franchisee Profile Account retrieved successfully.');
+   }
+
     /**
      * Retrieves franchisee Kiosk Products.
      *
@@ -276,26 +319,6 @@ class AccountController extends BaseController {
             // 'MealsRanking' => $MealsRanking,
 
         ];
-        return $this->sendResponse($output, 'Franchisee Account retrieved successfully.');
-    }
-
-    /**
-     * Retrieves franchisee Profile.
-     *
-     * Account will equal account id & 
-     * Returns Franchisee Kiosk 
-     */
-    #[OpenApi\Operation(tags: ['accounts'])]
-    public function franchiseeProfile(Account $account) {
-        $acct = $account;
-        $useraccount = Account::where('id', $acct->id)->get();
-        $kiosk = Kiosk::where('Account_id', $acct->id)->get();
-
-        $output = [
-            'profile' => $useraccount,
-            'kiosk' => $kiosk,
-        ];
-        
         return $this->sendResponse($output, 'Franchisee Account retrieved successfully.');
     }
 
