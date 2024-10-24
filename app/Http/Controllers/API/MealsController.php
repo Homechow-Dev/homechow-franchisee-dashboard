@@ -45,7 +45,7 @@ class MealsController extends BaseController {
         ]);
 
         $meal = Meal::create([
-            'Cuisine' => $request->Cusine,
+            'Cuisine' => $request->Cuisine,
             'Category' => $request->Category,
             'Calories' => $request->Calorie,
             'Description' => $request->Description,
