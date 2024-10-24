@@ -56,8 +56,6 @@ Route::controller(UserAuthController::class)->group(function(){
 //  User....
 Route::get('/user', UserController::class)->middleware(['auth:sanctum']);
 
-// Customer Service application ....
-
 // Funccodes Routes....
 Route::post('machine', [KioskController::class, 'kioskMachine']);
 Route::post('application', [CustomerController::class, 'franchiseeApplication']);
@@ -87,6 +85,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
         });
 
         Route::controller(KioskController::class)->group(function () {
+            Route::get('kiosks', 'index');
             Route::post('create/kiosk/{account}', 'createKiosk'); 
             Route::post('update/kiosks/{id}', 'updateKiosk');
             Route::post('update/kiosk/status/{kiosk}', 'statusUpdateKiosk');
