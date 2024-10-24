@@ -55,6 +55,7 @@ class MealsController extends BaseController {
             'Protein' => $request->Protein,
             'MealType' => $request->MealType,
             'ProductID' => $request->ProductID,
+            'Price' => $request->Price,
             'Status' => "Not confirmend",
         ]);
 
@@ -100,6 +101,7 @@ class MealsController extends BaseController {
         if($a['Sodium'] != Null){$ml->Sodium = $a['Sodium'];}
         if($a['Protein'] != Null){$ml->Protein = $a['Protein'];}
         if($a['ProductID'] != Null){$ml->ProductID = $a['ProductID'];}
+        if($a['Price'] != Null){$ml->ProductID = $a['Price'];}
         if($a['MealType'] != Null){$ml->MealType = $a['MealType'];}
         $ml->save();
 
