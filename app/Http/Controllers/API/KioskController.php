@@ -198,7 +198,7 @@ class KioskController extends BaseController {
             $slot = $k['SlotNo'];
 
             DB::table('machines')
-            ->updateOrInsert(['MachineID' => $macID, 'SlotNo' => $slot ],[
+            ->updateOrCreate(['MachineID' => $macID, 'SlotNo' => $slot ],[
                 'FunCode' => $code,
                 'Status' => $k["Status"],
                 'TradeNo' => $k['TradeNo'],
