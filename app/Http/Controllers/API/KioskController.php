@@ -181,7 +181,7 @@ class KioskController extends BaseController {
 
         if( $code === '4000') {
             DB::table('machines')
-            ->updateOrInsert(['MachineID' => $macID, 'FunCode' => $code ]);
+            ->updateOrInsert(['MachineID' => $macID, 'FunCode' => $code]);
 
             $status = 0;
             $tradeNo = '';
@@ -197,19 +197,19 @@ class KioskController extends BaseController {
         if( $code === '5000') {
             $slot = $k['SlotNo'];
 
-            DB::table('machines')
-            ->updateOrCreate(['MachineID' => $macID, 'SlotNo' => $slot ],[
+            DB::table('dispense_feedback')
+            ->updateOrCreate([ 'MachineID' => $macID, 'SlotNo' => $slot ],[
                 'FunCode' => $code,
-                'Status' => $k["Status"],
-                'TradeNo' => $k['TradeNo'],
-                'PayType' => $k['PayType'],
-                'Time' => $k['Time'],
-                'Amount' => $k['Amount'],
-                'ProductID' => $k['ProductID'],
-                'Name' => $k['Name'],
-                'Type' => $k['Type'],
-                'Quantity' => $k['Quantity'],
-                ]);
+                'Status' => $request['Status'],
+                'TradeNo' => $request['TradeNo'],
+                'PayType' => $request['PayType'],
+                'Time' => $request['Time'],
+                'Amount' => $request['Amount'],
+                'ProductID' => $request['ProductID'],
+                'Name' => $request['Name'],
+                'Type' => $request['Type'],
+                'Quantity' => $request['Quantity'],
+            ]);
 
             // $dispense = new DispenseFeedback();
  
@@ -275,7 +275,7 @@ class KioskController extends BaseController {
             // create entry to send to Load Delivery table
             $slot = $k['SlotNo'];
             DB::table('load_deliveries')
-                    ->updateOrInsert(['MachineID' => $macID, 'SlotNo' => $slot ],[
+                    ->updateOrInsert(['MachineID' => $macID, 'SlotNo' => $slot],[
                     'FunCode' => $code,
                     'TradeNo' => $request['TradeNo'],
                     'KeyNum' => $request['KeyNum'],
