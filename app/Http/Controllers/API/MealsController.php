@@ -66,7 +66,7 @@ class MealsController extends BaseController {
     }
 
     /**
-     * Update Meals.
+     * Edit Meals.
      *
      * Returns meals
      */

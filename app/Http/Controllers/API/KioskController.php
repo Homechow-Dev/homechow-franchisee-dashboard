@@ -199,7 +199,6 @@ class KioskController extends BaseController {
 
             $dispense = new DispenseFeedback();
  
-            $dispense->name = $request->name;
             $dispense->FunCode = $code;
             $dispense->TradeNo = $request['TradeNo'];
             $dispense->PayType = $request['PayType'];

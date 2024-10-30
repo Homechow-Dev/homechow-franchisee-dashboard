@@ -56,19 +56,19 @@ Route::controller(UserAuthController::class)->group(function(){
 //  User....
 Route::get('/user', UserController::class)->middleware(['auth:sanctum']);
 
-// Funccodes Routes....
+// KIOSK MACHINE FUNCTION CODE ROUTES
 Route::post('machine', [KioskController::class, 'kioskMachine']);
 Route::post('application', [CustomerController::class, 'franchiseeApplication']);
 
-//Stripe additional data....
-Route::get('charges/stripe', [ChargesController::class, 'updateCustomer']);
+// STRIPE CONSUMER APP PAYMENT
 Route::post('/mobile-payment-intent', [PaymentController::class, 'makePaymentIntent']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/refresh-token', [UserAuthController::class, 'refreshToken']);
 });
-Route::middleware('auth:sanctum', 'verified')->group(function() {
 
+Route::middleware('auth:sanctum', 'verified')->group(function() {
+    // ADMINISTRATION PANEL ROUTES HOMECHOW EMPLOYEES
     Route::prefix('V1')->group(function () {
         Route::controller(AccountController::class)->group(function () {
             Route::get('accounts', 'index');
@@ -89,10 +89,24 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('create/kiosk/{account}', 'createKiosk'); 
             Route::post('update/kiosks/{id}', 'updateKiosk');
             Route::post('update/kiosk/status/{kiosk}', 'statusUpdateKiosk');
+            Route::get('kiosk/detail/{kiosk}',  'kioskDetail');
+            Route::get('delete/kiosks/{id}', 'delete');
+        });
+
+        Route::controller(ChargesController::class)->group(function () {
+            Route::get('charges/stripe', 'updateCustomer');
+        });
+
+        Route::controller(CategoryController::class)->group(function (){
+            Route::get('categories/list', 'index');
         });
 
     });
 
+    // MOBILE API FOR FRANCHISEE APP AND CONSUMER APP
+    Route::prefix('mobileV1')->group(function () {
+
+    });
     // Franchise account data for admin panel and Mobile
     Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
     Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
@@ -105,21 +119,10 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
     //Kisok and meals driect Reports
     Route::get('accounts/sales/{account}', [AccountController::class, 'kioskSales']);
 
-    // Kiosk Calls
-    Route::post('create/kiosk', [KioskController::class, 'createKiosk']);
-    Route::get('kiosks', [KioskController::class, 'index']);
-    Route::get('kiosk/detail/{kiosk}', [KioskController::class, 'kioskDetail']);
-    Route::get('edit/kiosks/{kiosk}', [KioskController::class, 'editKiosk']);
-    Route::post('update/kiosks/{id}', [KioskController::class, 'updateKiosk']);
-    Route::get('delete/kiosks/{id}', [KioskController::class, 'delete']);
-
     // Order calls
     Route::get('orders', [OrdersController::class, 'orders']);
     Route::get('order/{order}', [OrdersController::class, 'orderNumber']);
     Route::get('order/topmeals', [OrdersController::class, 'topMeals']);
-
-    // Category
-    Route::get('categories/list', [CategoryController::class, 'index']);
 
     // faq
     Route::get('faq/list', [FaqController::class, 'index']);
@@ -127,10 +130,8 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
     Route::post('faq/update', [FaqController::class, 'updateFaq']);
     Route::get('faq/delete', [FaqController::class, 'deleteFaq']);
 
-
     // Reports
     Route::get('reports/orders/{account}', [OrdersController::class, 'orderReports']);
-
 
     // Franchisee Feedback
     Route::get('feedback', [FeedbackController::class, 'allFeedback']);
@@ -145,8 +146,6 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
 
     // Discount Franchisee request
     Route::post('create/discount', [DiscountController::class, 'createDiscount']);
-
-    //kitchen Calls
 
     // member payment 
     Route::post('/member-payment', [PaymentController::class, 'memberPayment']);
