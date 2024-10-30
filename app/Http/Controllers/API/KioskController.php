@@ -197,27 +197,41 @@ class KioskController extends BaseController {
         if( $code === '5000') {
             $slot = $k['SlotNo'];
 
-            $dispense = new DispenseFeedback();
+            DB::table('machines')
+            ->updateOrInsert(['MachineID' => $macID, 'SlotNo' => $slot ],[
+                'FunCode' => $code,
+                'Status' => $k["Status"],
+                'TradeNo' => $k['TradeNo'],
+                'PayType' => $k['PayType'],
+                'Time' => $k['Time'],
+                'Amount' => $k['Amount'],
+                'ProductID' => $k['ProductID'],
+                'Name' => $k['Name'],
+                'Type' => $k['Type'],
+                'Quantity' => $k['Quantity'],
+                ]);
+
+            // $dispense = new DispenseFeedback();
  
-            $dispense->FunCode = $code;
-            $dispense->MachineID = $macID;
-            $dispense->TradeNo = $request['TradeNo'];
-            $dispense->PayType = $request['PayType'];
-            $dispense->SlotNo = $request['SlotNo'];
-            $dispense->Time = $request['Time'];
-            $dispense->Amount = $request['Amount'];
-            $dispense->ProductID = $request['ProductID'];
-            $dispense->Name = $request['Name'];
-            $dispense->Type = $request['Type'];
-            $dispense->Quantity = $request['Quantity'];
-            $dispense->Status = $request['Status'];
+            // $dispense->FunCode = $code;
+            // $dispense->MachineID = $macID;
+            // $dispense->TradeNo = $request['TradeNo'];
+            // $dispense->PayType = $request['PayType'];
+            // $dispense->SlotNo = $request['SlotNo'];
+            // $dispense->Time = $request['Time'];
+            // $dispense->Amount = $request['Amount'];
+            // $dispense->ProductID = $request['ProductID'];
+            // $dispense->Name = $request['Name'];
+            // $dispense->Type = $request['Type'];
+            // $dispense->Quantity = $request['Quantity'];
+            // $dispense->Status = $request['Status'];
     
-            $dispense->save();
+            // $dispense->save();
             
             $status = 0;
             $tradeNo = '';
             $SessionCode = '';
-            $productID = $dispense->ProductID;
+            $productID = $k['ProductID'];
             $message = 'hello team yes making progress data recieved';
 
             return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
