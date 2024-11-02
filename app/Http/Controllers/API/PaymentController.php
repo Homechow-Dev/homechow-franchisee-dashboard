@@ -230,7 +230,7 @@ class PaymentController extends BaseController {
      *
      * Franchisee initiates onboarding experience for Express account
      */
-    public function expressAccount(Account $account){
+    public function expressAccount(Request $request, Account $account){
 
         /* Instantiate a Stripe Gateway either like this */
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
