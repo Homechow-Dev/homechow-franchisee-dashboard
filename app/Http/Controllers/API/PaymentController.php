@@ -268,6 +268,6 @@ class PaymentController extends BaseController {
             'clientSecret' => $accountLink,
         ];
         
-        echo json_encode($output);
+        return $this->sendResponse($output, 'Onboarding link sent');
     }
 }
