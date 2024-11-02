@@ -105,8 +105,11 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
 
     // MOBILE API FOR FRANCHISEE APP AND CONSUMER APP
     Route::prefix('mobileV1')->group(function () {
-
+        Route::controller(PaymentController::class)->group(function (){
+            Route::post('/onboarding/account/{account}', 'expressAccount');
+        });
     });
+    
     // Franchise account data for admin panel and Mobile
     Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
     Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
@@ -149,7 +152,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
 
     // member payment 
     Route::post('/member-payment', [PaymentController::class, 'memberPayment']);
-    Route::post('/onboarding/account/{account}', [PaymentController::class, 'expressAccount']);
+    
     
     // wallet process
     Route::post('/wallet/addfunds', [PaymentController::class, 'userAddFunds']);
