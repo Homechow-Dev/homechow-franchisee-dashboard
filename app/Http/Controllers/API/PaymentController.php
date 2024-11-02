@@ -246,7 +246,7 @@ class PaymentController extends BaseController {
             ],
         ]);
         // Next save and attache new account id to Homechow user account
-        $acctUpdate = DB::table('accounts')->where('id', $account['id'])->udate('StripeAccountID', $accountCreate['id']);
+        $acctUpdate = DB::table('accounts')->where('id', $account['id'])->update(['StripeAccountID', $accountCreate['id']]);
 
         // Next create session to complete onboarding through stripe
         // 
