@@ -236,7 +236,7 @@ class PaymentController extends BaseController {
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         // Create Stripe connect account first
 
-        $accountLink = $stripe->accounts->create([
+        $accountCreate = $stripe->accounts->create([
             'country' => 'US',
             'email' => $account['Email'],
             'controller' => [
@@ -246,13 +246,13 @@ class PaymentController extends BaseController {
             ],
         ]);
         // Next save and attache new account id to Homechow user account
-        $acctUpdate = DB::table('accounts')->where('id', $account->id)->udate('StripeAccountID', $accountLink['id']);
+        $acctUpdate = DB::table('accounts')->where('id', $account['id'])->udate('StripeAccountID', $accountCreate['id']);
 
         // Next create session to complete onboarding through stripe
         // 
         $accountLink = $stripe->accountSessions->create([
             // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
-            'account' => $account->StripeAccountID,
+            'account' => $account['StripeAccountID'],
             'components' => [
                 'account_onboarding' => [
                     'enabled' => true,
