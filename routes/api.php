@@ -67,6 +67,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/refresh-token', [UserAuthController::class, 'refreshToken']);
 });
 
+// MOBILE API FOR FRANCHISEE APP AND CONSUMER APP
+Route::prefix('mobileV1')->group(function () {
+    Route::controller(PaymentController::class)->group(function (){
+        Route::post('/onboarding/account/{account}', 'expressAccount');
+    });
+});
+
 Route::middleware('auth:sanctum', 'verified')->group(function() {
     // ADMINISTRATION PANEL ROUTES HOMECHOW EMPLOYEES
     Route::prefix('V1')->group(function () {
@@ -103,13 +110,6 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
 
     });
 
-    // MOBILE API FOR FRANCHISEE APP AND CONSUMER APP
-    Route::prefix('mobileV1')->group(function () {
-        Route::controller(PaymentController::class)->group(function (){
-            Route::post('/onboarding/account/{account}', 'expressAccount');
-        });
-    });
-    
     // Franchise account data for admin panel and Mobile
     Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
     Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
