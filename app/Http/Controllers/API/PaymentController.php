@@ -238,7 +238,7 @@ class PaymentController extends BaseController {
 
         $accountLink = $stripe->accounts->create([
             'country' => 'US',
-            'email' => $account['email'],
+            'email' => $account['Email'],
             'controller' => [
                 'fees' => ['payer' => 'application'],
                 'losses' => ['payments' => 'application'],
