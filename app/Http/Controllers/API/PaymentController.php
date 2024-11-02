@@ -252,7 +252,7 @@ class PaymentController extends BaseController {
         // 
         $accountLink = $stripe->accountSessions->create([
             // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
-            'account' => $account['StripeAccountID'],
+            'account' => $accountCreate['id'],
             'components' => [
                 'account_onboarding' => [
                     'enabled' => true,
