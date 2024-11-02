@@ -25,6 +25,7 @@ return new class extends Migration
             $table->String('WalletAmount', 10)->nullable();
             $table->String('Status')->nullable();
             $table->String('Type')->nullable();
+            $table->String('StripeAccountID')->nullable();
             $table->timestamps();
         });
 

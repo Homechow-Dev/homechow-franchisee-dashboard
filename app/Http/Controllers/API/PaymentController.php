@@ -11,10 +11,11 @@ use Error;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use App\OpenApi\Parameters\Stripe\PaymentsParameters;
 use App\OpenApi\Parameters\Stripe\MemberParameters;
+use Illuminate\Support\Facades\DB;
 
 #[OpenApi\PathItem]
 class PaymentController extends BaseController {
-
+    // mobile payment 
     private function createPaymentMethod($token) {
         return \Stripe\PaymentMethod::create([
             'type' => 'card',
@@ -221,6 +222,52 @@ class PaymentController extends BaseController {
             'balance' => $user->wallet->balance,
         ];
 
+        echo json_encode($output);
+    }
+
+    /**
+     * Franchisee creates StripeAccountID.
+     *
+     * Franchisee initiates onboarding experience for Express account
+     */
+    public function expressAccount(Account $account){
+
+        /* Instantiate a Stripe Gateway either like this */
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        // Create Stripe connect account first
+        
+        $accountLink = $stripe->accounts->create([
+            'country' => 'US',
+            'email' => $account->email,
+            'controller' => [
+                'fees' => ['payer' => 'application'],
+                'losses' => ['payments' => 'application'],
+                'stripe_dashboard' => ['type' => 'express'],
+            ],
+        ]);
+        // Next save and attache new account id to Homechow user account
+        $acctUpdate = DB::table('accounts')->where('id', $account->id)->udate('StripeAccountID', $accountLink['id']);
+
+        // Next create session to complete onboarding through stripe
+        // 
+        $accountLink = $stripe->accountSessions->create([
+            // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
+            'account' => $account->StripeAccountID,
+            'components' => [
+                'account_onboarding' => [
+                    'enabled' => true,
+                    'features' => ['external_account_collection' => true],
+                ],
+                'payments' => [
+                    'enabled' => false,
+                ],
+            ],
+        ]);
+
+        $output = [
+            'clientSecret' => $accountLink,
+        ];
+        
         echo json_encode($output);
     }
 }

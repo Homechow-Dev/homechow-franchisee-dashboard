@@ -149,6 +149,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
 
     // member payment 
     Route::post('/member-payment', [PaymentController::class, 'memberPayment']);
+    Route::get('/onboarding/account/{account}', [PaymentController::class, 'expressAccount']);
     
     // wallet process
     Route::post('/wallet/addfunds', [PaymentController::class, 'userAddFunds']);

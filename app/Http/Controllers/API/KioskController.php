@@ -210,23 +210,6 @@ class KioskController extends BaseController {
                 'Type' => $request['Type'],
                 'Quantity' => $request['Quantity'],
             ]);
-
-            // $dispense = new DispenseFeedback();
- 
-            // $dispense->FunCode = $code;
-            // $dispense->MachineID = $macID;
-            // $dispense->TradeNo = $request['TradeNo'];
-            // $dispense->PayType = $request['PayType'];
-            // $dispense->SlotNo = $request['SlotNo'];
-            // $dispense->Time = $request['Time'];
-            // $dispense->Amount = $request['Amount'];
-            // $dispense->ProductID = $request['ProductID'];
-            // $dispense->Name = $request['Name'];
-            // $dispense->Type = $request['Type'];
-            // $dispense->Quantity = $request['Quantity'];
-            // $dispense->Status = $request['Status'];
-    
-            // $dispense->save();
             
             $status = 0;
             $tradeNo = '';
@@ -274,7 +257,7 @@ class KioskController extends BaseController {
         if( $code === '1000' ) {
             // create entry to send to Load Delivery table
             $slot = $k['SlotNo'];
-            DB::table('load_deliveries')
+            $load = DB::table('load_deliveries')
                     ->updateOrInsert(['MachineID' => $macID, 'SlotNo' => $slot],[
                     'FunCode' => $code,
                     'TradeNo' => $request['TradeNo'],
@@ -289,9 +272,8 @@ class KioskController extends BaseController {
                     'Introduction' => $request['Introduction'],
                     'Name' => $request['Name'],
                     'LockGoodsCount' => $request['LockGoodsCount']
-                
                 ]);
-
+            
             // get kiosk_meals by manufactureID(machineID) 
             // if manufactureID & SlotNo 
             // updated kiosk_meal StockTotal
