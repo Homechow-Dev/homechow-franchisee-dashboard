@@ -235,10 +235,10 @@ class PaymentController extends BaseController {
         /* Instantiate a Stripe Gateway either like this */
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         // Create Stripe connect account first
-        
+
         $accountLink = $stripe->accounts->create([
             'country' => 'US',
-            'email' => $account->email,
+            'email' => $account['email'],
             'controller' => [
                 'fees' => ['payer' => 'application'],
                 'losses' => ['payments' => 'application'],
