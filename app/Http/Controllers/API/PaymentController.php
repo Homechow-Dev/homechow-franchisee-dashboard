@@ -259,8 +259,8 @@ class PaymentController extends BaseController {
         $accountLink = $stripe->accountLinks->create([
             // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
             'account' => $accountCreate['id'],
-            'refresh_url' => 'new_account_url',
-            'return_url' => 'account_url' + $accountCreate['id'],
+            'refresh_url' => 'https://example.com/reauth',
+            'return_url' => 'https://example.com/return',
             'type' => 'account_onboarding',
             'collect' => 'eventually_due',
         ]);
