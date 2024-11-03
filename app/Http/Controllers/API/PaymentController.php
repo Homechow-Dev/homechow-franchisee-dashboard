@@ -239,10 +239,6 @@ class PaymentController extends BaseController {
         $accountCreate = $stripe->accounts->create([
             'country' => 'US',
             'email' => $account['Email'],
-            'controller' => [
-                'fees' => ['payer' => 'application'],
-                'losses' => ['payments' => 'application'],
-            ],
             'country' => 'US',
             'type' => 'express',
             'capabilities' => [
