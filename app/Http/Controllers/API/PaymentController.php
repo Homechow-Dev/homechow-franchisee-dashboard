@@ -241,8 +241,19 @@ class PaymentController extends BaseController {
             'email' => $account['Email'],
             'controller' => [
                 'fees' => ['payer' => 'application'],
+                "is_controller" => true,
                 'losses' => ['payments' => 'application'],
-                'stripe_dashboard' => ['type' => 'express'],
+            ],
+            'country' => 'US',
+            'type' => 'express',
+            'capabilities' => [
+                'card_payments' => ['requested' => true],
+                'transfers' => ['requested' => true],
+            ],
+            'business_type' => 'individual',
+            'business_profile' => [
+                'url' => 'https://homechow.co',
+                'mcc' => '5499'
             ],
         ]);
         // Next save and attache new account id to Homechow user account
@@ -250,18 +261,13 @@ class PaymentController extends BaseController {
 
         // Next create session to complete onboarding through stripe
         // 
-        $accountLink = $stripe->accountSessions->create([
+        $accountLink = $stripe->accountLinks->create([
             // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
             'account' => $accountCreate['id'],
-            'components' => [
-                'account_onboarding' => [
-                    'enabled' => true,
-                    'features' => ['external_account_collection' => true],
-                ],
-                'payments' => [
-                    'enabled' => false,
-                ],
-            ],
+            'refresh_url' => 'new_account_url',
+            'return_url' => 'account_url' + $accountCreate['id'],
+            'type' => 'account_onboarding',
+            'collect' => 'eventually_due',
         ]);
 
         $output = [
