@@ -241,7 +241,6 @@ class PaymentController extends BaseController {
             'email' => $account['Email'],
             'controller' => [
                 'fees' => ['payer' => 'application'],
-                "is_controller" => true,
                 'losses' => ['payments' => 'application'],
             ],
             'country' => 'US',
