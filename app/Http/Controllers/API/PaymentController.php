@@ -258,8 +258,8 @@ class PaymentController extends BaseController {
         $accountLink = $stripe->accountLinks->create([
             // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
             'account' => $accountCreate['id'],
-            'refresh_url' => url("https://homechow.co/reauth/{$account['id']}"),
-            'return_url' => url("https://homechow.co/return/{$account['id']}"),
+            'refresh_url' => url("https://admin.homechow.co/reauth/{$account['id']}"),
+            'return_url' => url("com.homechow.PartnerApp://balance"),
             'type' => 'account_onboarding',
             'collect' => 'eventually_due',
         ]);
