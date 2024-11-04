@@ -259,7 +259,7 @@ class PaymentController extends BaseController {
             // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
             'account' => $accountCreate['id'],
             'refresh_url' => url("https://admin.homechow.co/reauth/{$account['id']}"),
-            'return_url' => url("myapp://com.homechow.PartnerApp/balance"),
+            'return_url' => url("myapp://com.homechow.PartnerApp/home"),
             'type' => 'account_onboarding',
             'collect' => 'eventually_due',
         ]);
