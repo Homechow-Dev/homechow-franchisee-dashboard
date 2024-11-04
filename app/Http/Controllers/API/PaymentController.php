@@ -255,12 +255,43 @@ class PaymentController extends BaseController {
         $acctUpdate = DB::table('accounts')->where('id', $account['id'])->update(['StripeAccountID' => $accountCreate['id']]);
 
         // Next create session to complete onboarding through stripe
-        // 
         $accountLink = $stripe->accountLinks->create([
             // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
             'account' => $accountCreate['id'],
-            'refresh_url' => 'https://example.com/reauth',
-            'return_url' => 'https://example.com/return',
+            'refresh_url' => url("https://homechow.co/reauth/{$account['id']}"),
+            'return_url' => url("https://homechow.co/return/{$account['id']}"),
+            'type' => 'account_onboarding',
+            'collect' => 'eventually_due',
+        ]);
+
+        dd($accountLink);
+
+        $output = [
+            'clientSecret' => $accountLink,
+        ];
+        
+        return $this->sendResponse($output, 'Onboarding link sent');
+    }
+
+
+    
+    /**
+     * User Creates Connect new onboarding link.
+     *
+     * Returns clientSecert url 
+     */
+    #[OpenApi\Operation(tags: ['Payment Transaction'])]
+    public function expressAccountReturnUrl(Account $account) {
+        /* Instantiate a Stripe Gateway either like this */
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        // Return Franchisee Stripe accountID
+        $accountStripeID = $account['StripeAccountID'];  
+
+        $accountLink = $stripe->accountLinks->create([
+            // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
+            'account' => $accountStripeID,
+            'refresh_url' => url("https://homechow.co/reauth/{$account['id']}"),
+            'return_url' => url("https://homechow.co/return/{$account['id']}"),
             'type' => 'account_onboarding',
             'collect' => 'eventually_due',
         ]);
@@ -268,7 +299,9 @@ class PaymentController extends BaseController {
         $output = [
             'clientSecret' => $accountLink,
         ];
+    }
+
+    public function expressAccountUpdate(Account $account) {
         
-        return $this->sendResponse($output, 'Onboarding link sent');
     }
 }
