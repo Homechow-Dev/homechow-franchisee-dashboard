@@ -264,8 +264,6 @@ class PaymentController extends BaseController {
             'collect' => 'eventually_due',
         ]);
 
-        dd($accountLink);
-
         $output = [
             'clientSecret' => $accountLink,
         ];
