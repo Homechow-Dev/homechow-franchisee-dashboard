@@ -72,7 +72,7 @@ Route::prefix('mobileV1')->group(function () {
     Route::controller(PaymentController::class)->group(function (){
         Route::post('/onboarding/account/{account}', 'expressAccount');
         Route::get('/onboarding/update/{account}', 'expressAccountUpdate');
-        Route::get('/onboarding/reauth/{account}', 'expressAccountUpdate');
+        Route::get('stripe/reauth', 'expressAccountReturnUrl');
         Route::get('/onboarding/return/{account}', 'expressAccountUpdate');
     });
 });

@@ -336,10 +336,10 @@ class AccountController extends BaseController {
             'pin' => 'required|string|max:6',
             'pinConfirmation' => 'required|string|max:6'
         ]);
-        $newpin =  $request->pin;
+        $oldpin =  $acct->Pin;
         $pinConfirmation = $request->pinConfirmation;
 
-        if( $newpin === $pinConfirmation) {
+        if( $oldpin === $pinConfirmation) {
             
             $pinInsert = Account::find($acct->id); 
             $pinInsert->Pin = $request->pin;

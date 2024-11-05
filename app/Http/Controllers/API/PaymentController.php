@@ -258,7 +258,7 @@ class PaymentController extends BaseController {
         $accountLink = $stripe->accountLinks->create([
             // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
             'account' => $accountCreate['id'],
-            'refresh_url' => url("https://admin.homechow.co/reauth/{$account['id']}"),
+            'refresh_url' => url("https://admin.homechow.co/stripe/reauth"),
             'return_url' => url("https://homechow.co"),
             'type' => 'account_onboarding',
             'collect' => 'eventually_due',
@@ -279,11 +279,11 @@ class PaymentController extends BaseController {
      * Returns clientSecert url 
      */
     #[OpenApi\Operation(tags: ['Payment Transaction'])]
-    public function expressAccountReturnUrl(Account $account) {
+    public function expressAccountReturnUrl() {
         /* Instantiate a Stripe Gateway either like this */
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         // Return Franchisee Stripe accountID
-        $accountStripeID = $account['StripeAccountID'];  
+        // $accountStripeID = $account['StripeAccountID'];  
 
         $accountLink = $stripe->accountLinks->create([
             // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
