@@ -10,7 +10,13 @@ use App\Models\Order;
 use App\Models\User;
 use App\OpenApi\Parameters\Accounts\FranchiseeAccountParameters;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
@@ -325,7 +331,7 @@ class AccountController extends BaseController {
     public function updateAccountPin(Request $request, Account $account) {
         $acct  = $account;
         $request->validate([
-            'Pin' => 'required|string|max:6',
+            'pin' => 'required|string|max:6',
             'pinConfirmation' => 'required|string|max:6'
         ]);
         $newpin =  $request->pin;
@@ -380,6 +386,36 @@ class AccountController extends BaseController {
     
             return $this->sendResponse($output, 'Confirmation does not match');
         }
+    }
+
+    public function updatePassword(Request $request, Account $account) {
+        $acct = $account;
+        $request->validate([            
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        // Here we will attempt to reset the user's password. If it is successful we
+        // will update the password on an actual user model and persist it to the
+        // database. Otherwise we will parse the error and return the response.
+        $status = Password::reset(
+            $request->only('password', 'password_confirmation', 'token'),
+            function ($user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status != Password::PASSWORD_RESET) {
+            throw ValidationException::withMessages([
+                'email' => [__($status)],
+            ]);
+        }
+
+        return response()->json(['status' => __($status)]);
     }
 
     public function verifyPin(Request $request, Account $account) {

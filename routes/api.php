@@ -113,13 +113,29 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
 
     });
 
+    Route::prefix('FranchiseeV1')->group(function () {
+
+        Route::controller(AccountController::class)->group(function () { 
+            Route::post('update/franchisee/{account}', 'updateFranchisee');
+            Route::get('accounts/{account}', 'franchiseAccount'); 
+            Route::get('accounts/products/{account}', 'franchiseeProducts');
+            Route::post('update/email/{account}', 'updateEmail');
+            Route::post('update/pin/{account}', 'updateAccountPin');
+            Route::post('update/phone/{account}','updatePhone');
+            Route::post('update/password/{account}', 'updatePassword');
+            Route::post('confirmation/pin/{account}', 'verifyPin');
+        });
+
+     });
+
     // Franchise account data for admin panel and Mobile
     Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
     Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
     Route::get('accounts/products/{account}', [AccountController::class, 'franchiseeProducts']);
-
+    // Franchise account mbile updats
     Route::post('update/email/{account}', [AccountController::class, 'updateEmail']);
     Route::post('update/pin/{account}', [AccountController::class, 'updateAccountPin']);
+    Route::post('update/phone/{account}', [AccountController::class, 'updatePhone']);
     Route::post('confirmation/pin/{account}', [AccountController::class, 'verifyPin']);
 
     //Kisok and meals driect Reports
@@ -129,6 +145,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
     Route::get('orders', [OrdersController::class, 'orders']);
     Route::get('order/{order}', [OrdersController::class, 'orderNumber']);
     Route::get('order/topmeals', [OrdersController::class, 'topMeals']);
+    Route::get('reports/orders/{account}', [OrdersController::class, 'orderReports']);
 
     // faq
     Route::get('faq/list', [FaqController::class, 'index']);
@@ -136,8 +153,6 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
     Route::post('faq/update', [FaqController::class, 'updateFaq']);
     Route::get('faq/delete', [FaqController::class, 'deleteFaq']);
 
-    // Reports
-    Route::get('reports/orders/{account}', [OrdersController::class, 'orderReports']);
 
     // Franchisee Feedback
     Route::get('feedback', [FeedbackController::class, 'allFeedback']);
