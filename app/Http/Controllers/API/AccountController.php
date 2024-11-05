@@ -367,7 +367,7 @@ class AccountController extends BaseController {
         ]);
         $pin =  $request->pin;
 
-        if( $pin === $acct->Phone) {
+        if( $pin === $acct->pin) {
             $phoneUpdate = Account::find($acct->id); 
             $phoneUpdate->Phone = $request->phone;
             $phoneUpdate->save();
@@ -393,29 +393,27 @@ class AccountController extends BaseController {
         $request->validate([           
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+        $pin =  $request->pin;
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation'),
-            function ($user) use ($request) {
-                $user->forceFill([
-                    'password' => Hash::make($request->password),
-                    'remember_token' => Str::random(60),
-                ])->save();
+        if($pin === $acct->pin) {
+            $user = User::where('id', $account->user_id)->get();
+            $u = $user[0]->id;
+            $changePassword = User::find($u);
+            $changePassword->password = Hash::make($request->password);
+            $changePassword->save();
 
-                event(new PasswordReset($user));
-            }
-        );
+            $acctId = $account;
+            $output = [
+                'pin' => $acctId->pin,
+            ];
 
-        if ($status != Password::PASSWORD_RESET) {
-            throw ValidationException::withMessages([
-                'email' => [__($status)],
-            ]);
+            return $this->sendResponse($output, 'Password updated successfully.'); 
+        } else {
+            $output = [
+                'password' => 'Password has not been change',
+            ];
+            return $this->sendResponse($output, 'Password has not been change'); 
         }
-
-        return response()->json(['status' => __($status)]);
     }
 
     public function verifyPin(Request $request, Account $account) {
