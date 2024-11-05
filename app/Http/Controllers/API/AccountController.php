@@ -302,7 +302,8 @@ class AccountController extends BaseController {
         ]);
         $id = $account->id;
         $account = Account::find($id);
-        if($request->pin === $account->pin){
+        if($request->pin === $account->Pin){
+
             $account->Email = $request->email;
             $account->save();
 
@@ -368,7 +369,7 @@ class AccountController extends BaseController {
         ]);
         $pin =  $request->pin;
 
-        if( $pin === $acct->pin) {
+        if( $pin === $acct->Pin) {
             $phoneUpdate = Account::find($acct->id); 
             $phoneUpdate->Phone = $request->phone;
             $phoneUpdate->save();
@@ -396,7 +397,7 @@ class AccountController extends BaseController {
         ]);
         $pin =  $request->pin;
 
-        if($pin === $acct->pin) {
+        if($pin === $acct->Pin) {
             $user = User::where('id', $acct->user_id)->get();
             $u = $user[0]->id;
             $changePassword = User::find($u);
