@@ -178,14 +178,14 @@ class AccountController extends BaseController {
             $user = User::where('id', $account->user_id)->get();
             $u = $user[0]->id;
             $changeEmail = User::find($u);
-            $changeEmail->email = $request->email;
+            $changeEmail->Email = $request->email;
             $changeEmail->save();
 
             $acctId = $account;
             $output = [
                 'name' => $acctId->Name,
-                'email' => $acctId->email,
-                'pin' => $acctId->pin,
+                'email' => $acctId->Email,
+                'pin' => $acctId->Pin,
             ];
 
             return $this->sendResponse($output, 'Email updated successfully.'); 
@@ -340,11 +340,11 @@ class AccountController extends BaseController {
         if( $newpin === $pinConfirmation) {
             
             $pinInsert = Account::find($acct->id); 
-            $pinInsert->pin = $request->pin;
+            $pinInsert->Pin = $request->pin;
             $pinInsert->save();
 
             $output = [
-                'pin' => $pinInsert->pin,
+                'pin' => $pinInsert->Pin,
             ];
     
             return $this->sendResponse($output, 'Pin created successfully.');
@@ -396,7 +396,7 @@ class AccountController extends BaseController {
         $pin =  $request->pin;
 
         if($pin === $acct->pin) {
-            $user = User::where('id', $account->user_id)->get();
+            $user = User::where('id', $acct->user_id)->get();
             $u = $user[0]->id;
             $changePassword = User::find($u);
             $changePassword->password = Hash::make($request->password);
