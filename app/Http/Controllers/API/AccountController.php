@@ -155,48 +155,6 @@ class AccountController extends BaseController {
         return $this->sendResponse($output, 'Pin updated successfully.'); 
     }
 
-    /**
-     * Update Franchisee Account.
-     *
-     * request needs (Name, email, phone, Address, city, zipCode, country)
-     * returns accountId for kiosk linking
-     */
-    #[OpenApi\Operation(tags: ['accounts'])]
-    #[OpenApi\Parameters(factory: FranchiseeAccountParameters::class)]
-    public function updateEmail(Request $request, Account $account) {
-        
-        $request->validate([
-            'email' => 'string|lowercase|email|max:255',
-            'pin' => 'string|max:6',
-        ]);
-        $id = $account->id;
-        $account = Account::find($id);
-        if($request->pin === $account->pin){
-            $account->email = $request->email;
-            $account->save();
-
-            $user = User::where('id', $account->user_id)->get();
-            $u = $user[0]->id;
-            $changeEmail = User::find($u);
-            $changeEmail->Email = $request->email;
-            $changeEmail->save();
-
-            $acctId = $account;
-            $output = [
-                'name' => $acctId->Name,
-                'email' => $acctId->Email,
-                'pin' => $acctId->Pin,
-            ];
-
-            return $this->sendResponse($output, 'Email updated successfully.'); 
-        } else {
-            $output = [
-                'email' => 'Email has not been change',
-            ];
-            return $this->sendResponse($output, 'denied'); 
-        }
-    }
-
      /**
      * Retrieves franchisee Account user.
      *
@@ -327,6 +285,49 @@ class AccountController extends BaseController {
         ];
         return $this->sendResponse($output, 'Franchisee Account retrieved successfully.');
     }
+
+     /**
+     * Update Franchisee Account.
+     *
+     * request needs (Name, email, phone, Address, city, zipCode, country)
+     * returns accountId for kiosk linking
+     */
+    #[OpenApi\Operation(tags: ['accounts'])]
+    #[OpenApi\Parameters(factory: FranchiseeAccountParameters::class)]
+    public function updateEmail(Request $request, Account $account) {
+        
+        $request->validate([
+            'email' => 'string|lowercase|email|max:255',
+            'pin' => 'string|max:6',
+        ]);
+        $id = $account->id;
+        $account = Account::find($id);
+        if($request->pin === $account->pin){
+            $account->Email = $request->email;
+            $account->save();
+
+            $user = User::where('id', $account->user_id)->get();
+            $u = $user[0]->id;
+            $changeEmail = User::find($u);
+            $changeEmail->email = $request->email;
+            $changeEmail->save();
+
+            $acctId = $account;
+            $output = [
+                'name' => $acctId->Name,
+                'email' => $acctId->Email,
+                'pin' => $acctId->Pin,
+            ];
+
+            return $this->sendResponse($output, 'Email updated successfully.'); 
+        } else {
+            $output = [
+                'email' => 'Email has not been change',
+            ];
+            return $this->sendResponse($output, 'denied'); 
+        }
+    }
+
 
     public function updateAccountPin(Request $request, Account $account) {
         $acct  = $account;
