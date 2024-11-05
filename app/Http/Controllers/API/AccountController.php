@@ -375,10 +375,10 @@ class AccountController extends BaseController {
             $phoneUpdate->save();
 
             $output = [
-                'phone' => $phoneUpdate->phone,
+                'phone' => $request->phone,
             ];
     
-            return $this->sendResponse($output, 'Pin created successfully.');
+            return $this->sendResponse($output, 'Phone created successfully.');
        
         } else {
 
@@ -406,7 +406,7 @@ class AccountController extends BaseController {
 
             $acctId = $account;
             $output = [
-                'pin' => $acctId->pin,
+                'pin' => $acctId->Pin,
             ];
 
             return $this->sendResponse($output, 'Password updated successfully.'); 
