@@ -286,14 +286,19 @@ class PaymentController extends BaseController {
             'pin' => 'string|max:6',
         ]);
         $pin = $request->pin;
-        $account = Account::find($pin);
-        if($pin === $account->Pin){
+        $account = Account::where('Pin', $pin)->select('Pin', 'StripeAccountID' )->get(); //dd($account);
+        if($pin === $account[0]['Pin']){
              /* Instantiate a Stripe Gateway either like this */
             $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
             // Return Franchisee Stripe accountID
             // $accountStripeID = $account['StripeAccountID'];  
 
-            $accountLink = $stripe->accounts->createLoginLink($account->StripeAccountID, []);
+            $accountLink = $stripe->accountLinks->create([
+                'account' => $account[0]['StripeAccountID'],
+                'refresh_url' => url("https://admin.homechow.co/connect"),
+                'return_url' => url("https://homechow.co/connect"),
+                'type' => 'account_onboarding',
+              ]);
 
             $output = [
                 'refresh_account' => $accountLink,
