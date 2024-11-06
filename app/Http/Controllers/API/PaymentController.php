@@ -258,8 +258,8 @@ class PaymentController extends BaseController {
         $accountLink = $stripe->accountLinks->create([
             // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
             'account' => $accountCreate['id'],
-            'refresh_url' => url("https://admin.homechow.co/stripe/reauth"),
-            'return_url' => url("https://homechow.co"),
+            'refresh_url' => url("https://admin.homechow.co/connect"),
+            'return_url' => url("https://homechow.co/connect"),
             'type' => 'account_onboarding',
             'collect' => 'eventually_due',
         ]);
@@ -279,24 +279,29 @@ class PaymentController extends BaseController {
      * Returns clientSecert url 
      */
     #[OpenApi\Operation(tags: ['Payment Transaction'])]
-    public function expressAccountReturnUrl() {
-        /* Instantiate a Stripe Gateway either like this */
-        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-        // Return Franchisee Stripe accountID
-        // $accountStripeID = $account['StripeAccountID'];  
+    public function expressAccountReturnUrl(Request $request) {
 
-        $accountLink = $stripe->accountLinks->create([
-            // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
-            'account' => $accountStripeID,
-            'refresh_url' => url("https://homechow.co/reauth/{$account['id']}"),
-            'return_url' => url("https://homechow.co/return/{$account['id']}"),
-            'type' => 'account_onboarding',
-            'collect' => 'eventually_due',
+        $request->validate([
+            'email' => 'string|lowercase|email|max:255',
+            'pin' => 'string|max:6',
         ]);
+        $pin = $request->pin;
+        $account = Account::find($pin);
+        if($pin === $account->Pin){
+             /* Instantiate a Stripe Gateway either like this */
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            // Return Franchisee Stripe accountID
+            // $accountStripeID = $account['StripeAccountID'];  
 
-        $output = [
-            'clientSecret' => $accountLink,
-        ];
+            $accountLink = $stripe->accounts->createLoginLink($account->StripeAccountID, []);
+
+            $output = [
+                'refresh_account' => $accountLink,
+            ];
+
+            return $this->sendResponse($output, 'Onboarding links sent');
+        };
+       
     }
 
     public function expressAccountUpdate(Account $account) {

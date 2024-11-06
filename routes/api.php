@@ -69,12 +69,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // MOBILE API FOR FRANCHISEE APP AND CONSUMER APP
 Route::prefix('mobileV1')->group(function () {
-    Route::controller(PaymentController::class)->group(function (){
-        Route::post('/onboarding/account/{account}', 'expressAccount');
-        Route::get('/onboarding/update/{account}', 'expressAccountUpdate');
-        Route::get('stripe/reauth', 'expressAccountReturnUrl');
-        Route::get('/onboarding/return/{account}', 'expressAccountUpdate');
-    });
+   
 });
 
 Route::middleware('auth:sanctum', 'verified')->group(function() {
@@ -109,6 +104,13 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
 
         Route::controller(CategoryController::class)->group(function (){
             Route::get('categories/list', 'index');
+        });
+
+        Route::controller(PaymentController::class)->group(function (){
+            Route::post('/onboarding/account/{account}', 'expressAccount');
+            Route::get('/onboarding/update/{account}', 'expressAccountUpdate');
+            Route::get('stripe/reauth', 'expressAccountReturnUrl');
+            Route::get('/onboarding/return/{account}', 'expressAccountUpdate');
         });
 
     });
