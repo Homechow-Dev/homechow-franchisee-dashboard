@@ -444,7 +444,7 @@ class AccountController extends BaseController {
             'pin' => $pinaccount,
         ];
 
-        return $this->sendResponse($output, 'Pin created retrieved successfully.');
+        return $this->sendResponse($output, 'Pin retrieved successfully.');
     }
 
 }
