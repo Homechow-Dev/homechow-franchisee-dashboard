@@ -58,6 +58,12 @@ Route::get('/user', UserController::class)->middleware(['auth:sanctum']);
 
 // KIOSK MACHINE FUNCTION CODE ROUTES
 Route::post('machine', [KioskController::class, 'kioskMachine']);
+Route::get('qrcode/release{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
+
+
+
+
+
 Route::post('application', [CustomerController::class, 'franchiseeApplication']);
 
 // STRIPE CONSUMER APP PAYMENT
