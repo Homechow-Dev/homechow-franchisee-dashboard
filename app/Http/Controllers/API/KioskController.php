@@ -162,6 +162,35 @@ class KioskController extends BaseController {
         return $this->sendResponse($output, 'Kiosk has been deleted');
     }
 
+    public function KioskQRPayment(Machine $mid, $sid, $pid, $pri) {
+       
+        $dispsense = DB::table('dispense_feedback')->wheere(
+            ['MachineID', $mid],
+            ['SlotNo', $sid],
+            ['ProductID', $pid],
+            ['Amount, $pri']
+        )->get();
+
+        if($dispsense->isEmpty()){
+            $status = 0;
+            $tradeNo = '';
+            $SessionCode = '';
+            $productID = '';
+            $message = 'hello team yes making progress data recieved';
+
+            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+        }
+        
+        $status = 0;
+        $tradeNo = '';
+        $SessionCode = '';
+        $productID = '';
+        $message = 'hello team yes making progress data recieved';
+
+        return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+            
+    }
+
     /**
      * Retrieves all Kiosk.
      *
@@ -212,12 +241,11 @@ class KioskController extends BaseController {
             ]);
             
             $status = 0;
-            $tradeNo = '';
-            $SessionCode = '';
-            $productID = $k['ProductID'];
-            $message = 'hello team yes making progress data recieved';
+            $TradeNo = $request['TradeNo'];
+            $SlotNo = $slot;
+            $Err = 'hello team yes making progress data recieved';
 
-            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+            return $this->machineResponse($status,$TradeNo, $SlotNo, $Err);
             
         }
 

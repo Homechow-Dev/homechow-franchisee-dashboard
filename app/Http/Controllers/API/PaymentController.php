@@ -259,7 +259,7 @@ class PaymentController extends BaseController {
             // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
             'account' => $accountCreate['id'],
             'refresh_url' => url("https://admin.homechow.co/connect"),
-            'return_url' => url("https://homechow.co/connect"),
+            'return_url' => url("com.homechow.PartnerApp://home"),
             'type' => 'account_onboarding',
             'collect' => 'eventually_due',
         ]);
@@ -296,7 +296,7 @@ class PaymentController extends BaseController {
             $accountLink = $stripe->accountLinks->create([
                 'account' => $account[0]['StripeAccountID'],
                 'refresh_url' => url("https://admin.homechow.co/connect"),
-                'return_url' => url("https://homechow.co/connect"),
+                'return_url' => url("com.homechow.PartnerApp://home"),
                 'type' => 'account_onboarding',
               ]);
 
