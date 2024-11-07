@@ -213,12 +213,12 @@ class KioskController extends BaseController {
             ->updateOrInsert(['MachineID' => $macID, 'FunCode' => $code]);
 
             $status = 0;
-            $tradeNo = '';
-            $SessionCode = '';
-            $productID = '';
+            $TradeNo = $request['TradeNo'];
+            $SlotNo = $request['SlotNo'];
+            $productID = $request['ProductID'];
             $message = 'hello team yes making progress data recieved';
 
-            return $this->machineResponse($status,$tradeNo,$SessionCode,$productID, $message);
+            return $this->machineResponse($status,$TradeNo,$SlotNo, $productID, $message);
             
         }
 
@@ -243,9 +243,10 @@ class KioskController extends BaseController {
             $status = 0;
             $TradeNo = $request['TradeNo'];
             $SlotNo = $slot;
-            $Err = 'hello team yes making progress data recieved';
+            $Err = ' ';
+            $message ="dispense";
 
-            return $this->machineResponse($status,$TradeNo, $SlotNo, $Err);
+            return $this->machineResponse($status,$TradeNo, $SlotNo, $Err, $message);
             
         }
 
