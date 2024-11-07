@@ -66,7 +66,7 @@ Route::get('qrcode/release{mid}{sid}{pid}{pri}', function (string $mid, string $
         ['MachineID', $mid],
         ['SlotNo', $sid],
         ['ProductID', $pid],
-        ['Amount, $pri']
+        ['Amount', $pri]
     )->get();
 
     if(!$dispsense->isEmpty()){
@@ -89,8 +89,6 @@ Route::get('qrcode/release{mid}{sid}{pid}{pri}', function (string $mid, string $
 
     }
 });
-
-
 
 
 
