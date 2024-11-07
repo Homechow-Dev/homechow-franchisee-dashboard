@@ -162,7 +162,7 @@ class KioskController extends BaseController {
         return $this->sendResponse($output, 'Kiosk has been deleted');
     }
 
-    public function KioskQRPayment(Machine $mid, $sid, $pid, $pri) {
+    public function KioskQRPayment($mid, $sid, $pid, $pri) {
        
         $dispsense = DB::table('dispense_feedback')->wheere(
             ['MachineID', $mid],
