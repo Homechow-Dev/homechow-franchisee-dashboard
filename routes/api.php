@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\API\{
     UserAuthController,
@@ -58,7 +59,36 @@ Route::get('/user', UserController::class)->middleware(['auth:sanctum']);
 
 // KIOSK MACHINE FUNCTION CODE ROUTES
 Route::post('machine', [KioskController::class, 'kioskMachine']);
-Route::get('qrcode/release{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
+// Route::get('qrcode/release{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
+Route::get('qrcode/release{mid}{sid}{pid}{pri}', function (string $mid, string $sid, string $pid, string $pri ) {
+    
+    $dispsense = DB::table('dispense_feedback')->wheere(
+        ['MachineID', $mid],
+        ['SlotNo', $sid],
+        ['ProductID', $pid],
+        ['Amount, $pri']
+    )->get();
+
+    if(!$dispsense->isEmpty()){
+        $status = 0;
+        $TradeNo = $dispsense['TradeNo'];
+        $SlotNo = $dispsense['SlotNo'];
+        $productID = $dispsense['ProductID'];
+        $message = 'hello team yes making progress data recieved';
+
+        return $this->machineResponse($status,$TradeNo,$SlotNo,$productID, $message);
+    } else {
+
+        $status = 1;
+        $TradeNo = $dispsense['TradeNo'];
+        $SlotNo = $dispsense['SlotNo'];
+        $productID = $dispsense['ProductID'];
+        $message = 'hello team yes making progress data recieved';
+
+        return $this->machineResponse($status,$TradeNo,$SlotNo,$productID, $message);
+
+    }
+});
 
 
 
