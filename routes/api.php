@@ -143,7 +143,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('/onboarding/account/{account}', 'expressAccount');
             Route::get('/onboarding/update/{account}', 'expressAccountUpdate');
             Route::post('stripe/reauth', 'expressAccountReturnUrl');
-            Route::get('/onboarding/return/{account}', 'expressAccountUpdate');
+            Route::get('/onboarding/return', 'expressAccountUpdate');
         });
 
     });
