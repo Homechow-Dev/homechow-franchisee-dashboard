@@ -65,6 +65,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/refresh-token', [UserAuthController::class, 'refreshToken']);
 });
 
+// MOBILE API FOR FRANCHISEE APP AND CONSUMER APP
+Route::prefix('mobileV1')->group(function () {
+    Route::controller(PaymentController::class)->group(function (){
+        Route::post('/onboarding/account/{account}', 'expressAccount');
+        // Route::get('/onboarding/update/{account}', 'expressAccountUpdate');
+        Route::post('stripe/reauth', 'expressAccountReturnUrl');
+        // Route::get('/onboarding/return', 'expressAccountUpdate');
+    });
+});
+
 // KIOSK MACHINE FUNCTION CODE ROUTES ========================>
 Route::post('machine', [KioskController::class, 'kioskMachine']);
 // Route::get('qrcode/release{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
@@ -139,14 +149,14 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
     });
 
     // MOBILE API FOR FRANCHISEE APP AND CONSUMER APP
-    Route::prefix('mobileV1')->group(function () {
-        Route::controller(PaymentController::class)->group(function (){
-            Route::post('/onboarding/account/{account}', 'expressAccount');
-            // Route::get('/onboarding/update/{account}', 'expressAccountUpdate');
-            Route::post('stripe/reauth', 'expressAccountReturnUrl');
-            // Route::get('/onboarding/return', 'expressAccountUpdate');
-        });
-    });
+    // Route::prefix('mobileV1')->group(function () {
+    //     Route::controller(PaymentController::class)->group(function (){
+    //         Route::post('/onboarding/account/{account}', 'expressAccount');
+    //         // Route::get('/onboarding/update/{account}', 'expressAccountUpdate');
+    //         Route::post('stripe/reauth', 'expressAccountReturnUrl');
+    //         // Route::get('/onboarding/return', 'expressAccountUpdate');
+    //     });
+    // });
 
     Route::prefix('FranchiseeV1')->group(function () {
 
