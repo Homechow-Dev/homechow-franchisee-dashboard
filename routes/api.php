@@ -60,15 +60,16 @@ Route::get('/user', UserController::class)->middleware(['auth:sanctum']);
 // KIOSK MACHINE FUNCTION CODE ROUTES
 Route::post('machine', [KioskController::class, 'kioskMachine']);
 // Route::get('qrcode/release{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
-Route::get('qrcode/release{mid}{sid}{pid}{pri}', function (string $mid, string $sid, string $pid, string $pri ) {
+Route::post(uri: 'qrcode/release{mid?}{sid?}{pid?}{pri?}', action: function ( String $mid, String $sid, String $pid, String $pri) {
     
-    $dispsense = DB::table('dispense_feedback')->wheere(
-        ['MachineID', $mid],
-        ['SlotNo', $sid],
-        ['ProductID', $pid],
-        ['Amount', $pri]
-    )->get();
+    $dispsense = DB::table('dispense_feedback')->where([
+        'MachineID', $mid, 
+        'SlotNo', $sid, 
+        'ProductID', $pid,
+        'Amount', $pri
+    ])->get();
 
+    dd($dispsense);
     if(!$dispsense->isEmpty()){
         $status = 0;
         $TradeNo = $dispsense['TradeNo'];
@@ -103,7 +104,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // MOBILE API FOR FRANCHISEE APP AND CONSUMER APP
 Route::prefix('mobileV1')->group(function () {
-   
+    Route::get('/onboarding/return/{account}', 'expressAccountUpdate');
 });
 
 Route::middleware('auth:sanctum', 'verified')->group(function() {
