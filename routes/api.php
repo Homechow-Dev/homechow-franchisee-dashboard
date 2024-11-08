@@ -91,8 +91,6 @@ Route::post(uri: 'qrcode/release{mid?}{sid?}{pid?}{pri?}', action: function ( St
     }
 });
 
-
-
 Route::post('application', [CustomerController::class, 'franchiseeApplication']);
 
 // STRIPE CONSUMER APP PAYMENT
