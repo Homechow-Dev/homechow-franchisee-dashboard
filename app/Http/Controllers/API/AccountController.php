@@ -334,15 +334,16 @@ class AccountController extends BaseController {
         $acct  = $account;
         $request->validate([
             'pin' => 'required|string|max:6',
+            'newPin' => 'required|string|max:6',
             'pinConfirmation' => 'required|string|max:6'
         ]);
-        $oldpin =  $acct->Pin;
+        $oldpin = $acct->Pin;   
         $pinConfirmation = $request->pinConfirmation;
 
-        if( $oldpin === $pinConfirmation) {
+        if( $oldpin === $request->pin) {
             
             $pinInsert = Account::find($acct->id); 
-            $pinInsert->Pin = $request->pin;
+            $pinInsert->Pin = $request->newPin;
             $pinInsert->save();
 
             $output = [
