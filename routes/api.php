@@ -149,14 +149,14 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
      });
 
     // Franchise account data for admin panel and Mobile
-    Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
-    Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
-    Route::get('accounts/products/{account}', [AccountController::class, 'franchiseeProducts']);
-    // Franchise account mbile updats
-    Route::post('update/email/{account}', [AccountController::class, 'updateEmail']);
-    Route::post('update/pin/{account}', [AccountController::class, 'updateAccountPin']);
-    Route::post('update/phone/{account}', [AccountController::class, 'updatePhone']);
-    Route::post('confirmation/pin/{account}', [AccountController::class, 'verifyPin']);
+    // Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
+    // Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
+    // Route::get('accounts/products/{account}', [AccountController::class, 'franchiseeProducts']);
+    // // Franchise account mbile updats
+    // Route::post('update/email/{account}', [AccountController::class, 'updateEmail']);
+    // Route::post('update/pin/{account}', [AccountController::class, 'updateAccountPin']);
+    // Route::post('update/phone/{account}', [AccountController::class, 'updatePhone']);
+    // Route::post('confirmation/pin/{account}', [AccountController::class, 'verifyPin']);
 
     //Kisok and meals driect Reports
     Route::get('accounts/sales/{account}', [AccountController::class, 'kioskSales']);

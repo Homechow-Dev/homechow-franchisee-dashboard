@@ -297,7 +297,7 @@ class AccountController extends BaseController {
     public function updateEmail(Request $request, Account $account) {
         
         $request->validate([
-            'email' => 'string|lowercase|email|max:255',
+            'email' => 'string|email|max:255',
             'pin' => 'string|max:6',
         ]);
         $id = $account->id;
