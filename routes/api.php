@@ -92,6 +92,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
     Route::prefix('V1')->group(function () {
         Route::controller(AccountController::class)->group(function () {
             Route::get('accounts', 'index');
+            Route::get('accounts/{account}', 'franchiseAccount'); 
             Route::get('franchisee/profile/{account}', 'franchiseAccountProfile');
             Route::post('create/franchisee', 'createFranchisee');
         });
@@ -123,16 +124,6 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
 
     });
 
-    // MOBILE API FOR FRANCHISEE APP AND CONSUMER APP
-    // Route::prefix('mobileV1')->group(function () {
-    //     Route::controller(PaymentController::class)->group(function (){
-    //         Route::post('/onboarding/account/{account}', 'expressAccount');
-    //         // Route::get('/onboarding/update/{account}', 'expressAccountUpdate');
-    //         Route::post('stripe/reauth', 'expressAccountReturnUrl');
-    //         // Route::get('/onboarding/return', 'expressAccountUpdate');
-    //     });
-    // });
-
     Route::prefix('FranchiseeV1')->group(function () {
 
         Route::controller(AccountController::class)->group(function () { 
@@ -150,7 +141,8 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
 
     // Franchise account data for admin panel and Mobile
     // Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
-    // Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
+    // Rmove this route before turning application live
+    Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
     // Route::get('accounts/products/{account}', [AccountController::class, 'franchiseeProducts']);
     // // Franchise account mbile updats
     // Route::post('update/email/{account}', [AccountController::class, 'updateEmail']);

@@ -233,7 +233,7 @@ class PaymentController extends BaseController {
     public function expressAccount(Request $request, Account $account){
 
         /* Instantiate a Stripe Gateway either like this */
-        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_Live'));
         // Create Stripe connect account first
 
         $accountCreate = $stripe->accounts->create([
@@ -289,7 +289,7 @@ class PaymentController extends BaseController {
         $account = Account::where('Pin', $pin)->select('Pin', 'StripeAccountID' )->get(); //dd($account);
         if($pin === $account[0]['Pin']){
              /* Instantiate a Stripe Gateway either like this */
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_Live'));
             // Return Franchisee Stripe accountID
             // $accountStripeID = $account['StripeAccountID'];  
 
