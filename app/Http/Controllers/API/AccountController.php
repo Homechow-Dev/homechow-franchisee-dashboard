@@ -130,9 +130,9 @@ class AccountController extends BaseController {
         $account = Account::find($id);
         if($request->name != ''){$account->Name = $request->name;}
         if($request->phone != ''){$account->Phone = $request->phone;}
-        if($request->email != ''){$account->email = $request->email;}
-        if($request->image != ''){$account->image = $request->image;}
-        if($request->pin != ''){$account->pin = $request->pin;}
+        if($request->email != ''){$account->Email = $request->email;}
+        if($request->image != ''){$account->Image = $request->image;}
+        if($request->pin != ''){$account->Pin = $request->pin;}
         $account->save();
 
         if($request->email != '') {
@@ -152,7 +152,7 @@ class AccountController extends BaseController {
             'pin' => $acctId->pin,
         ];
 
-        return $this->sendResponse($output, 'Pin updated successfully.'); 
+        return $this->sendResponse($output, 'Account update successfully'); 
     }
 
      /**
