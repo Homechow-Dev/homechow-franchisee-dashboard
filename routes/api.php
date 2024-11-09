@@ -78,36 +78,11 @@ Route::prefix('mobileV1')->group(function () {
 // KIOSK MACHINE FUNCTION CODE ROUTES ========================>
 Route::post('machine', [KioskController::class, 'kioskMachine']);
 // Route::get('qrcode/release{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
-Route::post(uri: 'qrcode/release{mid?}{sid?}{pid?}{pri?}', action: function ( String $mid, String $sid, String $pid, String $pri) {
-    
-    $dispsense = DB::table('dispense_feedback')->where([
-        'MachineID', $mid, 
-        'SlotNo', $sid, 
-        'ProductID', $pid,
-        'Amount', $pri
-    ])->get();
-
-    dd($dispsense);
-    if(!$dispsense->isEmpty()){
-        $status = 0;
-        $TradeNo = $dispsense['TradeNo'];
-        $SlotNo = $dispsense['SlotNo'];
-        $productID = $dispsense['ProductID'];
-        $message = 'hello team yes making progress data recieved';
-
-        return $this->machineResponse($status,$TradeNo,$SlotNo,$productID, $message);
-    } else {
-
-        $status = 1;
-        $TradeNo = $dispsense['TradeNo'];
-        $SlotNo = $dispsense['SlotNo'];
-        $productID = $dispsense['ProductID'];
-        $message = 'hello team yes making progress data recieved';
-
-        return $this->machineResponse($status,$TradeNo,$SlotNo,$productID, $message);
-
-    }
+Route::post('qrcode/release', action: function (Request $request) {
+    echo 'Machine id: ', $request->mid;
+    echo ' - We have recieved requests';
 });
+Route::get('qrcode/releases{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
 
 // KIOSK MACHINE FUNCTION CODE ROUTES ========================>
 

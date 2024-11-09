@@ -162,30 +162,31 @@ class KioskController extends BaseController {
         return $this->sendResponse($output, 'Kiosk has been deleted');
     }
 
-    public function KioskQRPayment($mid, $sid, $pid, $pri) {
+    public function KioskQRPayment(Request $request) {
        
-        $dispsense = DB::table('dispense_feedback')->wheere(
-            ['MachineID', $mid],
-            ['SlotNo', $sid],
-            ['ProductID', $pid],
-            ['Amount, $pri']
-        )->get();
-
+        $parameter = $request->all();
+        // dd($parameter['mid']);
+        $dispsense = DB::table('dispense_feedback')->where([
+            ['MachineID', '=', $parameter['mid']], 
+            ['SlotNo', '=', $parameter['sid']], 
+            ['ProductID', '=', $parameter['pid']],
+            ['Amount', '=', $parameter['pri']],
+       ])->get();
+        dd('yes we have touched the correct route we can procedd');
         if(!$dispsense->isEmpty()){
             $status = 0;
-            $TradeNo = $dispsense['TradeNo'];
-            $SlotNo = $dispsense['SlotNo'];
-            $productID = $dispsense['ProductID'];
+            $TradeNo = $parameter['TradeNo'];
+            $SlotNo = $parameter['SlotNo'];
+            $productID = $parameter['ProductID'];
             $message = 'hello team yes making progress data recieved';
 
             return $this->machineResponse($status,$TradeNo,$SlotNo,$productID, $message);
         } else {
-
             $status = 1;
-            $TradeNo = $dispsense['TradeNo'];
-            $SlotNo = $dispsense['SlotNo'];
-            $productID = $dispsense['ProductID'];
-            $message = 'hello team yes making progress data recieved';
+            $TradeNo = ' ';
+            $SlotNo = '';
+            $productID = '';
+            $message = 'No order recieved';
     
             return $this->machineResponse($status,$TradeNo,$SlotNo,$productID, $message);
 
