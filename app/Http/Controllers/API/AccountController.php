@@ -150,6 +150,7 @@ class AccountController extends BaseController {
             'phone' => $acctId->Phone,
             'image' => $acctId->image,
             'pin' => $acctId->pin,
+            'strAccount' => $acctId->StripeAccountID,
         ];
 
         return $this->sendResponse($output, 'Account update successfully'); 
@@ -185,6 +186,35 @@ class AccountController extends BaseController {
         
         return $this->sendResponse($output, 'Franchisee Account retrieved successfully.');
     }
+
+     /**
+     * Retrieves franchisee Account user.
+     *
+     * Account will equal account id & 
+     * Returns Franchisee account with Kiosk, Kiosk Orders, and available meals
+     */
+    // Kiosk::factory()->hasOrders(5)->hasMeals(6)->create();
+   #[OpenApi\Operation(tags: ['accounts'])]
+   public function mobileFranchiseAccount(Account $account) {
+       $acct = $account;
+       $ordersK = Kiosk::with('orders')->with('meals')->where('account_id', $account->id)->get();
+       $countMeals = Order::where('account_id', $acct->id)->get();
+           if($countMeals->isEmpty()){
+               $TransactionTotal = '0';
+               $TopSelling = '0';
+           } else {
+               $TransactionTotal = $countMeals->count();
+               $TopSelling = $countMeals->countBy('MealName');
+           }
+           $output = [
+               'kiosk' => $ordersK,
+               'TopSelling' => $TopSelling,
+               'TransactionTotal' => $TransactionTotal,
+           ];
+       // to count and group ordres
+       
+       return $this->sendResponse($output, 'Franchisee Account retrieved successfully.');
+   }
 
      /**
      * Retrieves franchisee Account Profile.
