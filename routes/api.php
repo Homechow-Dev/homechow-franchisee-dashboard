@@ -79,11 +79,11 @@ Route::prefix('mobileV1')->group(function () {
 Route::post('machine', [KioskController::class, 'kioskMachine']);
 // Route::get('qrcode/release{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
 // kiosk Function code 4000 to read url
-Route::post('qrcode/release', action: function (Request $request) {
+Route::get('qrcode/release', action: function (Request $request) {
     echo 'Machine id: ', $request->mid;
     echo ' - We have recieved requests';
 });
-Route::get('qrcode/releases{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
+// Route::get('qrcode/releases{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
 
 // KIOSK MACHINE FUNCTION CODE ROUTES ========================>
 
