@@ -28,26 +28,26 @@ class BaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function machineResponse($status,$tradeNo,$SessionCode,$productID, $message)
+    public function machineResponse($status,$tradeNo,$SessionCode,$productID)
     {
     	$response = [
             'Status' => $status,
             'TradeNo' => $tradeNo,
             'SessionCode' => $SessionCode,
             'ProductID' => $productID,
-            'message' => $message,
         ];
 
         return response()->json($response, 200);
     }
 
-    public function loadResponse($status,$SlotNO, $ProductID, $message)
+    public function loadResponse($status,$SlotNo, $TradeNo, $ImageUrl )
     {
     	$response = [
             'Status' => $status,
-            'SlotNO' => $SlotNO,
-            'ProductID' => $ProductID,
-            'message' => $message,
+            'SlotNo' => $SlotNo,
+            'TradeNo' => $TradeNo,
+            'ImageUrl ' => $ImageUrl,
+            // 'ImageDetailUrl' => $ImageDetailUrl,
         ];
 
         return response()->json($response, 200);

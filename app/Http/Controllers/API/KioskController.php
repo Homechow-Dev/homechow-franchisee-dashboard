@@ -246,10 +246,8 @@ class KioskController extends BaseController {
             $status = 0;
             $TradeNo = $request['TradeNo'];
             $SlotNo = $slot;
-            $Err = ' ';
-            $message ="dispense";
-
-            return $this->machineResponse($status,$TradeNo, $SlotNo, $Err, $message);
+            $Err = '';
+            return $this->machineResponse($status,$TradeNo, $SlotNo, $Err);
             
         }
 
@@ -310,12 +308,12 @@ class KioskController extends BaseController {
             // if manufactureID & SlotNo 
             // updated kiosk_meal StockTotal
             
-            $status = 0;
-            $SlotNO = '';
-            $ProductID = '';
-            $message = 'function code 1000 data recieved';
+            $status = '0';
+            $SlotNo = $slot; 
+            $TradeNo = $request['TradeNo'];
+            $ImageUrl = '';
 
-        return $this->loadResponse($status, $SlotNO, $ProductID, $message);
+        return $this->loadResponse($status, $SlotNo, $TradeNo, $ImageUrl);
         }
 
         if( $code === 5102 ) {

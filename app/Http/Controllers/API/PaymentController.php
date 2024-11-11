@@ -266,6 +266,7 @@ class PaymentController extends BaseController {
 
         $output = [
             'clientSecret' => $accountLink,
+            'strAccount' => $accountCreate['id']
         ];
         
         return $this->sendResponse($output, 'Onboarding link sent');
