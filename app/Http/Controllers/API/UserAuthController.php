@@ -74,6 +74,7 @@ class UserAuthController extends BaseController {
             'pin' => $account['Pin'],
             'phone' => $account['Phone'],
             'strAccount' => $account['StripeAccountID'],
+            'image' => $account['Image'],
             'WalletAmount' => $account['WalletAmout'],
             'token' => $token,         
         ];

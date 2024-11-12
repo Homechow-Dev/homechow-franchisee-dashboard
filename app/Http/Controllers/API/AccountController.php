@@ -148,7 +148,7 @@ class AccountController extends BaseController {
             'name' => $acctId->Name,
             'email' => $acctId->email,
             'phone' => $acctId->Phone,
-            'image' => $acctId->image,
+            'image' => $acctId->Image,
             'pin' => $acctId->pin,
             'strAccount' => $acctId->StripeAccountID,
         ];
