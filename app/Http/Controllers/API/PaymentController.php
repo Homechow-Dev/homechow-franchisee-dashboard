@@ -232,14 +232,14 @@ class PaymentController extends BaseController {
      */
     public function expressAccount(Request $request, Account $account){
 
-        $user = User::where('id', $account['user_id'])->get();
+        $user = User::where('id', $account['user_id'])->get(); 
         /* Instantiate a Stripe Gateway either like this */
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_Live'));
+        
         // Create Stripe connect account first
-
         $accountCreate = $stripe->accounts->create([
             'country' => 'US',
-            'email' => $user->email,
+            'email' => $user[0]['email'],
             'country' => 'US',
             'type' => 'express',
             'capabilities' => [
@@ -252,9 +252,13 @@ class PaymentController extends BaseController {
                 'mcc' => '5499'
             ],
         ]);
-        // Next save and attache new account id to Homechow user account
-        $acctUpdate = DB::table('accounts')->where('id', $account['id'])->update(['StripeAccountID' => $accountCreate['id']]);
 
+        DB::table('accounts')
+            ->updateOrInsert([ 'id' => $account['id'], 'Name' => $account['Name'] ],[
+                'StripeAccountID' => $accountCreate['id'],
+                'Email' => $user[0]['email'] ,
+        ]);
+    
         // Next create session to complete onboarding through stripe
         $accountLink = $stripe->accountLinks->create([
             // test homechow Client_id-ca_NGFO15ueoJrBWfOZqZNMLhIdI8OEYvS2'
