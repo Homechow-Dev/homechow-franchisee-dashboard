@@ -232,13 +232,14 @@ class PaymentController extends BaseController {
      */
     public function expressAccount(Request $request, Account $account){
 
+        $user = User::where('id', $account['user_id'])->get();
         /* Instantiate a Stripe Gateway either like this */
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_Live'));
         // Create Stripe connect account first
 
         $accountCreate = $stripe->accounts->create([
             'country' => 'US',
-            'email' => $account['Email'],
+            'email' => $user->email,
             'country' => 'US',
             'type' => 'express',
             'capabilities' => [
