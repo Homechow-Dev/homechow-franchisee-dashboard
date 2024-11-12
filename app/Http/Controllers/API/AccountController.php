@@ -124,7 +124,7 @@ class AccountController extends BaseController {
             'email' => 'string|lowercase|email|max:255',
             'name' => 'string|max:150',
             'phone' => 'string|max:150',
-            'image' => 'mimes:jpg,bmp,png|max:250',
+            'image' => 'string',
         ]);
         $id = $account->id;
         $account = Account::find($id);
