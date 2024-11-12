@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\API\{
     UserAuthController,
@@ -80,8 +81,15 @@ Route::post('machine', [KioskController::class, 'kioskMachine']);
 // Route::get('qrcode/release{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
 // kiosk Function code 4000 to read url
 Route::get('qrcode/release', action: function (Request $request) {
-    echo 'Machine id: ', $request->mid;
-    echo ' - We have recieved requests';
+    // echo 'Machine id: ', $request->mid; 
+    // echo ' - We have recieved requests';
+
+    $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService?', [
+        'status' => 0,
+        'TradeNo' => '20241113030140471',
+        'SlotNo' => $request->sid,
+        'err' => ' ',
+    ]);
 });
 // Route::get('qrcode/releases{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
 
