@@ -84,16 +84,16 @@ Route::get('qrcode/release', action: function (Request $request) {
     echo 'Machine id: ', $request->mid, $request->sid, $request->pid, $request->pri ; 
     echo ' - We have recieved requests';
 
-    $release = DB::table('dispense_feedback')->where([
+    $release = DB::table('load_deliveries')->where([
         ['MachineID', $request->mid], 
         ['SlotNo', $request->sid],
         ['ProductID', $request->pid],
         ['Price', $request->pri],  
     ])->get();
-dd($release);
+
     $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService', [
         'status' => 0,
-        'TradeNo' => '20241113030140471',
+        'TradeNo' => $release['TradeNo'],
         'SlotNo' => $request->sid,
         'err' => ' ',
     ]);
