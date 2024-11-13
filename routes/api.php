@@ -93,7 +93,7 @@ Route::get('qrcode/release', action: function (Request $request) {
 
     $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService', [
         'status' => 0,
-        'TradeNo' => $release['TradeNo'],
+        'TradeNo' => $release[0]['TradeNo'],
         'SlotNo' => $request->sid,
         'err' => ' ',
     ]);
