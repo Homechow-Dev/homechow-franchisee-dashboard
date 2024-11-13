@@ -90,7 +90,7 @@ Route::get('qrcode/release', action: function (Request $request) {
         ['ProductID', $request->pid],
         ['Price', $request->pri],  
     ])->get();
-
+dd($release);
     $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService', [
         'status' => 0,
         'TradeNo' => $release[0]['TradeNo'],
