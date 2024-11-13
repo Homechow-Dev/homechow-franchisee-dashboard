@@ -81,10 +81,17 @@ Route::post('machine', [KioskController::class, 'kioskMachine']);
 // Route::get('qrcode/release{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
 // kiosk Function code 4000 to read url
 Route::get('qrcode/release', action: function (Request $request) {
-    // echo 'Machine id: ', $request->mid; 
-    // echo ' - We have recieved requests';
+    echo 'Machine id: ', $request->mid, $request->sid, $request->pid, $request->pri ; 
+    echo ' - We have recieved requests';
 
-    $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService?', [
+    $release = DB::table('dispense_feedback')->where([
+        ['MachineID', $request->mid], 
+        ['SlotNo', $request->sid],
+        ['ProductID', $request->pid],
+        ['Price', $request->pri],  
+    ])->get();
+dd($release);
+    $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService', [
         'status' => 0,
         'TradeNo' => '20241113030140471',
         'SlotNo' => $request->sid,
