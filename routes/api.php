@@ -91,7 +91,7 @@ Route::get('qrcode/release', action: function (Request $request) {
         ['Price', $request->pri],  
     ])->get();
 
-    $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService?TradeNo=HC098112&Status=0&KeyNum=73194653&Quantity=1&Stock=1&Capacity=1&Name=Mac %26 Cheese&FunCode=4000&MachineID=2406050091&SlotNo=121&ProductID=0006&Price=0.00');
+    $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService?FunCode=4000&MachineID=2406050091&SlotNo=121&ProductID=0006&Price=0.00');
 
     // $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService?TradeNo=HC098112&Status=0&KeyNum=73194653&Quantity=1&Stock=1&Capacity=1&Name=Mac %26 Cheese&FunCode=4000&MachineID=2406050091&SlotNo=121&ProductID=0006&Price=0.00', [
     //     'status' => 0,
