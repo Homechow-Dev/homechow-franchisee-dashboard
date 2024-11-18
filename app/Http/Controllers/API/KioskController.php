@@ -213,7 +213,7 @@ class KioskController extends BaseController {
 
         if( $code === '4000') {
             DB::table('machines')
-            ->updateOrInsert(['MachineID' => $macID, 'FunCode' => $code]);
+            ->insert(['MachineID' => $macID, 'FunCode' => $code]);
 
             $status = 0;
             $TradeNo = $request['TradeNo'];
@@ -319,7 +319,7 @@ class KioskController extends BaseController {
         if( $code === 5102 ) {
             // create entry to send to Load Delivery table
             DB::table('machines')
-            ->updateOrInsert(['MachineID' => $macID, 'FunCode' => $code ]);
+            ->insert(['MachineID' => $macID, 'FunCode' => $code ]);
 
             //$machine = Machine::create([
                 //         'FunCode' => $request['FunCode'],
