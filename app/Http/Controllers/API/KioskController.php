@@ -215,12 +215,12 @@ class KioskController extends BaseController {
             DB::table('machines')
             ->insert(['MachineID' => $macID, 'FunCode' => $code]);
 
-            $status = 0;
-            $TradeNo = $request['TradeNo'];
-            $SlotNo = $request['SlotNo'];
-            $productID = $request['ProductID'];
-            $MsgType = 0;
-            $message = 'hello team yes making progress data recieved';
+            $status = '0';
+            $MsgType = '0';
+            $TradeNo = '20241119014413937';
+            $SlotNo = '121';
+            $productID = '0006';
+            $message = '';
 
             return $this->machineResponse($status,$TradeNo,$SlotNo, $productID, $MsgType, $message);
             
