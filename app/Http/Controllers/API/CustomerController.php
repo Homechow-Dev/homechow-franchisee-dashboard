@@ -27,7 +27,7 @@ class CustomerController extends BaseController
         $output = [
 
         ];
-        return $this->sendResponse($output, 'Franchisee Account retrieved successfully.');
+        return $this->sendResponse($output, 'Consumer transactions retrieved successfully.');
     }
 
     /**

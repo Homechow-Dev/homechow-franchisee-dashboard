@@ -367,7 +367,7 @@ class KioskController extends BaseController {
             $status = 0;
             $SlotNO = '';
             $ProductID = '';
-            $message = 'hello team Function code 5102 yes making progress data recieved';
+            $message = '';
 
         return $this->loadResponse($status, $SlotNO, $ProductID, $message);
         }
