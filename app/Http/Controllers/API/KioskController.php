@@ -219,9 +219,10 @@ class KioskController extends BaseController {
             $TradeNo = $request['TradeNo'];
             $SlotNo = $request['SlotNo'];
             $productID = $request['ProductID'];
+            $MsgType = 0;
             $message = 'hello team yes making progress data recieved';
 
-            return $this->machineResponse($status,$TradeNo,$SlotNo, $productID, $message);
+            return $this->machineResponse($status,$TradeNo,$SlotNo, $productID, $MsgType, $message);
             
         }
 
