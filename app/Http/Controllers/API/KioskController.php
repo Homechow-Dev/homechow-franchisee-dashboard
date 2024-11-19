@@ -219,7 +219,7 @@ class KioskController extends BaseController {
             $MsgType = '0';
             $TradeNo = '20241119014413937';
             $SlotNo = '121';
-            $productID = '0006';
+            $productID = '0005';
             $Err = '';
 
             return $this->deliverResponse($status, $MsgType, $TradeNo, $SlotNo, $productID, $Err);
