@@ -176,7 +176,7 @@ class KioskController extends BaseController {
         if(!$dispsense->isEmpty()){
             $status = '0';
             $MsgType = '0';
-            $TradeNo = $parameter['TradeNo'];
+            $TradeNo = $dispsense['TradeNo'];
             $SlotNo = $parameter['SlotNo'];
             $productID = $parameter['ProductID'];
             $Err = 'hello team yes making progress data recieved';
