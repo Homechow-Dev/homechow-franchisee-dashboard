@@ -172,23 +172,25 @@ class KioskController extends BaseController {
             ['ProductID', '=', $parameter['pid']],
             ['Amount', '=', $parameter['pri']],
        ])->get();
-        dd('yes we have touched the correct route we can procedd');
+        // dd('yes we have touched the correct route we can procedd');
         if(!$dispsense->isEmpty()){
-            $status = 0;
+            $status = '0';
+            $MsgType = '0';
             $TradeNo = $parameter['TradeNo'];
             $SlotNo = $parameter['SlotNo'];
             $productID = $parameter['ProductID'];
-            $message = 'hello team yes making progress data recieved';
+            $Err = 'hello team yes making progress data recieved';
 
-            return $this->machineResponse($status,$TradeNo,$SlotNo,$productID, $message);
+            return $this->deliverResponse($status, $MsgType, $TradeNo, $SlotNo, $productID,  $Err);
         } else {
-            $status = 1;
+            $status = '1';
+            $MsgType = '';
             $TradeNo = ' ';
-            $SlotNo = '';
-            $productID = '';
-            $message = 'No order recieved';
+            $SlotNo = ' ';
+            $productID = ' ';
+            $Err = '';
     
-            return $this->machineResponse($status,$TradeNo,$SlotNo,$productID, $message);
+            return $this->deliverResponse($status, $MsgType, $TradeNo, $SlotNo, $productID,  $Err);
 
         }
             
