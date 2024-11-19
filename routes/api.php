@@ -91,15 +91,25 @@ Route::get('qrcode/release', action: function (Request $request) {
         ['Price', $request->pri],  
     ])->get();
 
-    $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService?SlotNo=121&FunCode=4000&MachineID=2406050091&ProductID=0006&Price=0.00&MsgType=0', []);
+    $status = '0';
+            $MsgType = '0';
+            $TradeNo = '20241119014413937';
+            $SlotNo = '121';
+            $productID = '0006';
+            $message = '';
 
-    // $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService?TradeNo=HC098112&Status=0&KeyNum=73194653&Quantity=1&Stock=1&Capacity=1&Name=Mac %26 Cheese&FunCode=4000&MachineID=2406050091&SlotNo=121&ProductID=0006&Price=0.00', [
-    //     'status' => 0,
-    //     'TradeNo' => $release[0]->TradeNo,
-    //     'SlotNo' => $request->sid,
-    //     'MsgType' => 0,
-    //     'err' => ' ',
-    // ]);
+            return $this->machineResponse($status,$TradeNo,$SlotNo, $productID, $MsgType, $message);
+
+
+    // $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService?SlotNo=121&FunCode=4000&MachineID=2406050091&ProductID=0006&Price=0.00&MsgType=0', []);
+
+    // // $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService?TradeNo=HC098112&Status=0&KeyNum=73194653&Quantity=1&Stock=1&Capacity=1&Name=Mac %26 Cheese&FunCode=4000&MachineID=2406050091&SlotNo=121&ProductID=0006&Price=0.00', [
+    // //     'status' => 0,
+    // //     'TradeNo' => $release[0]->TradeNo,
+    // //     'SlotNo' => $request->sid,
+    // //     'MsgType' => 0,
+    // //     'err' => ' ',
+    // // ]);
 });
 // Route::get('qrcode/releases{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
 
