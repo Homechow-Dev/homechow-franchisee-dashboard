@@ -40,6 +40,25 @@ class BaseController extends Controller
         return response()->json($response, 200);
     }
 
+    /**
+     * deliver success response method.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deliverResponse($status, $MsgType, $TradeNo,$SlotNo,$productID, $Err,)
+    {
+    	$response = [
+            'Status' => $status,
+            'MsgType' => $MsgType,
+            'TradeNo' => $TradeNo,
+            'SlotNo' => $SlotNo,
+            'ProductID' => $productID,
+            '$Err' => $Err,
+        ];
+
+        return response()->json($response, 200);
+    }
+
     public function loadResponse($status,$SlotNo, $TradeNo, $ImageUrl )
     {
     	$response = [

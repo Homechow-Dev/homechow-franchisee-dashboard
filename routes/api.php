@@ -91,14 +91,14 @@ Route::get('qrcode/release', action: function (Request $request) {
         ['Price', $request->pri],  
     ])->get();
 
-    $status = '0';
+            $status = '0';
             $MsgType = '0';
             $TradeNo = '20241119014413937';
             $SlotNo = '121';
             $productID = '0006';
-            $message = '';
+            $Err = '';
 
-            return $this->machineResponse($status,$TradeNo,$SlotNo, $productID, $MsgType, $message);
+            return $this->deliverResponse($status, $TradeNo, $SlotNo, $productID, $MsgType, $Err);
 
 
     // $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService?SlotNo=121&FunCode=4000&MachineID=2406050091&ProductID=0006&Price=0.00&MsgType=0', []);
