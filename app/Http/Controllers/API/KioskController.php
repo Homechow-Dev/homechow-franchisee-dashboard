@@ -185,7 +185,7 @@ class KioskController extends BaseController {
             $TradeNo = $dispsense[0]->TradeNo;
             $SlotNo = $dispsense[0]->SlotNo;
             $productID = $dispsense[0]->ProductID;
-            $Err = 'hello team yes making progress data recieved';
+            $Err = '';
 
             return $this->deliverResponse($status, $MsgType, $TradeNo, $SlotNo, $productID,  $Err);
         } else {
