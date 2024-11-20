@@ -181,7 +181,14 @@ class KioskController extends BaseController {
         // dd('yes we have touched the correct route we can procedd');
         // dd($dispsense[0]->TradeNo);
         if(!$dispsense->isEmpty()){
-            $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService?Status=0&MsgType=0&TradeNo=20241121025121596&SlotNo=112&ProductID=0004', []);
+            $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService', [
+                $status = 0,
+                $MsgType = 0,
+                $TradeNo = $dispsense[0]->TradeNo,
+                $SlotNo = $dispsense[0]->SlotNo,
+                $ProductID = $dispsense[0]->ProductID,
+                $Err = '',
+            ]);
             $status = 0;
             $MsgType = 0;
             $TradeNo = $dispsense[0]->TradeNo;
