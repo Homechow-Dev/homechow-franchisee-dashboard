@@ -166,19 +166,25 @@ class KioskController extends BaseController {
        
         $parameter = $request->all();
         // dd($parameter['mid']);
-        $dispsense = DB::table('dispense_feedback')->where([
-            ['MachineID', '=', $parameter['mid']], 
+        // We need to check if a orders has been placed with the parameters and has been paid for with stripe.
+        // if thier is a order paid for matching the parameters query load deleveries with the parameters 
+        $dispsense = DB::table('load_deliveries')->where([
+            ['MachineID', '=', $parameter['mid']],
             ['SlotNo', '=', $parameter['sid']], 
             ['ProductID', '=', $parameter['pid']],
-            ['Amount', '=', $parameter['pri']],
+            ['Price', '=', $parameter['pri']],
+            ['Stock', '=', 1],
        ])->get();
+    //    Else send status failed. do not dispense
+
         // dd('yes we have touched the correct route we can procedd');
+        // dd($dispsense[0]->TradeNo);
         if(!$dispsense->isEmpty()){
             $status = '0';
             $MsgType = '0';
-            $TradeNo = $dispsense['TradeNo'];
-            $SlotNo = $parameter['SlotNo'];
-            $productID = $parameter['ProductID'];
+            $TradeNo = $dispsense[0]->TradeNo;
+            $SlotNo = $dispsense[0]->SlotNo;
+            $productID = $dispsense[0]->ProductID;
             $Err = 'hello team yes making progress data recieved';
 
             return $this->deliverResponse($status, $MsgType, $TradeNo, $SlotNo, $productID,  $Err);
@@ -215,7 +221,7 @@ class KioskController extends BaseController {
 
         if( $code === '4000') {
             DB::table('machines')
-            ->insert(['MachineID' => $macID, 'FunCode' => $code]);
+            ->updateOrInsert(['MachineID' => $macID, 'FunCode' => $code]);
 
             $status = 0;
             $TradeNo = '';
@@ -304,9 +310,9 @@ class KioskController extends BaseController {
                     'LockGoodsCount' => $request['LockGoodsCount']
                 ]);
             
-            // get kiosk_meals by manufactureID(machineID) 
-            // if manufactureID & SlotNo 
-            // updated kiosk_meal StockTotal
+            // Update kiosk_meals stock
+            // kiosk_meal where machineId & SlotNO update or insert current stocktotal & productID
+
             
             $status = '0';
             $SlotNo = $slot; 
