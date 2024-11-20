@@ -180,8 +180,8 @@ class KioskController extends BaseController {
         // dd('yes we have touched the correct route we can procedd');
         // dd($dispsense[0]->TradeNo);
         if(!$dispsense->isEmpty()){
-            $status = '0';
-            $MsgType = '0';
+            $status = 0;
+            $MsgType = 0;
             $TradeNo = $dispsense[0]->TradeNo;
             $SlotNo = $dispsense[0]->SlotNo;
             $ProductID = $dispsense[0]->ProductID;
