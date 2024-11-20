@@ -53,7 +53,7 @@ class BaseController extends Controller
             'TradeNo' => $TradeNo,
             'SlotNo' => $SlotNo,
             'ProductID' => $productID,
-            '$Err' => $Err,
+            'Err' => $Err,
         ];
 
         return response()->json($response, 200);

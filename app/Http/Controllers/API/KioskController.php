@@ -184,10 +184,10 @@ class KioskController extends BaseController {
             $MsgType = '0';
             $TradeNo = $dispsense[0]->TradeNo;
             $SlotNo = $dispsense[0]->SlotNo;
-            $productID = $dispsense[0]->ProductID;
+            $ProductID = $dispsense[0]->ProductID;
             $Err = '';
 
-            return $this->deliverResponse($status, $MsgType, $TradeNo, $SlotNo, $productID,  $Err);
+            return $this->deliverResponse($status, $MsgType, $TradeNo, $SlotNo, $ProductID, $Err);
         } else {
             $status = '1';
             $MsgType = '';
@@ -196,7 +196,7 @@ class KioskController extends BaseController {
             $productID = ' ';
             $Err = '';
     
-            return $this->deliverResponse($status, $MsgType, $TradeNo, $SlotNo, $productID,  $Err);
+            return $this->deliverResponse($status, $MsgType, $TradeNo, $SlotNo, $productID, $Err);
 
         }
             
