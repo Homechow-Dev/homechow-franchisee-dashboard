@@ -15,6 +15,7 @@ use App\Models\Temp;
 use App\OpenApi\Parameters\Kiosk\CreateKioskParameters;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -180,6 +181,7 @@ class KioskController extends BaseController {
         // dd('yes we have touched the correct route we can procedd');
         // dd($dispsense[0]->TradeNo);
         if(!$dispsense->isEmpty()){
+            $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService?Status=0&MsgType=0&TradeNo=20241121025121596&SlotNo=112&ProductID=0004', []);
             $status = 0;
             $MsgType = 0;
             $TradeNo = $dispsense[0]->TradeNo;
