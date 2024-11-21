@@ -334,7 +334,7 @@ class PaymentController extends BaseController {
         $account = Account::where('id', $accountID)->select('id', 'StripeAccountID' )->get(); //dd($account);
         if($accountID === $account[0]['id']){
              /* Instantiate a Stripe Gateway either like this */
-            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_Live'));
             // Return Franchisee Stripe accountID
             // $accountStripeID = $account['StripeAccountID'];  
 
@@ -361,7 +361,7 @@ class PaymentController extends BaseController {
     public function allAccountPayouts() {
 
         /* Instantiate a Stripe Gateway either like this */
-        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_Live'));
         // Return Franchisee Stripe accountID
         // $accountStripeID = $account['StripeAccountID'];  
 
@@ -373,4 +373,5 @@ class PaymentController extends BaseController {
 
         return $this->sendResponse($output, 'Onboarding links sent');       
     }
+    
 }

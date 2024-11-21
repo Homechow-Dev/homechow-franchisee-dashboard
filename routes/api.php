@@ -118,6 +118,8 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::get('categories/list', 'index');
         });
 
+        Route::get('all/transaction/orders', [OrdersController::class, 'allOrdersTransactions']);
+
         Route::get('stripe/account/payouts', [PaymentController::class, 'allAccountPayouts']);
 
     });

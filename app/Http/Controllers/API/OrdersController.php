@@ -184,4 +184,26 @@ class OrdersController extends BaseController
 
         return $this->sendResponse($output, 'Reports Generated for top Meals');
     }
+
+    /**
+     * All user Transctions.
+     *
+     * Returns clientSecert url 
+     */
+    #[OpenApi\Operation(tags: ['Orders'])]
+    public function allOrdersTransactions() {
+
+        // /* Instantiate a Stripe Gateway either like this */
+        // $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_Live'));
+        // // Return Franchisee Stripe accountID
+        // // $accountStripeID = $account['StripeAccountID'];  
+
+        // $payouts = $stripe->payouts->all(['limit' => 100]);
+
+        $transactions = Order::select('Name', 'email', 'Type', 'Amount', 'PaymentStatus')->get();
+
+        $output = $transactions;
+
+        return $this->sendResponse($output, 'Onboarding links sent');       
+    }
 }
