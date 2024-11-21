@@ -78,7 +78,7 @@ Route::prefix('mobileV1')->group(function () {
 
 // KIOSK MACHINE FUNCTION COde ROUTES ========================>
 Route::post('machine', [KioskController::class, 'kioskMachine']);
-Route::get('qrcode/release{mid?}{sid?}{pid?}{pri?}', [KioskController::class, 'KioskQRPayment']);
+Route::get('qrcode/release', [KioskController::class, 'KioskQRPayment']);
 
 // KIOSK MACHINE FUNCTION CODE ROUTES ========================>
 
@@ -118,6 +118,8 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::get('categories/list', 'index');
         });
 
+        Route::get('stripe/account/payouts', [PaymentController::class, 'allAccountPayouts']);
+
     });
     // Mobile account management
     Route::prefix('FranchiseeV1')->group(function () {
@@ -131,6 +133,8 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('update/password/{account}', 'updatePassword');
             Route::post('confirmation/pin/{account}', 'verifyPin');
         });
+
+        Route::post('stripe/account/data', [PaymentController::class, 'franchiseeAccountData']);
 
      });
 

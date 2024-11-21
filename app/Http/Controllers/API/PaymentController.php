@@ -12,6 +12,7 @@ use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use App\OpenApi\Parameters\Stripe\PaymentsParameters;
 use App\OpenApi\Parameters\Stripe\MemberParameters;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 #[OpenApi\PathItem]
 class PaymentController extends BaseController {
@@ -315,7 +316,61 @@ class PaymentController extends BaseController {
        
     }
 
-    public function expressAccountUpdate(Account $account) {
-        
+    public function expressAccountUpdate(Account $account) {}
+
+    /**
+     * User Account Connect data.
+     *
+     * Returns clientSecert url 
+     */
+    #[OpenApi\Operation(tags: ['Payment Transaction'])]
+    public function franchiseeAccountData(Request $request) {
+
+        $request->validate([
+            'accountID' => 'string|required',
+            'stripeAccount' => 'string|required',
+        ]);
+        $accountID = $request->accountID;
+        $account = Account::where('id', $accountID)->select('id', 'StripeAccountID' )->get(); //dd($account);
+        if($accountID === $account[0]['id']){
+             /* Instantiate a Stripe Gateway either like this */
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            // Return Franchisee Stripe accountID
+            // $accountStripeID = $account['StripeAccountID'];  
+
+            $accountLink = $stripe->accounts->retrieve( $account[0]['StripeAccountID'], []);
+            $loginlink = 'https:://connect.stripe.com/express/';
+
+            $output = [
+                'futureRequirements' => $accountLink["future_requirements"],
+                'requirements' => $accountLink["requirements"],
+                'loginlink' => $accountLink['login_links']["url"]
+            ];
+
+            return $this->sendResponse($output, 'Onboarding links sent');
+        };
+       
+    }
+
+    /**
+     * All user Connect payouts.
+     *
+     * Returns clientSecert url 
+     */
+    #[OpenApi\Operation(tags: ['Payment Transaction'])]
+    public function allAccountPayouts() {
+
+        /* Instantiate a Stripe Gateway either like this */
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        // Return Franchisee Stripe accountID
+        // $accountStripeID = $account['StripeAccountID'];  
+
+        $payouts = $stripe->payouts->all(['limit' => 100]);
+
+        $output = [
+            'payouts' => $payouts
+        ];
+
+        return $this->sendResponse($output, 'Onboarding links sent');       
     }
 }

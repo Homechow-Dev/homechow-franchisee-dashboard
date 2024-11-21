@@ -166,7 +166,7 @@ class KioskController extends BaseController {
     public function KioskQRPayment(Request $request) {
        
         $parameter = $request->all();
-        // dd($parameter['mid']);
+        //dd($parameter);
         // We need to check if a orders has been placed with the parameters and has been paid for with stripe.
         // if thier is a order paid for matching the parameters query load deleveries with the parameters 
         $dispsense = DB::table('load_deliveries')->where([
@@ -181,16 +181,16 @@ class KioskController extends BaseController {
         // dd('yes we have touched the correct route we can procedd');
         // dd($dispsense[0]->TradeNo);
         if(!$dispsense->isEmpty()){
-            $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService', [
-                $status = 0,
-                $MsgType = 0,
-                $TradeNo = $dispsense[0]->TradeNo,
-                $SlotNo = $dispsense[0]->SlotNo,
-                $ProductID = $dispsense[0]->ProductID,
-                $Err = '',
-            ]);
-            $status = 0;
-            $MsgType = 0;
+            // $response = Http::post('http://lab.zjznai.com/labSystem/exam/points/record/exchangeMachineService', [
+            //     $status = 0,
+            //     $MsgType = 0,
+            //     $TradeNo = $dispsense[0]->TradeNo,
+            //     $SlotNo = $dispsense[0]->SlotNo,
+            //     $ProductID = $dispsense[0]->ProductID,
+            //     $Err = '',
+            // ]);
+            $status = '0';
+            $MsgType = '0';
             $TradeNo = $dispsense[0]->TradeNo;
             $SlotNo = $dispsense[0]->SlotNo;
             $ProductID = $dispsense[0]->ProductID;
