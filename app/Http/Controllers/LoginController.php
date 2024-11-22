@@ -44,6 +44,8 @@ class LoginController extends BaseController
 
             $success['token'] =  $token;
             $success['name'] =  $user->name;
+            // Roles & permission
+            $success['role'] = 'kitchen';
             return $this->sendResponse($success, 'User registered successfully.');
         }
     }
