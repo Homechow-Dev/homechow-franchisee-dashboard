@@ -55,7 +55,8 @@ class KioskController extends BaseController {
 
     public function kioskDetail(Kiosk $kiosk){
         $k = Kiosk::where('id', $kiosk->id)->with('meals')->get();
-        
+        // Top selling meals Cuisines 
+            //count meals category ordes table by kioskid  pull from franchise orders detail.
         // Return response json
         $output = $k;
         return $this->sendResponse($output, 'Kiosk detail retrieved successfully.');  

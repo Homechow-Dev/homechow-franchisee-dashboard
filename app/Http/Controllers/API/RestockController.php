@@ -39,26 +39,18 @@ class RestockController extends BaseController {
         $kl = Kiosk::find($kiosk);
 
         $request->validate([
-            // 'restockId' => 'required|string|max:15',
             'kioskName' => 'required|string|max:150',
-            'mealName' => 'required|string|max:50',
-            'Category' => 'required|string|max:50',
-            'qty' => 'required|string|max:10',
-            'deliverName' => 'required|string|max:50',
-            'status' => 'required|string|max:50', 
+            'quantity' => 'required|string|max:10',
         ]);
 
         
         $rk = Restock::create([
             'kiosk_id' => $kl['id'],
-            // 'machineID' => $kl['machineID'],
-            'restockId' => $request->restockId,
+            'machineID' => $kl['machineID'],
             'kioskName' => $request->kioskName,
-            'mealName' => $request->mealName,
-            'Category' => $request->Category,
-            'qty' => $request->qty,
+            'quantity' => $request->qty,
             'deliverName' => $request->deliverName,
-            'status' => $request->status,
+            'status' => 'prepared',
         ]);
 
         
