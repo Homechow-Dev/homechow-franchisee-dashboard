@@ -107,7 +107,8 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('update/kiosks/{id}', 'updateKiosk');
             Route::post('update/kiosk/status/{kiosk}', 'statusUpdateKiosk');
             Route::get('kiosk/detail/{kiosk}',  'kioskDetail');
-            // Route::get('kiosk/meals/bydate', 'kioskByDate'); Kiosk table query data by data {Start_date, ?End_date}
+            Route::get('kiosk/meals/today', 'kitchenDataToday');
+            Route::post('kiosk/meals/bydate', 'kioskByDate'); ///Kiosk table query data by data {Start_date, ?End_date}
             Route::get('delete/kiosks/{id}', 'delete');
         });
 

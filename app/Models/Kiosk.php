@@ -43,7 +43,7 @@ class Kiosk extends Model
     }
 
     public function meals(): BelongsToMany {
-        return $this->belongsToMany(Meal::class)->withPivot('Total', 'StockTotal', 'SlotNo');
+        return $this->belongsToMany(Meal::class)->withPivot('Total', 'StockTotal', 'TotalSold', 'SlotNo');
     }
 
     public function restocks(): HasMany {

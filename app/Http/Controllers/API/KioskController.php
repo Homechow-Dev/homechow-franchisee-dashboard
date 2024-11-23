@@ -15,6 +15,7 @@ use App\Models\Temp;
 use App\OpenApi\Parameters\Kiosk\CreateKioskParameters;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
 use function PHPUnit\Framework\isEmpty;
@@ -54,13 +55,53 @@ class KioskController extends BaseController {
     }
 
     public function kioskDetail(Kiosk $kiosk){
-        $k = Kiosk::where('id', $kiosk->id)->with('meals')->get();
-        // Top selling meals Cuisines 
-            //count meals category ordes table by kioskid  pull from franchise orders detail.
-        // Return response json
+        $k = $kiosk;
+        $k = DB::table('load_deliveries')->where('MachineID', $kiosk->MachineID)
+            ->select('Name','Type','SlotNo','Stock')->get();
         $output = $k;
         return $this->sendResponse($output, 'Kiosk detail retrieved successfully.');  
     }
+
+    public function kioskByDate(Request $request){
+
+        $startDate = $request->Start_date;
+        $endDate = $request->End_date;
+        $kiosk = Kiosk::get();
+        
+        foreach($kiosk as $kiosk) {
+            // dd($kiosk->KioskNumber);
+            $kioskNumber = $kiosk->KioskNumber;
+            $totalMealsSold = DB::table('orders')->where('kiosk_id', $kiosk->id)->whereBetween('Time', [$startDate, $endDate])->sum('Quantity');
+            $mealsSoldToday = DB::table('orders')->where('kiosk_id', $kiosk->id)->sum('Quantity');   
+            $currentStock = 24 - $mealsSoldToday;
+            $machine = Kiosk::where('kioskNumber', $kioskNumber)->select('id', 'kioskNumber', 'KioskAddress', 'TotalMeals')->get();
+            $todaySales[] = Arr::add([$kioskNumber, 'detail' => $machine, 'mealsSold' => $totalMealsSold,], 'currentStock', $currentStock);      
+        }
+        $output = $todaySales;
+        return $this->sendResponse($output, 'Kiosk detail retrieved successfully.');
+        // Top selling meals Cuisines 
+            //count meals category ordes table by kioskid  pull from franchise orders detail.
+        // Return response json    
+    }
+
+    public function kitchenDataToday() {
+
+        $kiosk = DB::table('kiosks')->get();
+        // dd($kiosk[0]->KioskNumber);
+        $today = Carbon::now();
+        $todaySales = [];
+        foreach($kiosk as $kiosk) {
+            // dd($kiosk->KioskNumber);
+            $kioskNumber = $kiosk->KioskNumber;
+            $totalMealsSold = DB::table('orders')->where('kiosk_id', $kiosk->id)->where('Time', $today)->sum('Quantity');  
+            $currentStock = 24 - $totalMealsSold;
+            $machine = Kiosk::where('kioskNumber', $kioskNumber)->select('id', 'kioskNumber', 'KioskAddress', 'TotalMeals')->get();
+            $todaySales[] = Arr::add([$kioskNumber, 'detail' => $machine, 'mealsSold' => $totalMealsSold,], 'currentStock', $currentStock);      
+        }
+        $output = $todaySales;
+        return $this->sendResponse($output, 'Kiosk detail retrieved successfully.');   
+    }
+
 
 
      /**
@@ -258,6 +299,12 @@ class KioskController extends BaseController {
                 'Type' => $request['Type'],
                 'Quantity' => $request['Quantity'],
             ]);
+
+            // DB::table('orders')->create([
+            //     [ 'MachineID' => $macID], 
+            //     ['SlotNo' => $slot ],
+            //     ['SlotNo' => $slot ]
+            // ]);
             
             $status = 0;
             $TradeNo = $request['TradeNo'];
