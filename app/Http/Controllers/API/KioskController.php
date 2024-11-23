@@ -62,6 +62,21 @@ class KioskController extends BaseController {
         return $this->sendResponse($output, 'Kiosk detail retrieved successfully.');  
     }
 
+    public function kioskCategoryRank(Request $request, Kiosk $kiosk){
+        $startDate = $request->Start_date;
+        $endDate = $request->End_date;
+        $k = $kiosk;
+      
+        $b = DB::table('orders')->where('kiosk_id',$k->id)->whereBetween('Time', [$startDate, $endDate])
+        ->selectRaw('count(Category) as number_of_orders, Category')
+        ->groupBy('Category')
+        ->get();
+    
+        $todaySales = $b; //dd($b);
+        $output = $todaySales;
+        return $this->sendResponse($output, 'Kiosk Top categories detail retrieved successfully.');  
+    }
+
     public function kioskByDate(Request $request){
 
         $startDate = $request->Start_date;
