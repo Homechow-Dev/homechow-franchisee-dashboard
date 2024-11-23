@@ -90,7 +90,7 @@ class KioskController extends BaseController {
             $mealsSoldToday = DB::table('orders')->where('kiosk_id', $kiosk->id)->sum('Quantity');   
             $currentStock = 24 - $mealsSoldToday;
             $machine = Kiosk::where('kioskNumber', $kioskNumber)->select('id', 'kioskNumber', 'KioskAddress', 'TotalMeals')->get();
-            $todaySales[] = Arr::add([$kioskNumber, 'detail' => $machine, 'mealsSold' => $totalMealsSold,], 'currentStock', $currentStock);      
+            $todaySales[] = Arr::add([$kioskNumber, 'detail' => $machine, 'TotalSold' => $totalMealsSold,], 'StockTotal', $currentStock);      
         }
         $output = $todaySales;
         return $this->sendResponse($output, 'Kiosk detail retrieved successfully.');
@@ -111,7 +111,7 @@ class KioskController extends BaseController {
             $totalMealsSold = DB::table('orders')->where('kiosk_id', $kiosk->id)->where('Time', $today)->sum('Quantity');  
             $currentStock = 24 - $totalMealsSold;
             $machine = Kiosk::where('kioskNumber', $kioskNumber)->select('id', 'kioskNumber', 'KioskAddress', 'TotalMeals')->get();
-            $todaySales[] = Arr::add([$kioskNumber, 'detail' => $machine, 'mealsSold' => $totalMealsSold,], 'currentStock', $currentStock);      
+            $todaySales[] = Arr::add([$kioskNumber, 'detail' => $machine, 'TotalSold' => $totalMealsSold,], 'StockTotal', $currentStock);      
         }
         $output = $todaySales;
         return $this->sendResponse($output, 'Kiosk detail retrieved successfully.');   
