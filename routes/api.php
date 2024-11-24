@@ -98,6 +98,8 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('create/meals', 'createMeals');
             Route::post('update/meals/{id}', 'updateMeals');
             Route::post('update/meal/status/{meal}', 'statusUpdateMeal');
+            Route::get('meals/list/today', 'mealsListToday');
+            Route::post('meals/list/bydate', 'mealsListBydate');
             Route::get('delete/meals/{id}', 'delete');
         });
 
@@ -107,9 +109,9 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('update/kiosks/{id}', 'updateKiosk');
             Route::post('update/kiosk/status/{kiosk}', 'statusUpdateKiosk');
             Route::get('kiosk/detail/{kiosk}',  'kioskDetail');
-            Route::post('kiosk/detail/cat/{kiosk}',  'kioskCategoryRank');
             Route::get('kiosk/meals/today', 'kitchenDataToday');
-            Route::post('kiosk/meals/bydate', 'kioskByDate'); ///Kiosk table query data by data {Start_date, ?End_date}
+            Route::post('kiosk/meals/bydate', 'kioskByDate');
+            Route::post('kiosk/detail/cat/{kiosk}',  'kioskCategoryRank');
             Route::get('delete/kiosks/{id}', 'delete');
         });
 

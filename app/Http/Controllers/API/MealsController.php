@@ -5,9 +5,12 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Meal;
+use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use App\OpenApi\Parameters\Meals\CreateMealsParameters;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+use Carbon\Carbon;
+use Illuminate\Support\Arr;
 
 #[OpenApi\PathItem]
 class MealsController extends BaseController {
@@ -144,6 +147,68 @@ class MealsController extends BaseController {
             'meals' => 'Success',
         ];
         return $this->sendResponse($output, 'Meal has been deleted');
+    }
+
+    public function mealsListBydate(Request $request){
+        $startDate = $request->Start_date;
+        $endDate = $request->End_date;
+        $meals = DB::table('meals')->get();
+
+        $dateSales = [];
+        foreach($meals as $meal) {
+            // dd($kiosk->KioskNumber);
+
+            // Total number for porductID's Stocked in all kiosks
+            $a = DB::table('kiosk_meal')->where('ProductID', $meal->ProductID)->get();
+            $totalProduct = $a->count();
+            //Total number of kiosk with productID
+            $kioskcount = $a->unique('kiosk_id')->count();
+
+            // find orders with productID and kiosk_id that have sold
+            $mealSold = DB::table('orders')
+                ->where('ProductID', $meal->ProductID)
+                ->whereBetween('Time', [$startDate, $endDate])
+                ->sum('Quantity'); 
+            
+            //Meals left in the field
+            $mealsLeft = $totalProduct - $mealSold; 
+            $currentmeal = $meal->Cuisine; 
+
+            $dateSales[] = Arr::add(['mealName' => $currentmeal, 'kiosk_total' => $kioskcount, 'Total_meals' => $totalProduct], 'mealsInField', $mealsLeft );
+        }
+        $output = $dateSales;
+        return $this->sendResponse($output, 'Todays meals detail retrieved successfully.'); 
+    }
+
+    public function mealsListToday() {
+        $meals = DB::table('meals')->get();
+        // dd($kiosk[0]->KioskNumber);
+        $today = Carbon::now();
+        $todaySales = [];
+        foreach($meals as $meal) {
+            // dd($kiosk->KioskNumber);
+
+            // Total number for porductID's Stocked in all kiosks
+            $a = DB::table('load_deliveries')->where('ProductID', $meal->ProductID)->get();
+            $totalProduct = $a->count();
+            //Total number of kiosk with productID
+            $kioskcount = $a->unique('kiosk_id')->count();
+
+            // find orders with productID and kiosk_id that have sold
+            $mealSold = DB::table('orders')
+                ->where('ProductID', $meal->ProductID)
+                ->where('Time', $today)
+                ->sum('Quantity'); 
+            
+            
+            //Meals left in the field
+            $mealsLeft = $totalProduct - $mealSold;
+            $currentmeal = $meal->Cuisine; 
+
+            $todaySales[] = Arr::add(['mealName' => $currentmeal, 'kiosk_total' => $kioskcount, 'Total_meals' => $totalProduct], 'mealsInField', $mealsLeft );
+        }
+        $output = $todaySales;
+        return $this->sendResponse($output, 'Todays meals detail retrieved successfully.');   
     }
     
 

@@ -120,9 +120,9 @@ class KioskController extends BaseController {
 
 
      /**
-     * Retrieves all Kiosk.
+     * Create new Kiosk.
      *
-     * Returns all kiosk by status
+     * Returns created kiosk with attached Partner owner
      */
     #[OpenApi\Operation(tags: ['Kiosk'])]
     #[OpenApi\Parameters(factory: CreateKioskParameters::class)]
@@ -154,9 +154,9 @@ class KioskController extends BaseController {
 
 
      /**
-     * Retrieves all Kiosk.
+     * Updated new Kiosk.
      *
-     * Returns all kiosk by status
+     * Returns update kiosk with attached Partner owner
      */
     #[OpenApi\Operation(tags: ['Kiosk'])]
     #[OpenApi\Parameters(factory: CreateKioskParameters::class)]
