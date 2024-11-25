@@ -22,6 +22,8 @@ class RegisterController extends Controller
             'password' => Hash::make(request('password')),
         ]);
 
+        $user->assignRole('web-user');
+
         Auth::guard('web')->login($user);
     }
 }

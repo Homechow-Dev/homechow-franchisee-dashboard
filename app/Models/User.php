@@ -13,10 +13,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use MannikJ\Laravel\Wallet\Traits\HasWallet;
 use Carbon\Carbon;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasWallet;
+    use HasApiTokens, HasFactory, Notifiable, HasWallet, HasRoles;
 
     /**
      * The attributes that are mass assignable.

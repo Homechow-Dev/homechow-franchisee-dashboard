@@ -40,12 +40,13 @@ class LoginController extends BaseController
                 ], 401);
             }
             $user = User::where('email', request()['email'])->firstOrFail();
+            $roles = $user->getRoleNames();
             $token= $user->createToken('api_token', ['api-access'], Carbon::now()->addMinutes(config('sanctum.ac_expiration')))->plainTextToken;
 
             $success['token'] =  $token;
             $success['name'] =  $user->name;
             // Roles & permission
-            $success['role'] = 'kitchen';
+            $success['role'] = $roles;
             return $this->sendResponse($success, 'User registered successfully.');
         }
     }

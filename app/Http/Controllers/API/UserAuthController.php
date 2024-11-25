@@ -37,6 +37,8 @@ class UserAuthController extends BaseController {
             'password' => Hash::make($request->password),
         ]);
 
+        $user->assignRole('kiosk-owner');
+
         $token = $user->createToken('api_token', ['api-access'], Carbon::now()->addMinutes(config('sanctum.ac_expiration')))->plainTextToken;
         $refreshToken = $user->createToken('refresh_token', ['token-refresh'], Carbon::now()->addMinutes(config('sanctum.rt_expiration')))->plainTextToken;
         
