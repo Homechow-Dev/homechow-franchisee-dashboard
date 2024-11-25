@@ -341,9 +341,12 @@ class PaymentController extends BaseController {
             $accountLink = $stripe->accounts->retrieve( $account[0]['StripeAccountID'], []);
             $loginlink = 'https:://connect.stripe.com/express/';
 
+            if($accountLink["requirements"]){
+                $req = 'Requirements not completed. Account onHold';
+            }
+
             $output = [
-                'futureRequirements' => $accountLink["future_requirements"],
-                'requirements' => $accountLink["requirements"],
+                'requirements' => $req,
                 'loginlink' => $accountLink['login_links']["url"]
             ];
 
