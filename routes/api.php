@@ -108,10 +108,10 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('create/kiosk/{account}', 'createKiosk'); 
             Route::post('update/kiosks/{id}', 'updateKiosk');
             Route::post('update/kiosk/status/{kiosk}', 'statusUpdateKiosk');
-            Route::get('kiosk/detail/{kiosk}',  'kioskDetail');
+            Route::get('info/kiosk/{kiosk}',  'kioskInformation');
             Route::get('kiosk/meals/today', 'kitchenDataToday');
             Route::post('kiosk/meals/bydate', 'kioskByDate');
-            Route::post('kiosk/detail/cat/{kiosk}',  'kioskCategoryRank');
+            Route::post('kiosk/detail/cat/{kiosk_id}',  'kioskCategoryRank');
             Route::get('delete/kiosks/{id}', 'delete');
         });
 

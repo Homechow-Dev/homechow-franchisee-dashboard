@@ -54,11 +54,30 @@ class KioskController extends BaseController {
         return $this->sendResponse($output, 'Kiosk retrieved successfully.');  
     }
 
-    public function kioskDetail(Kiosk $kiosk){
+      /**
+     * Retrieves Kiosk Information.
+     *
+     * Returns kiosk information
+     */
+    #[OpenApi\Operation(tags: ['Kiosk'])]
+    public function kioskInformation(Kiosk $kiosk){
         $k = $kiosk;
-        $k = DB::table('load_deliveries')->where('MachineID', $kiosk->MachineID)
+        $today = Carbon::now();
+        
+        $detail = $k;
+        $kioskInformation = DB::table('load_deliveries')->where('MachineID', $k->MachineID)
             ->select('Name','Type','SlotNo','Stock')->get();
-        $output = $k;
+        
+        $b = DB::table('orders')->where('kiosk_id',$k->id)->where('Time', $today)
+        ->selectRaw('count(Category) as number_of_orders, Category')
+        ->groupBy('Category')
+        ->get();
+
+        $output = [
+            'detail' => $k,
+            'Information' => $kioskInformation,
+            'TopCategopries' => $b
+        ];
         return $this->sendResponse($output, 'Kiosk detail retrieved successfully.');  
     }
 

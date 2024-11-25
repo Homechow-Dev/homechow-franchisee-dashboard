@@ -52,11 +52,7 @@ class RestockController extends BaseController {
             'deliverName' => $request->deliverName,
             'status' => 'prepared',
         ]);
-
         
-
-
-
         $output = [
             'Restock' => $rk,
         ];
