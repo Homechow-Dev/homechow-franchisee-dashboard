@@ -60,7 +60,7 @@ class AccountController extends BaseController {
             'password' => Hash::make($FirstPass),
         ]);
 
-        $user->assignRole('kiosk-owner');
+        $user->assignRole('partners-manager');
 
          //Generate random customer Id
         function generateCustomerId() {
