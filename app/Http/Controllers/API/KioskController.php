@@ -66,7 +66,7 @@ class KioskController extends BaseController {
         
         $detail = $k;
         $kioskInformation = DB::table('load_deliveries')->where('MachineID', $k->MachineID)
-            ->select('Name','Type','SlotNo','Stock')->get();
+            ->select('Name','Type','SlotNo','Stock', 'Price')->get();
         
         $b = DB::table('orders')->where('kiosk_id',$k->id)->where('Time', $today)
         ->selectRaw('count(Category) as number_of_orders, Category')
