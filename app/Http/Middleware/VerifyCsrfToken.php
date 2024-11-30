@@ -14,6 +14,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         "https://orca-app-hoihb.ondigitalocean.app/",
+        "https://admin.homechow.co/",
         "http://localhost:3000",
         
     ];

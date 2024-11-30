@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\API\{
     UserAuthController,
     AccountController,
+    ApplicationController,
     CustomerController,
     KioskController,
     MealsController,
@@ -123,6 +124,13 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::get('categories/list', 'index');
         });
 
+        Route::controller(ApplicationController::class)->group(function (){
+            Route::get('applications', 'applicationPage');
+            Route::post('application/status/{id}', 'applicationStatus');
+        });
+
+        
+
         Route::get('all/transaction/orders', [OrdersController::class, 'allOrdersTransactions']);
 
         Route::get('stripe/account/payouts', [PaymentController::class, 'allAccountPayouts']);
@@ -171,6 +179,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
     Route::post('submit/feedback/{account}', [FeedbackController::class, 'feedbackFranchisee']);
     Route::get('feedback/{account}', [FeedbackController::class, 'accountUserFeedback']);
     Route::get('feedback/delete/{account}', [FeedbackController::class, 'deleteFeedback']);
+    // Need to create Franchisee Application submittals 
 
 
     // Restock tranactions
