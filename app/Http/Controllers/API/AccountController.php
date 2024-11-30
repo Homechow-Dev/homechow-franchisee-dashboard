@@ -229,7 +229,8 @@ class AccountController extends BaseController {
    public function franchiseAccountProfile(Account $account) {
        $acct = $account;
        $useraccount = Account::where('id', $acct->id)->get();
-       $ordersK = Kiosk::select( 
+       $ordersK = Kiosk::select(
+        'id', 
         'KioskType', 
         'KioskNumber', 
         'MealsSold', 
