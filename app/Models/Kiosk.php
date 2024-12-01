@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Kiosk extends Model
 {
@@ -37,6 +38,7 @@ class Kiosk extends Model
     public function accounts(): BelongsTo {
         return $this->belongsTo(Account::class);
     }
+    
 
     public function orders(): HasMany {
         return $this->hasMany(Order::class);
@@ -52,5 +54,9 @@ class Kiosk extends Model
 
     public function discounts(): HasMany {
         return $this->hasMany(Discount::class);
+    }
+
+    public function mifi(): HasOne {
+        return $this->hasOne(Mifi::class, 'kiosk_id');
     }
 }

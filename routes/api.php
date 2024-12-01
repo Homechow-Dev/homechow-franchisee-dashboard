@@ -21,6 +21,7 @@ use App\Http\Controllers\API\{
     FeedbackController,
     CategoryController,
     FaqController,
+    MifiController,
 
 };
 
@@ -127,6 +128,12 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
         Route::controller(ApplicationController::class)->group(function (){
             Route::get('applications', 'applicationPage');
             Route::post('application/status/{id}', 'applicationStatus');
+        });
+
+        Route::controller(MifiController::class)->group(function (){
+            Route::get('mifis', 'index');
+            Route::post('mifis/create', 'createMifi');
+            Route::post('mifis/update/{id}', 'updateMifi');
         });
 
         
