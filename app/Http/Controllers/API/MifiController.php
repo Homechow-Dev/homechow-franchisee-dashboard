@@ -41,7 +41,7 @@ class MifiController extends BaseController
     public function createMifi(Request $request) {
 
         $a = $request->all(); 
-        
+
         $addMifi = Mifi::create([
             'MifiId' => $a['MifiId'], 
             'Location' => $a['Location'],
@@ -63,11 +63,11 @@ class MifiController extends BaseController
     public function updateMifi(Request $request, $id) {
         $k = $request->all();
         $kl = Mifi::find($id);
-        if($k['MifiId'] != Null){$kl->MifiId = $k['MifiId'];}
-        if($k['Location'] != Null){$kl->Location = $k['Location'];}
-        if($k['MachineId'] != Null){$kl->MachineId = $k['MachineId'];}
-        if($k['SimNumber'] != Null){$kl->SimNumber = $k['SimNumber'];}
-        if($k['Provider'] != Null){$kl->Provider = $k['Provider'];}
+        if($k['MifiId'] != Null ){$kl->MifiId = $k['MifiId'];}
+        if($k['Location'] != Null ){$kl->Location = $k['Location'];}
+        if($k['MachineId'] != Null ){$kl->MachineId = $k['MachineId'];}
+        if($k['SimNumber'] != Null ){$kl->SimNumber = $k['SimNumber'];}
+        if($k['Provider'] != Null ){$kl->Provider = $k['Provider'];}
 
         $kl->save();
 
