@@ -5,13 +5,21 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Models\Mifi;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\OpenApi\Parameters\Kiosk\CreateKioskParameters;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 
 class MifiController extends BaseController
 {
+     /**
+     * Retrieves all Kiosk.
+     *
+     * Returns all kiosk by status
+     */
+    #[OpenApi\Operation(tags: ['Mifi'])]
     public function index() {
         $mifi = Mifi::get();
         $totalMifi = $mifi->count();
-        $notused = Mifi::where('kiosk_id', 'null')->count();
+        $notused = Mifi::where('MachineId', 'null')->count();
         $availableMifi = $totalMifi - $notused;
 
         $output = [
@@ -24,6 +32,12 @@ class MifiController extends BaseController
         return $this->sendResponse($output, 'mifi detail retrieved successfully.');
     }
 
+     /**
+     * Create New Mifi Device.
+     *
+     * Returns created mifi device
+     */
+    #[OpenApi\Operation(tags: ['Mifi'])]
     public function createMifi(Request $request) {
 
         $a = $request->all(); 
@@ -41,6 +55,11 @@ class MifiController extends BaseController
         return $this->sendResponse($output, 'Kiosk created successfully.');  
     }
 
+    /**
+     * Update  Mifi Device.
+     *
+     * Returns updated mifi device
+    **/
     public function updateMifi(Request $request, $id) {
         $k = $request->all();
         $kl = Mifi::find($id);

@@ -57,15 +57,17 @@ return [
                     'name' => 'Wallet Transaction',
                     'description' => 'Application customer & franchisee wallet processing',
                 ],
-
                 [
                     'name' => 'Restock Transactions',
                     'description' => 'Application restocking of kiosk transactions',
                 ],
-
                 [
                     'name' => 'Faq',
                     'description' => 'Faq for kiosk and consumers',
+                ],
+                [
+                    'name' => 'Mifi',
+                    'description' => 'Mifi devices assign to kiosk in the field',
                 ],
                 
 
