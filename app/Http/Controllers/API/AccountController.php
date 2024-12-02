@@ -158,6 +158,33 @@ class AccountController extends BaseController {
         return $this->sendResponse($output, 'Account update successfully'); 
     }
 
+    /**
+     * franchisee Account Status.
+     *
+     * Account status  
+     * Returns Franchisee account status
+     */
+    // Kiosk::factory()->hasOrders(5)->hasMeals(6)->create();
+   #[OpenApi\Operation(tags: ['accounts'])]
+   public function franchiseAccountStatus(Request $request, Account $account) {
+        $request->validate([
+            'Status' => 'string|max:50',
+        ]);
+        
+        $id = $account->id;
+        $accountUpdate = Account::find($id);
+        if($request->Status != ''){$accountUpdate->Status = $request->Status;}
+        $accountUpdate->save();
+
+        $output = [
+            'name' => $accountUpdate->Status,
+        ];
+
+        return $this->sendResponse($output, 'Account updated successfully'); 
+
+   }
+
+
      /**
      * Retrieves franchisee Account user.
      *
