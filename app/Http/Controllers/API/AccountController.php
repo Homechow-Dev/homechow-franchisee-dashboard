@@ -8,18 +8,14 @@ use App\Models\Account;
 use App\Models\Kiosk;
 use App\Models\Order;
 use App\Models\User;
-use App\OpenApi\Parameters\Accounts\FranchiseeAccountParameters;
 use Illuminate\Http\Request;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+use App\OpenApi\Parameters\Accounts\FranchiseeAccountParameters;
+
 
 
 #[OpenApi\PathItem]
@@ -166,14 +162,17 @@ class AccountController extends BaseController {
      */
     // Kiosk::factory()->hasOrders(5)->hasMeals(6)->create();
    #[OpenApi\Operation(tags: ['accounts'])]
-   public function franchiseAccountStatus(Request $request, Account $account) {
+   public function accountStatus(Account $account, Request $request) {
+
         $request->validate([
             'Status' => 'string|max:50',
         ]);
-        
-        $id = $account->id;
-        $accountUpdate = Account::find($id);
-        if($request->Status != ''){$accountUpdate->Status = $request->Status;}
+
+        $h = $account->id;
+        $accountUpdate = Account::find($h);
+        if($request->Status != ''){ 
+            $accountUpdate->Status = $request->Status; 
+        }
         $accountUpdate->save();
 
         $output = [

@@ -41,7 +41,7 @@ class MifiController extends BaseController
     public function createMifi(Request $request) {
 
         $a = $request->all(); 
-
+        
         $addMifi = Mifi::create([
             'MifiId' => $a['MifiId'], 
             'Location' => $a['Location'],

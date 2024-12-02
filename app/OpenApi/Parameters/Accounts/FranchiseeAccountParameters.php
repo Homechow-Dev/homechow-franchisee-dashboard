@@ -14,7 +14,6 @@ class FranchiseeAccountParameters extends ParametersFactory
     public function build(): array
     {
         return [
-
             Parameter::query()
                 ->name('Name')
                 ->description('Parameter description')

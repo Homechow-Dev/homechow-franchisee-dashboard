@@ -93,7 +93,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::get('accounts/{account}', 'franchiseAccount'); 
             Route::get('franchisee/profile/{account}', 'franchiseAccountProfile');
             Route::post('create/franchisee', 'createFranchisee');
-            Route::post('accounts/status/update/{id}', 'franchiseAccountStatus');
+            Route::post('status/update/accounts/{account}', 'accountStatus');
         });
 
         Route::controller(MealsController::class)->group(function () {
