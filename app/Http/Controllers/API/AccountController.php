@@ -176,7 +176,7 @@ class AccountController extends BaseController {
         $accountUpdate->save();
 
         $output = [
-            'name' => $accountUpdate->Status,
+            'status' => $accountUpdate->Status,
         ];
 
         return $this->sendResponse($output, 'Account updated successfully'); 
