@@ -27,7 +27,7 @@ class ApplicationController extends BaseController {
         
         $applications = DB::table('applications')->get();
         $totalApplications = $applications->count();
-        $applicationApproved = $applications->where('status', 'Approved');
+        $applicationApproved = $applications->where('status', 'Approved')->count();
         // $kiosk = DB::table('kiosk')->whereBetween('created_at', [$startDate, $endDate])->get();
         // $Day1 = DB::table('kiosk')->where('created_at', $day1)->get();
         
