@@ -334,11 +334,8 @@ class KioskController extends BaseController {
                 'Quantity' => $request['Quantity'],
             ]);
 
-            // DB::table('orders')->create([
-            //     [ 'MachineID' => $macID], 
-            //     ['SlotNo' => $slot ],
-            //     ['SlotNo' => $slot ]
-            // ]);
+            // Count total stock of meal from machineID
+            // Update kiosk table with total meal count
             
             $status = 0;
             $TradeNo = $request['TradeNo'];
@@ -401,7 +398,10 @@ class KioskController extends BaseController {
                     'LockGoodsCount' => $request['LockGoodsCount']
                 ]);
             
+            
             // Update kiosk_meals stock
+            DB::table('kiosk_meal')
+            ->updateOrInsert(['MachineID' => $macID, 'SlotNo' => $slot],['StockTotal' => $request['Stock'],]);
             // kiosk_meal where machineId & SlotNO update or insert current stocktotal & productID
 
             

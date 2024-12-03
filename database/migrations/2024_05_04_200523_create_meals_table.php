@@ -32,6 +32,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->foreignUlid('kiosk_id');
             $table->foreignId('meal_id');
+            $table->String('MachineID');
             $table->String('Total', 3)->nullable();
             $table->String('TotalSold')->nullable();
             $table->String('StockTotal', 3)->nullable();
