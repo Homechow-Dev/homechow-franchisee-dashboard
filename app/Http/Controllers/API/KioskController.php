@@ -400,14 +400,16 @@ class KioskController extends BaseController {
             
             
             // Update kiosk_meals stock
-            $kioskID = Kiosk::where('MachineID',  $macID)->get();
-            DB::table('kiosk_meal')
-            ->updateOrInsert(['kiosk_id' => $kioskID->id, 'SlotNo' => $slot],[
+            $kioskID = Kiosk::where('MachineID',  $macID)->get(); //dd($kioskID[0]['id']);
+            $meal = Meal::where('ProductID', $request['ProductID'])->get(); //dd($meal[0]['id']);
+           DB::table('kiosk_meal')
+            ->updateOrInsert(['kiosk_id' => $kioskID[0]['id'], 'SlotNo' => $slot],[
                 'MachineID' => $macID, 
+                'meal_id' => $meal[0]['id'],
                 'StockTotal' => $request['Stock'],
                 'ProductID' => $request['ProductID'],
             ]);
-
+   
             
             $status = '0';
             $SlotNo = $slot; 
