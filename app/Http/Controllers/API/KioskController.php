@@ -309,10 +309,12 @@ class KioskController extends BaseController {
             ->updateOrInsert(['MachineID' => $macID, 'FunCode' => $code]);
 
             $status = 0;
-            $TradeNo = '';
-            $SlotNo = '';
+            $MsgType = '';
+            $TradeNo = ' ';
+            $SlotNo = ' ';
+            $productID = ' ';
             $Err = '';
-            return $this->machineResponse($status,$TradeNo, $SlotNo, $Err);
+            return $this->deliverResponse($status, $MsgType, $TradeNo, $SlotNo, $productID, $Err);
             
         }
 
