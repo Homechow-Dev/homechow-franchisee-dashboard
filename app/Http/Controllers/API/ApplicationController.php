@@ -57,8 +57,8 @@ class ApplicationController extends BaseController {
 
         $app = $application->id;
         $App = Application::find($app);
-        $app->Status = $request['status']; 
-        $app->save();
+        $App->Status = $request->status; 
+        $App->save();
 
         $output = 'Status';
 
