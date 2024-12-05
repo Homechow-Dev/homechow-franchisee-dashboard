@@ -407,7 +407,7 @@ class KioskController extends BaseController {
             $kioskID = Kiosk::where('MachineID',  $macID)->get(); //dd($kioskID[0]['id']);
             $meal = Meal::where('ProductID', $request['ProductID'])->get();
             if($meal == '') {
-                $meal = '0001';
+                $meal = $request['ProductID'];
             } //dd($meal[0]['id']);
             DB::table('kiosk_meal')
                 ->updateOrInsert(['kiosk_id' => $kioskID[0]['id'], 'SlotNo' => $slot],[
