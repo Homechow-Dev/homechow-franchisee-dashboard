@@ -128,7 +128,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
 
         Route::controller(ApplicationController::class)->group(function (){
             Route::get('applications', 'applicationPage');
-            Route::post('application/status/{id}', 'applicationStatus');
+            Route::post('application/status/{application}', 'applicationStatus');
         });
 
         Route::controller(MifiController::class)->group(function (){
