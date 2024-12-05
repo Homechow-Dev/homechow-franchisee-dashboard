@@ -406,15 +406,13 @@ class KioskController extends BaseController {
             // Update kiosk_meals stock
             $kioskID = Kiosk::where('MachineID',  $macID)->get(); //dd($kioskID[0]['id']);
             $meal = Meal::where('ProductID', $request['ProductID'])->get();
-            if($meal->isEmnpty()) {
+            if($meal == '') {
                 $meal = '0001';
-            } else {
-                $meal = $meal[0]['id'];
             } //dd($meal[0]['id']);
             DB::table('kiosk_meal')
                 ->updateOrInsert(['kiosk_id' => $kioskID[0]['id'], 'SlotNo' => $slot],[
                     'MachineID' => $macID, 
-                    'meal_id' => $meal,
+                    'meal_id' => $meal || $meal[0]['id'],
                     'StockTotal' => $request['Stock'],
                     'ProductID' => $request['ProductID'],
                 ]);
