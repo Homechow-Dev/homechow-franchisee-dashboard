@@ -338,6 +338,8 @@ class KioskController extends BaseController {
 
             // Count total stock of meal from machineID
             // Update kiosk table with total meal count
+            DB::table('kiosks')->where('MachineID', $macID )->decrement('StockTotal', 1);
+            DB::table('kiosk')->where('MachineID', $macID )->incrementEach(['TotalSold' => 1, 'MealsSold' => 1]);
             
             $status = 0;
             $TradeNo = $request['TradeNo'];
@@ -404,13 +406,13 @@ class KioskController extends BaseController {
             // Update kiosk_meals stock
             $kioskID = Kiosk::where('MachineID',  $macID)->get(); //dd($kioskID[0]['id']);
             $meal = Meal::where('ProductID', $request['ProductID'])->get(); //dd($meal[0]['id']);
-           DB::table('kiosk_meal')
-            ->updateOrInsert(['kiosk_id' => $kioskID[0]['id'], 'SlotNo' => $slot],[
-                'MachineID' => $macID, 
-                'meal_id' => $meal[0]['id'],
-                'StockTotal' => $request['Stock'],
-                'ProductID' => $request['ProductID'],
-            ]);
+            DB::table('kiosk_meal')
+                ->updateOrInsert(['kiosk_id' => $kioskID[0]['id'], 'SlotNo' => $slot],[
+                    'MachineID' => $macID, 
+                    'meal_id' => $meal[0]['id'],
+                    'StockTotal' => $request['Stock'],
+                    'ProductID' => $request['ProductID'],
+                ]);
    
             
             $status = '0';
