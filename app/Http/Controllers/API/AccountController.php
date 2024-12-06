@@ -69,14 +69,9 @@ class AccountController extends BaseController {
         }
 
         function customerIdExists($cust) {
-            // query the database and return a boolean
-            // for instance, it might look like this in Laravel
             return Account::where('CustomerId', $cust)->exists();
         }
-        //Generate random customer Id
-
         $GCCustomerId = generateCustomerId();
-
         $account = Account::create([
             'Name' => $request->Name,
             'user_id' => $user->id,

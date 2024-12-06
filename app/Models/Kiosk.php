@@ -39,7 +39,6 @@ class Kiosk extends Model
         return $this->belongsTo(Account::class);
     }
     
-
     public function orders(): HasMany {
         return $this->hasMany(Order::class);
     }

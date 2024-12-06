@@ -22,14 +22,12 @@ class UserAuthController extends BaseController {
      * @return \Illuminate\Http\Response
      */
     public function register(Request $request)  {
-        
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
         
-   
         // $input = $request->all();
         $user = User::create([
             'name' => $request->name,

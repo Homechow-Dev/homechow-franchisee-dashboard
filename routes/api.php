@@ -21,7 +21,9 @@ use App\Http\Controllers\API\{
     FeedbackController,
     CategoryController,
     FaqController,
+    HomechowAccountsController,
     MifiController,
+
 
 };
 
@@ -31,7 +33,6 @@ use App\Http\Controllers\{
     RegisterController,
     UserController
 };
-
 
 /*
 |--------------------------------------------------------------------------
@@ -95,7 +96,9 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('create/franchisee', 'createFranchisee');
             Route::post('status/update/accounts/{account}', 'accountStatus');
         });
+    });
 
+    Route::prefix('V1')->group(function () {
         Route::controller(MealsController::class)->group(function () {
             Route::get('meals', 'meals');
             Route::post('create/meals', 'createMeals');
@@ -105,7 +108,9 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('meals/list/bydate', 'mealsListBydate');
             Route::get('delete/meals/{id}', 'delete');
         });
+    });
 
+    Route::prefix('V1')->group(function () {
         Route::controller(KioskController::class)->group(function () {
             Route::get('kiosks', 'index');
             Route::post('create/kiosk/{account}', 'createKiosk'); 
@@ -117,34 +122,52 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('kiosk/detail/cat/{kiosk_id}',  'kioskCategoryRank');
             Route::get('delete/kiosks/{id}', 'delete');
         });
+    });
 
+    Route::prefix('V1')->group(function () {
         Route::controller(ChargesController::class)->group(function () {
             Route::get('charges/stripe', 'updateCustomer');
         });
+    });
 
+    Route::prefix('V1')->group(function () {
         Route::controller(CategoryController::class)->group(function (){
             Route::get('categories/list', 'index');
         });
+    });
 
+    Route::prefix('V1')->group(function () {
         Route::controller(ApplicationController::class)->group(function (){
             Route::get('applications', 'applicationPage');
             Route::post('application/status/{application}', 'applicationStatus');
         });
+    });
 
+    Route::prefix('V1')->group(function () {
         Route::controller(MifiController::class)->group(function (){
             Route::get('mifis', 'index');
             Route::post('mifis/create', 'createMifi');
             Route::post('mifis/update/{id}', 'updateMifi');
         });
-
-        
-
-        Route::get('all/transaction/orders', [OrdersController::class, 'allOrdersTransactions']);
-
-        Route::get('stripe/account/payouts', [PaymentController::class, 'allAccountPayouts']);
-
     });
-    // Mobile account management
+
+    Route::prefix('V1')->group(function () {
+        Route::get('all/transaction/orders', [OrdersController::class, 'allOrdersTransactions']);
+    });
+
+    Route::prefix('V1')->group(function () {
+        Route::get('stripe/account/payouts', [PaymentController::class, 'allAccountPayouts']);
+    });
+
+    Route::prefix('V1')->group(function () {
+        Route::controller(HomechowAccountsController::class)->group(function () {
+            Route::get('homechow/employees', 'index');
+            Route::post('homechow/employee/create', 'createHomechowEmployee');
+            Route::post('homechow/update/employee/{homechowaccounts}', 'updateHomechowEmployee');
+            Route::post('homechow/update/password/{homechowaccounts}', 'updatePassword');
+        });
+    });
+    // Mobile account management =====================================================>
     Route::prefix('FranchiseeV1')->group(function () {
         Route::controller(AccountController::class)->group(function () { 
             Route::post('update/franchisee/{account}', 'updateFranchisee');
@@ -161,47 +184,38 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
 
      });
 
-    // Franchise account data for admin panel and Mobile
-    // Route::post('update/franchisee/{account}', [AccountController::class, 'updateFranchisee']);
-    // Rmove this route before turning application live
-    Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
 
+
+
+
+
+    // UnGrouped apis that need to be group under V! or mobile ====================================>
+    Route::get('accounts/{account}', [AccountController::class, 'franchiseAccount']); 
     //Kisok and meals driect Reports
     Route::get('accounts/sales/{account}', [AccountController::class, 'kioskSales']);
-
     // Order calls
     Route::get('orders', [OrdersController::class, 'orders']);
     Route::get('order/{order}', [OrdersController::class, 'orderNumber']);
     Route::get('order/topmeals', [OrdersController::class, 'topMeals']);
     Route::get('reports/orders/{account}', [OrdersController::class, 'orderReports']);
-
-    // faq
+    // Mobile  
     Route::get('faq/list', [FaqController::class, 'index']);
     Route::post('faq/create', [FaqController::class, 'createFaq']);
     Route::post('faq/update', [FaqController::class, 'updateFaq']);
     Route::get('faq/delete', [FaqController::class, 'deleteFaq']);
-
-
     // Franchisee Feedback
     Route::get('feedback', [FeedbackController::class, 'allFeedback']);
     Route::post('submit/feedback/{account}', [FeedbackController::class, 'feedbackFranchisee']);
     Route::get('feedback/{account}', [FeedbackController::class, 'accountUserFeedback']);
     Route::get('feedback/delete/{account}', [FeedbackController::class, 'deleteFeedback']);
-    // Need to create Franchisee Application submittals 
-
-
-    // Restock tranactions
+    // Restock tranactions 
     Route::get('restock/tranactions/{kiosk}', [RestockController::class, 'restock']);
     Route::post('create/restock/{kiosk}', [RestockController::class, 'createRestock']);
-
     // Discount Franchisee request
     Route::post('create/discount', [DiscountController::class, 'createDiscount']);
-
     // member payment 
     Route::post('/member-payment', [PaymentController::class, 'memberPayment']);
-    
-    
     // wallet process
     Route::post('/wallet/addfunds', [PaymentController::class, 'userAddFunds']);
-
+    // UnGrouped apis that need to be group under V! or mobile ====================================>
 });
