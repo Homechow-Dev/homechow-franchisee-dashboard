@@ -174,6 +174,14 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('homechow/update/password/{homechowaccounts}', 'updatePassword');
         });
     });
+
+    Route::prefix('V1')->group(function () {
+        Route::controller(CustomerController::class)->group(function (){
+            Route::get('customers', 'customerTransactions');
+            Route::get('customer/stats', 'customerData');
+        });
+    });
+    
     // ADMINISTRATION PANEL ROUTES HOMECHOW EMPLOYEES ==========================================================>
 
 
