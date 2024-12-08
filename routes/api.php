@@ -87,7 +87,7 @@ Route::get('qrcode/release', [KioskController::class, 'KioskQRPayment']);
 
 
 Route::middleware('auth:sanctum', 'verified')->group(function() {
-    // ADMINISTRATION PANEL ROUTES HOMECHOW EMPLOYEES
+    // ADMINISTRATION PANEL ROUTES HOMECHOW EMPLOYEES ==========================================================>
     Route::prefix('V1')->group(function () {
         Route::controller(AccountController::class)->group(function () {
             Route::get('accounts', 'index');
@@ -121,6 +121,13 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('kiosk/meals/bydate', 'kioskByDate');
             Route::post('kiosk/detail/cat/{kiosk_id}',  'kioskCategoryRank');
             Route::get('delete/kiosks/{id}', 'delete');
+        });
+    });
+
+    Route::prefix('V1')->group(function () {
+        Route::controller(RestockController::class)->group(function () {
+            Route::post('create/restock/{kiosk}', 'createRestock');
+            Route::post('completed/restock/{restock}', 'compledteRestock');
         });
     });
 
@@ -167,7 +174,10 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
             Route::post('homechow/update/password/{homechowaccounts}', 'updatePassword');
         });
     });
-    // Mobile account management =====================================================>
+    // ADMINISTRATION PANEL ROUTES HOMECHOW EMPLOYEES ==========================================================>
+
+
+    // Partner app Mobile account management ===================================================================>
     Route::prefix('FranchiseeV1')->group(function () {
         Route::controller(AccountController::class)->group(function () { 
             Route::post('update/franchisee/{account}', 'updateFranchisee');
@@ -183,6 +193,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
         Route::post('stripe/account/data', [PaymentController::class, 'franchiseeAccountData']);
 
      });
+     // Mobile account management ================================================================================>
 
 
 
@@ -210,7 +221,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
     Route::get('feedback/delete/{account}', [FeedbackController::class, 'deleteFeedback']);
     // Restock tranactions 
     Route::get('restock/tranactions/{kiosk}', [RestockController::class, 'restock']);
-    Route::post('create/restock/{kiosk}', [RestockController::class, 'createRestock']);
+
     // Discount Franchisee request
     Route::post('create/discount', [DiscountController::class, 'createDiscount']);
     // member payment 

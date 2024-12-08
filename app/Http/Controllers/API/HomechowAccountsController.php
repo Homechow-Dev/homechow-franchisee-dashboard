@@ -7,6 +7,7 @@ use App\Models\Account;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\HomechowAccounts;
+use App\Notifications\NewNotification;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -57,6 +58,7 @@ class HomechowAccountsController extends BaseController {
         ]);
 
         $user->assignRole($request->Role);
+        $user->notify(new NewNotification());
 
         $account = HomechowAccounts::create([
             'Name' => $user->name,
