@@ -7,6 +7,7 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Account;
 use App\Models\Application;
 use App\Models\Customer;
+use App\Models\Order;
 use GuzzleHttp\Promise\Create;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 
@@ -19,16 +20,49 @@ class CustomerController extends BaseController
      */
     #[OpenApi\Operation(tags: ['accounts'])]
     public function customerTransactions(){
+
         // get all transactions by account
+        $cust = Customer::get();
         // total Accounts
         // total Orders
         // total sales
         // total Pending status
         $output = [
-
+            'customer' => $cust,
         ];
         return $this->sendResponse($output, 'Consumer transactions retrieved successfully.');
     }
+
+    /**
+     * All User Accounts transactions.
+     *
+     * Returns Customer members and guest transaction details with Totals (User, Order, Sales, Pending)
+     */
+    #[OpenApi\Operation(tags: ['customers'])]
+    public function customerData(){
+
+        // get all transactions by account
+        $cust = Customer::get();
+        // total Accounts
+        $custTotal =  $cust->count();
+        // total Orders
+        $orders = Order::get(); 
+        $orderCount = $orders->count();
+        // total sales
+        $totalsales = $orders->sum('Amount');
+        // total Pending status
+        $totalFranchisee = Account::where('Type', 'franchisee')->count();
+
+
+        $output = [
+            'Totalcustomer' => $custTotal,
+            'TotalOrders' => $orderCount,
+            'TotalKioskSales' => $totalsales,
+            'TotalFranchisee' =>  $totalFranchisee,
+        ];
+        return $this->sendResponse($output, 'Consumer transactions retrieved successfully.');
+    }
+
 
     /**
      * Submitted Application.
