@@ -179,6 +179,7 @@ Route::middleware('auth:sanctum', 'verified')->group(function() {
         Route::controller(CustomerController::class)->group(function (){
             Route::get('customers', 'customerTransactions');
             Route::get('customer/stats', 'customerData');
+            Route::get('customer/transactions/{customer}', 'singleCustomerTransactions');
         });
     });
     

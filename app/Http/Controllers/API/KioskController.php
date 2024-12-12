@@ -6,6 +6,7 @@ use App\Models\Kiosk;
 use App\Models\Account;
 use App\Models\Meal;
 use App\Models\Machine;
+use App\Models\Activekiosk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Http\Controllers\API\BaseController as BaseController;
@@ -17,6 +18,7 @@ use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use MongoDB\Laravel\Eloquent\Casts\ObjectId as ObjectId;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -162,7 +164,11 @@ class KioskController extends BaseController {
                 'State' => $k["State"],
                 'Zip' => $k['Zip'],
             ]);
+
+
         }
+
+
 
         $output = [
             'kioks' => $kiosk,
@@ -197,6 +203,33 @@ class KioskController extends BaseController {
         // if($k['TotalSold'] != Null){$kl->KioskType = $k['TotalSold'];}
         $kl->save();
 
+        if($kl->Status == 'Active'){
+            $addkiosk = Activekiosk::where('kioskname',  $kl->KioskNumber)->first();
+            if($addkiosk->isEmpty()){
+                $k = Activekiosk::create([
+                    'kioskname' => $kl->KioskNumber,
+                    'machineID' => $kl->MachineID,
+                    'decimaldegrees' => $kl->Longitude, $kl->Longitude,
+                    'address' => $kl->KioskAddress,
+                    'city' => $kl->City,
+                    'state' => $kl->State,
+                    'zipcode' => $kl->Zip,
+                    'imageUrl' => "assets/images/Rectangle 4.png",
+                    'mealcategory' => [
+                        '0' => 'American'
+                    ],
+                    'meal' => [
+                        '0' => '65c26bc654bbda76ca037345',
+                        '1' => '66d87b9cf49fb080b2a971e1',
+                        '2' => '65bbd96c393ce3d284bcf56c',
+                        '3' => '665de233e30d85ea5e1c4552',
+                        '4' => '664184f69e974a3d56a8737a',
+                        '5' => '65c2d48554bbda76ca03733b',
+                    ]
+                ]);
+            }
+        }
+
         $output = [
             'kioks' => $kl,
         ];
@@ -217,6 +250,8 @@ class KioskController extends BaseController {
             ['MachineID' => $kiosk->MachineID, 'KioskNumber' => $kiosk->KioskNumber],
             ['Status' => $k["Status"]]
         );
+
+        // if kiosk is turned Active update consumer db
 
         $output = [
             'kiosk' => 'Success',

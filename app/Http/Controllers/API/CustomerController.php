@@ -23,10 +23,24 @@ class CustomerController extends BaseController
 
         // get all transactions by account
         $cust = Customer::get();
-        // total Accounts
-        // total Orders
-        // total sales
-        // total Pending status
+        // $mobileCustomer = 
+        $output = [
+            'customer' => $cust,
+        ];
+        return $this->sendResponse($output, 'Consumer transactions retrieved successfully.');
+    }
+
+     /**
+     * Customer transactions.
+     *
+     * Returns Customer members and guest transaction details with Totals (User, Order, Sales, Pending)
+     */
+    #[OpenApi\Operation(tags: ['accounts'])]
+    public function singleCustomerTransactions(Customer $customer){
+
+        $id = $customer->id;
+        // get all transactions by account
+        $cust = Customer::find($id);
         $output = [
             'customer' => $cust,
         ];
