@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Meal;
-use App\Models\Order;
+use App\Models\ActiveMeals;
 use Illuminate\Support\Facades\DB;
 use App\OpenApi\Parameters\Meals\CreateMealsParameters;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
@@ -22,6 +22,7 @@ class MealsController extends BaseController {
      */
     #[OpenApi\Operation(tags: ['Meals'])]
     public function meals(){
+
         $meal = Meal::get();
 
         $output = [
@@ -62,6 +63,22 @@ class MealsController extends BaseController {
             'Status' => "Not confirmend",
         ]);
 
+        if($meal->Status == 'Active'){
+            ActiveMeals::create([
+                'Cuisine' => $request->Cuisine,
+                'Category' => $request->Category,
+                'Calories' => $request->Calories,
+                'Description' => $request->Description,
+                'TotalFat' => $request->TotalFat,
+                'TotalCarbs' => $request->TotalCarbs,
+                'Sodium' => $request->Sodium,
+                'Protein' => $request->Protein,
+                'MealType' => $request->MealType,
+                'ProductID' => $request->ProductID,
+                'Price' => $request->Price,
+                'Status' => "Active",
+            ]);
+        }
         // Add new meal to Mongodb meals table.
 
         $success['token'] =  $meal->Cuisine;
@@ -106,7 +123,26 @@ class MealsController extends BaseController {
         if($a['ProductID'] != Null){$ml->ProductID = $a['ProductID'];}
         if($a['Price'] != Null){$ml->ProductID = $a['Price'];}
         if($a['MealType'] != Null){$ml->MealType = $a['MealType'];}
+        if($a['Status'] != Null){$ml->Status = $a['Status'];}
         $ml->save();
+
+        // update Active meals on Consumer table
+        if($ml->Status == 'Active'){
+            ActiveMeals::where('Cuisine', $a['Cuisine'])->update([
+                'Cuisine' => $request->Cuisine,
+                'Category' => $request->Category,
+                'Calories' => $request->Calories,
+                'Description' => $request->Description,
+                'TotalFat' => $request->TotalFat,
+                'TotalCarbs' => $request->TotalCarbs,
+                'Sodium' => $request->Sodium,
+                'Protein' => $request->Protein,
+                'MealType' => $request->MealType,
+                'ProductID' => $request->ProductID,
+                'Price' => $request->Price,
+                'Status' => $request->Status,
+            ]);
+        }
 
         $output = [
             'meals' => $ml,
@@ -117,21 +153,26 @@ class MealsController extends BaseController {
     /**
      * Update Meals status.
      *
-     * Status update for kiosk online or not
+     * update for Meal Status
      */
     #[OpenApi\Operation(tags: ['Meals'])]
     public function statusUpdateMeal(Request $request, Meal $meal) {
         $k = $request->all();
+        $mealID = $meal->id; 
         DB::table('Meals')
         ->updateOrInsert(
-            ['MachineID' => $meal->MachineID, 'KioskNumber' => $meal->KioskNumber],
+            ['id' => $meal->MachineID, 'KioskNumber' => $meal->KioskNumber],
             ['Status' => $k["Status"]]
         );
 
-        $output = [
-            'kiosk' => 'Success',
-        ];
-        return $this->sendResponse($output, 'Kiosk status has been Updated');
+        ActiveMeals::where('id', $$mealID)->update([
+            'Status' => $request->Status,
+        ]);
+
+
+        $output = $meal->id;
+    
+        return $this->sendResponse($output, 'status has been Updated');
     }
 
     /**

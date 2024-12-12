@@ -35,7 +35,7 @@ class PaymentController extends BaseController {
     #[OpenApi\Parameters(factory: PaymentsParameters::class)]
     public function makePaymentIntent(Request $request) {
         /* Instantiate a Stripe Gateway either like this */
-        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_Live'));
         $customer = Customer::where('email', $request->get('email'))->get();
 
         header('Content-Type: application/x-www-form-urlencoded');
@@ -129,7 +129,7 @@ class PaymentController extends BaseController {
     public function memberPayment(Request $request) {
 
         /* Instantiate a Stripe Gateway either like this */
-        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_Live'));
         // Use an existing Customer ID if this is a returning customer.
         if ($request->get('customer_id') === 'null') {
             $cust = $stripe->customers->create();
@@ -169,7 +169,7 @@ class PaymentController extends BaseController {
             'token' => 'required',
         ]);
 
-        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_Live'));
 
         // Create a customer 
         // if customer is customer_id is null

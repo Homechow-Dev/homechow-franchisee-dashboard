@@ -63,6 +63,27 @@ return [
             ]) : [],
         ],
 
+        // 'second_db' => [
+        //   'driver' => 'mongodb',
+        //   'url' => env('DATABASE_URL'),
+        //   'port' => env('SECOND_DB_PORT', '27017'),
+        //   'host' => env('SECOND_DB_HOST', 'mongo'),
+        //   'database' => env('SECOND_DB_DATABASE', 'consumerdb'),
+        //   'username' => env('SECOND_DB_USERNAME', 'admin'),
+        //   'password' => env('SECOND_DB_PASSWORD', 'hunter2'),
+        //   'options' => [
+        //     // here you can pass more settings to the Mongo Driver Manager
+        //     // see https://www.php.net/manual/en/mongodb-driver-manager.construct.php under "Uri Options" for a list of complete parameters that you can use
+        //     'database' =>  env('DB_CONNECTION', 'consumerdb'),// required with Mongo 3+
+        //   ]
+        // ],
+
+        'second_db' => [
+          'driver' => 'mongodb',
+          'dsn' => env('DB_URI', 'mongodb://admin:hunter2@mongo:27017/'),
+          'database' => 'consumerdb',
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
