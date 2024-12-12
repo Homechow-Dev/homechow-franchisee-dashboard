@@ -18,7 +18,8 @@ use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
-use MongoDB\Laravel\Eloquent\Casts\ObjectId as ObjectId;
+use MongoDB\BSON\ObjectId;
+use MongoDB\Laravel\Eloquent\Casts\ObjectId as CastsObjectId;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -203,33 +204,6 @@ class KioskController extends BaseController {
         // if($k['TotalSold'] != Null){$kl->KioskType = $k['TotalSold'];}
         $kl->save();
 
-        if($kl->Status == 'Active'){
-            $addkiosk = Activekiosk::where('kioskname',  $kl->KioskNumber)->first();
-            if($addkiosk->isEmpty()){
-                $k = Activekiosk::create([
-                    'kioskname' => $kl->KioskNumber,
-                    'machineID' => $kl->MachineID,
-                    'decimaldegrees' => $kl->Longitude, $kl->Longitude,
-                    'address' => $kl->KioskAddress,
-                    'city' => $kl->City,
-                    'state' => $kl->State,
-                    'zipcode' => $kl->Zip,
-                    'imageUrl' => "assets/images/Rectangle 4.png",
-                    'mealcategory' => [
-                        '0' => 'American'
-                    ],
-                    'meal' => [
-                        '0' => '65c26bc654bbda76ca037345',
-                        '1' => '66d87b9cf49fb080b2a971e1',
-                        '2' => '65bbd96c393ce3d284bcf56c',
-                        '3' => '665de233e30d85ea5e1c4552',
-                        '4' => '664184f69e974a3d56a8737a',
-                        '5' => '65c2d48554bbda76ca03733b',
-                    ]
-                ]);
-            }
-        }
-
         $output = [
             'kioks' => $kl,
         ];
@@ -245,13 +219,33 @@ class KioskController extends BaseController {
     #[OpenApi\Operation(tags: ['Kiosk'])]
     public function statusUpdateKiosk(Request $request, Kiosk $kiosk) {
         $k = $request->all();
-        DB::table('Kiosk')
-        ->updateOrInsert(
-            ['MachineID' => $kiosk->MachineID, 'KioskNumber' => $kiosk->KioskNumber],
-            ['Status' => $k["Status"]]
-        );
 
+        $kl = Kiosk::find($kiosk->id);
+        $kl->Status = $request->Status;
+        $kl->save();
         // if kiosk is turned Active update consumer db
+        if($kl->Status == 'onLine'){
+            $addkiosk = Activekiosk::where('kioskname',  $kiosk->KioskNumber)->get(); 
+            if($addkiosk->isEmpty()){
+                $kLive = Activekiosk::create([
+                    'kioskname' => $kiosk->KioskNumber,
+                    'machineID' => $kiosk->MachineID,
+                    'decimaldegrees' => "$kiosk->Longitude, $kiosk->Longitude",
+                    'address' => $kiosk->KioskAddress,
+                    'city' => $kiosk->City,
+                    'state' => $kiosk->State,
+                    'zipcode' => $kiosk->Zip,
+                    'imageUrl' => "assets/images/Rectangle 4.png",
+                    'mealcategory' => [
+                        '0' => 'American'
+                    ],
+                    'meal' => [
+                        '0' => '65c26bc654bbda76ca037345',
+                        '1' => '65c26bc654bbda76ca037344',
+                    ]
+                ]);
+            }
+        }
 
         $output = [
             'kiosk' => 'Success',
@@ -267,6 +261,8 @@ class KioskController extends BaseController {
     #[OpenApi\Operation(tags: ['Kiosk'])]
     public function delete($id) {
         $kiosk = Kiosk::destroy($id);
+
+        // need to destroy Live Consumer kiosk also
 
         $output = [
             'kiosk' => 'Success',
@@ -304,7 +300,7 @@ class KioskController extends BaseController {
             $MsgType = '0';
             $TradeNo = $dispsense[0]->TradeNo;
             $SlotNo = $dispsense[0]->SlotNo;
-            $ProductID = $dispsense[0]->ProductID;
+            $ProductID = $dispsense[0]->SlotNo;
             $Err = '';
 
             return $this->deliverResponse($status, $MsgType, $TradeNo, $SlotNo, $ProductID, $Err);

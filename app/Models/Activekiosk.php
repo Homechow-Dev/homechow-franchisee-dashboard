@@ -11,5 +11,7 @@ class Activekiosk extends Model
 
     protected $table = 'kiosk';
 
+    protected $guarded = [];
+
     protected $connection = 'second_db';
 }

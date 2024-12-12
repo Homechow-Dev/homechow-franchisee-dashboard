@@ -10,5 +10,7 @@ class ActiveMeals extends Model {
 
     protected $table = 'meals';
 
+    protected $guarded = [];
+
     protected $connection = 'second_db';
 }
