@@ -80,8 +80,13 @@ return [
 
         'second_db' => [
           'driver' => 'mongodb',
-          'dsn' => env('DB_URI', 'mongodb://admin:hunter2@mongo:27017/'),
-          'database' => 'consumerdb',
+          'port' => '27017',
+          'dsn' => env('SECOND_DB_URI', 'mongodb+srv://charles:GFsjSdlI9Br4Jykq@homechowdb.cloe485.mongodb.net/?retryWrites=true&w=majority'),
+          'database' => 'todo',
+          'options' => [
+            'appName' => 'homechowdb'
+          ]
+
         ],
 
         'pgsql' => [
@@ -98,22 +103,6 @@ return [
             'search_path' => 'public',
             'sslmode' => 'prefer',
         ],
-
-        'sqlsrv' => [
-            'driver' => 'sqlsrv',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
-            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
-        ],
-
     ],
 
     /*
